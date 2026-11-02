@@ -291,7 +291,7 @@ textarea {min-height:110px;resize:vertical}
   <div id="content"></div>
  </main>
 </div>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.9.0/mammoth.browser.min.js"></script>
 <script>
 // ===================================
 // DATA
@@ -562,17 +562,96 @@ function lessonManagement(c) {
  c.innerHTML=`
  <div class="panel">
   <h3>إضافة درس جديد</h3>
-  <div class="field"><label>عنوان الدرس</label><input id="lessonName" placeholder="مثال: الجمل الشرطية"></div>
-  <div class="field"><label>وصف مختصر</label><input id="lessonDesc"></div>
-  <div class="field"><label>شرح الدرس</label><textarea id="lessonText" placeholder="اكتب الشرح والأمثلة هنا..."></textarea></div>
-  <button class="primary" onclick="addLesson()">نشر الدرس</button>
+
+  <div class="notice">
+   يمكنك كتابة الدرس يدوياً أو استيراده مباشرة من ملف Word.
+  </div>
+
+  <div class="field">
+   <label>عنوان الدرس</label>
+   <input id="lessonName" placeholder="مثال: الجمل الشرطية">
+  </div>
+
+  <div class="field">
+   <label>وصف مختصر</label>
+   <input id="lessonDesc">
+  </div>
+
+  <div class="field">
+   <label>شرح الدرس</label>
+   <textarea id="lessonText"
+    placeholder="اكتب الشرح هنا أو استورد ملف Word..."></textarea>
+  </div>
+
+  <input
+   type="file"
+   id="wordFile"
+   accept=".docx"
+   style="display:none"
+   onchange="importWordLesson(event)"
+  >
+
+  <button class="btn-small" onclick="document.getElementById('wordFile').click()">
+   📄 استيراد درس من Word
+  </button>
+
+  <button class="primary" onclick="addLesson()">
+   نشر الدرس
+  </button>
  </div>
+
  <div class="panel">
   <h3>الدروس المنشورة</h3>
   ${lessonCards(true)}
  </div>`;
 }
+async function importWordLesson(event) {
 
+ const file = event.target.files[0];
+
+ if(!file) return;
+
+ if(!file.name.toLowerCase().endsWith(".docx")) {
+  alert("من فضلك اختر ملف Word بصيغة DOCX");
+  event.target.value="";
+  return;
+ }
+
+ try {
+
+  const arrayBuffer = await file.arrayBuffer();
+
+  const result = await mammoth.extractRawText({
+   arrayBuffer: arrayBuffer
+  });
+
+  const content = result.value.trim();
+
+  if(!content) {
+   alert("الملف لا يحتوي على نص");
+   return;
+  }
+
+  document.getElementById("lessonText").value = content;
+
+  const titleInput = document.getElementById("lessonName");
+
+  if(!titleInput.value.trim()) {
+   titleInput.value = file.name.replace(/\.docx$/i,"");
+  }
+
+  alert("تم استيراد الدرس بنجاح من ملف Word");
+
+ } catch(error) {
+
+  alert("حدث خطأ أثناء قراءة ملف Word");
+
+  console.error(error);
+
+ }
+
+ event.target.value="";
+}
 function lessonCards(manage) {
  if(!lessons.length)return `<div class="empty">لا توجد دروس</div>`;
  return `<div class="cards">${lessons.map(l=>`
