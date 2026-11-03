@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -348,6 +346,10 @@ body.dark-mode .exam-question label { background:#1b2b43; }
 body.dark-mode .tag,.dark-mode .btn-small { background:#22385c;color:#b9ccff; }
 body.dark-mode .stat .symbol { background:#22385c; }
 body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
+body.dark-mode table,
+body.dark-mode th,
+body.dark-mode td { color:var(--text); border-color:var(--border); }
+body.dark-mode .empty { color:var(--muted); }
 
 @media(max-width:900px) {
   .main { padding:22px; }
@@ -393,7 +395,6 @@ body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
   *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
 }
 
-
 /* Login page refresh v3 */
 .login-page {
  position:relative;overflow:hidden;
@@ -432,7 +433,7 @@ body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
 .show-password {
  position:absolute;left:8px;top:50%;transform:translateY(-50%);
  padding:7px 9px;border-radius:8px;background:#edf2ff;color:#315ed0;
- font-size:20px;font-weight:700;
+ font-size:12px;font-weight:700;
 }
 .login-submit {
  width:100%;margin-top:8px;padding:14px 18px;border-radius:12px;
@@ -443,7 +444,6 @@ body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
 .login-error {min-height:18px;color:var(--red);font-size:13px;text-align:center;margin:12px 0 0}
 .login-footer {border-top:1px solid #edf0f5;margin-top:24px;padding-top:17px;text-align:center;color:#a0aaba;font-size:11px}
 @media(max-width:480px) {.login-box{padding:30px 22px 24px;border-radius:21px}.login-box h2{font-size:21px}}
-
 
 /* Settings page */
 .settings-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
@@ -471,22 +471,30 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
  body.english-mode .sidebar {left:auto;right:0}
  body.english-mode .main {margin:0}
 }
-.ha {
-  margin-right : 140px ;
-}
+
 /* Account password safety */
 .password-protected {letter-spacing:2px;color:var(--muted);font-weight:700}
+
+/* Firebase status indicator */
+.fb-status {
+ position:fixed; bottom:12px; left:12px;
+ padding:6px 12px; border-radius:20px;
+ font-size:11px; font-weight:700;
+ background:#e7f8ef; color:#16a36a;
+ z-index:100; box-shadow:0 4px 14px rgba(0,0,0,.12);
+}
+.fb-status.offline { background:#fff0f0; color:#e34e5b; }
+.fb-status.syncing { background:#fff6df; color:#966b17; }
 </style>
 </head>
 
 <body>
 
-<!-- LOGIN -->
+<!-- Login -->
 <div class="login-page" id="loginPage">
  <div class="login-box">
   <div class="login-brand" aria-hidden="true">🎓</div>
-  <h1 class = "ha">منصة</h1>
-  <h2> مستر/ أحمد محمود</h2>
+  <h2>منصة مستر أحمد محمود</h2>
   <p class="login-subtitle">مرحبًا بك من جديد<br>سجّل الدخول للوصول إلى دروسك واختباراتك</p>
 
   <div class="field">
@@ -498,7 +506,7 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
    <label for="loginPass">كلمة المرور</label>
    <div class="password-wrap">
     <input id="loginPass" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" onkeydown="if(event.key==='Enter') login()">
-    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">☺️</button>
+    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">إظهار</button>
    </div>
   </div>
 
@@ -508,7 +516,7 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
  </div>
 </div>
 
-<!-- APP -->
+<!-- App -->
 <div class="app hidden" id="app">
 
  <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
@@ -549,7 +557,49 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
   <div id="content"></div>
  </main>
 </div>
+
+<div class="fb-status offline" id="fbStatus" title="حالة Firebase">⚪ Firebase: انتظار</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.9.0/mammoth.browser.min.js"></script>
+
+<!-- =============================================
+     Firebase: تحميل صحيح من CDN كـ module
+     ============================================= -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
+import { getFirestore, doc, getDoc, setDoc }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBSvv-RQ4NEfaxOMzVmVxrtVpiFvCJWhyQ",
+  authDomain: "manast-ahmed-mahmoud.firebaseapp.com",
+  projectId: "manast-ahmed-mahmoud",
+  storageBucket: "manast-ahmed-mahmoud.firebasestorage.app",
+  messagingSenderId: "504173420936",
+  appId: "1:504173420936:web:2ed73a5ad1ef304cbbda3d",
+  measurementId: "G-JDBK99B2LF"
+};
+
+try {
+  const app = initializeApp(firebaseConfig);
+  getAnalytics(app);
+  const db = getFirestore(app);
+  window.firebaseDB = { db, doc, getDoc, setDoc };
+  window.firebaseReady = true;
+  console.log("✅ Firebase تم تهيئته بنجاح");
+} catch (e) {
+  console.error("❌ فشل تهيئة Firebase:", e);
+  window.firebaseReady = false;
+}
+
+// أعلم السكربت الأساسي أن Firebase جاهز (أو فشل)
+window.dispatchEvent(new Event("firebase-ready"));
+</script>
+
+<!-- =============================================
+     السكربت الأساسي للتطبيق
+     ============================================= -->
 <script>
 // ===================================
 // DATA
@@ -564,32 +614,110 @@ const getData = (key, fallback) => {
  }
 };
 
-let users = getData("ah_users",[
+let users = getData("ah_users", [
  {id:1,name:"أحمد محمود",username:"ahmed",password:"1234",role:"teacher"},
  {id:2,name:"علي محمد",username:"ali",password:"1234",role:"student"}
 ]);
 
-let lessons = getData("ah_lessons",[
+let lessons = getData("ah_lessons", [
  {id:1,title:"مقدمة في Python",description:"تعرف على لغة Python وأهم استخداماتها.",content:"Python لغة برمجة سهلة وقوية.\n\nمثال:\nprint('Hello World')"},
  {id:2,title:"المتغيرات",description:"تعلم كيفية تخزين البيانات.",content:"المتغير يستخدم لتخزين البيانات.\n\nمثال:\nname = 'Ahmed'\nage = 16"}
 ]);
 
-let exams = getData("ah_exams",[]);
-let results = getData("ah_results",[]);
-let assignments = getData("ah_assignments",[]);
+let exams = getData("ah_exams", []);
+let results = getData("ah_results", []);
+let assignments = getData("ah_assignments", []);
 let currentUser = null;
 let activeExam = null;
 
 function save() {
- localStorage.setItem("ah_users",JSON.stringify(users));
- localStorage.setItem("ah_lessons",JSON.stringify(lessons));
- localStorage.setItem("ah_exams",JSON.stringify(exams));
- localStorage.setItem("ah_results",JSON.stringify(results));
- localStorage.setItem("ah_assignments",JSON.stringify(assignments));
+ localStorage.setItem("ah_users", JSON.stringify(users));
+ localStorage.setItem("ah_lessons", JSON.stringify(lessons));
+ localStorage.setItem("ah_exams", JSON.stringify(exams));
+ localStorage.setItem("ah_results", JSON.stringify(results));
+ localStorage.setItem("ah_assignments", JSON.stringify(assignments));
+
+ // مزامنة Firebase (غير حاجزة)
+ syncToFirebase();
+}
+
+async function syncToFirebase() {
+ if (!window.firebaseReady || !window.firebaseDB) return;
+ const badge = document.getElementById("fbStatus");
+ if (badge) { badge.textContent = "🟡 Firebase: جاري الحفظ..."; badge.className = "fb-status syncing"; }
+ try {
+  const { db, doc, setDoc } = window.firebaseDB;
+  await setDoc(doc(db, "platform", "data"), {
+   users, lessons, exams, results, assignments,
+   updatedAt: new Date().toISOString()
+  });
+  if (badge) { badge.textContent = "🟢 Firebase: متصل"; badge.className = "fb-status"; }
+ } catch (e) {
+  console.error("❌ فشل الحفظ على Firebase:", e);
+  if (badge) { badge.textContent = "🔴 Firebase: خطأ ("+(e.code||"unknown")+")"; badge.className = "fb-status offline"; }
+ }
+}
+async function loadFromFirebase() {
+ if (!window.firebaseReady || !window.firebaseDB) {
+  const badge = document.getElementById("fbStatus");
+  if (badge) { badge.textContent = "🔴 Firebase: غير متاح"; badge.className = "fb-status offline"; }
+  return;
+ }
+ const badge = document.getElementById("fbStatus");
+ if (badge) { badge.textContent = "🟡 Firebase: جاري التحميل..."; badge.className = "fb-status syncing"; }
+ try {
+  const { db, doc, getDoc } = window.firebaseDB;
+  const snap = await getDoc(doc(db, "platform", "data"));
+  if (snap.exists()) {
+   const data = snap.data();
+   
+   // ✅ دمج المستخدمين بدل الاستبدال — نضمن عدم ضياع الحسابات الافتراضية
+   const firebaseUsers = Array.isArray(data.users) ? data.users : [];
+   const defaults = [
+    {id:1, name:"أحمد محمود", username:"hassan", password:"1234", role:"teacher"},
+    {id:2, name:"علي محمد", username:"ali", password:"1234", role:"student"}
+   ];
+   // ابدأ بالافتراضيين، ثم أضف من Firebase (بدون تكرار username)
+   const merged = [...defaults];
+   firebaseUsers.forEach(fu => {
+    const idx = merged.findIndex(m => m.username === fu.username);
+    if (idx >= 0) merged[idx] = fu;  // حدّث الموجود
+    else merged.push(fu);            // أضف الجديد
+   });
+   users = merged;
+   
+   // باقي البيانات: استبدال عادي (لكن لو Firebase فاضي نحتفظ بالمحلي)
+   if (Array.isArray(data.lessons) && data.lessons.length) lessons = data.lessons;
+   if (Array.isArray(data.exams)) exams = data.exams;
+   if (Array.isArray(data.results)) results = data.results;
+   if (Array.isArray(data.assignments)) assignments = data.assignments;
+   
+   // حفظ محلي
+   localStorage.setItem("ah_users", JSON.stringify(users));
+   localStorage.setItem("ah_lessons", JSON.stringify(lessons));
+   localStorage.setItem("ah_exams", JSON.stringify(exams));
+   localStorage.setItem("ah_results", JSON.stringify(results));
+   localStorage.setItem("ah_assignments", JSON.stringify(assignments));
+   
+   console.log("✅ تم تحميل البيانات من Firebase (مع دمج المستخدمين)");
+   if (badge) { badge.textContent = "🟢 Firebase: متصل"; badge.className = "fb-status"; }
+   
+   // ✅ ارفع النسخة المدموجة لـ Firebase لو كان فيها مستخدمين جداد
+   if (merged.length > firebaseUsers.length) {
+    await syncToFirebase();
+   }
+  } else {
+   console.log("ℹ️ لا توجد بيانات على Firebase، رفع البيانات الحالية...");
+   await syncToFirebase();
+  }
+ } catch (e) {
+  console.error("❌ فشل التحميل من Firebase:", e);
+  if (badge) { badge.textContent = "🔴 Firebase: خطأ ("+(e.code||"unknown")+")"; badge.className = "fb-status offline"; }
+ }
 }
 
 function esc(value) {
- return String(value ?? "").replace(/[&<>"']/g,c=>({
+ return String(value ?? "").replace(/[&<>"']/g, c => ({
   "&":"&amp;","<":"&lt;",">":"&gt;",
   '"':"&quot;","'":"&#39;"
  }[c]));
@@ -599,46 +727,46 @@ function esc(value) {
 // LOGIN
 // ===================================
 
-
 function toggleLoginPassword() {
  const input = document.getElementById("loginPass");
  const button = document.getElementById("showPasswordBtn");
  const visible = input.type === "password";
  input.type = visible ? "text" : "password";
- button.textContent = visible ? "😂" : "☺️";
+ button.textContent = visible ? "إخفاء" : "إظهار";
 }
 
 function login() {
- const username=document.getElementById("loginUser").value.trim();
- const password=document.getElementById("loginPass").value;
+ const username = document.getElementById("loginUser").value.trim();
+ const password = document.getElementById("loginPass").value;
 
- const user=users.find(u=>u.username===username && u.password===password);
+ const user = users.find(u => u.username === username && u.password === password);
 
- if(!user) {
-  document.getElementById("loginError").textContent="اسم المستخدم أو كلمة المرور غير صحيحة";
+ if (!user) {
+  document.getElementById("loginError").textContent = "اسم المستخدم أو كلمة المرور غير صحيحة";
   return;
  }
 
- currentUser=user;
+ currentUser = user;
  document.getElementById("loginPage").classList.add("hidden");
  document.getElementById("app").classList.remove("hidden");
 
- document.getElementById("profileName").textContent=user.name;
- document.getElementById("avatar").textContent=user.name[0]||"A";
- document.getElementById("profileRole").textContent=
-  user.role==="teacher"?"مدرس":"طالب";
+ document.getElementById("profileName").textContent = user.name;
+ document.getElementById("avatar").textContent = user.name[0] || "A";
+ document.getElementById("profileRole").textContent =
+  user.role === "teacher" ? "مدرس" : "طالب";
 
  applyLanguage();
  buildMenu();
- go(user.role==="teacher"?"home":"studentHome");
+ go(user.role === "teacher" ? "home" : "studentHome");
 }
 
 function logout() {
- currentUser=null;
- activeExam=null;
+ currentUser = null;
+ activeExam = null;
+ if (window.examTimer) clearInterval(window.examTimer);
  document.getElementById("app").classList.add("hidden");
  document.getElementById("loginPage").classList.remove("hidden");
- document.getElementById("loginPass").value="";
+ document.getElementById("loginPass").value = "";
 }
 
 // ===================================
@@ -646,7 +774,8 @@ function logout() {
 // ===================================
 
 function buildMenu() {
- const items=currentUser.role==="teacher"?[
+ if (!currentUser) return;
+ const items = currentUser.role === "teacher" ? [
   ["home","▦","الرئيسية"],
   ["users","♙","إدارة الحسابات"],
   ["lessons","▤","إدارة الدروس"],
@@ -655,7 +784,7 @@ function buildMenu() {
   ["exams","▣","الامتحانات"],
   ["results","◷","نتائج الطلاب"],
   ["settings","⚙","الإعدادات"]
- ]:[
+ ] : [
   ["studentHome","▦","الرئيسية"],
   ["studentLessons","▤","الدروس"],
   ["studentAssignments","📝","الواجبات"],
@@ -664,27 +793,27 @@ function buildMenu() {
   ["settings","⚙","الإعدادات"]
  ];
 
- const english=localStorage.getItem("ah_language")==="en";
- const labels={
+ const english = localStorage.getItem("ah_language") === "en";
+ const labels = {
   home:"Dashboard",users:"Manage Accounts",lessons:"Lessons",teacherAssignments:"Assignments",
   createExam:"Create Exam",exams:"Exams",results:"Student Results",
   studentHome:"Dashboard",studentLessons:"Lessons",studentAssignments:"Assignments",
   studentExams:"Exams",studentResults:"My Results",settings:"Settings"
  };
- document.getElementById("menu").innerHTML=items.map(i=>
-  `<button data-page="${i[0]}" onclick="go('${i[0]}')">${i[1]} &nbsp; ${english?(labels[i[0]]||i[2]):i[2]}</button>`
+ document.getElementById("menu").innerHTML = items.map(i =>
+  `<button data-page="${i[0]}" onclick="go('${i[0]}')">${i[1]} &nbsp; ${english ? (labels[i[0]] || i[2]) : i[2]}</button>`
  ).join("");
- const menuTitle=document.querySelector(".menu-title");
- if(menuTitle)menuTitle.textContent=english?"MAIN MENU":"القائمة الرئيسية";
- const logoutButton=document.querySelector(".logout");
- if(logoutButton)logoutButton.textContent=english?"↪ Log out":"↪ تسجيل الخروج";
+ const menuTitle = document.querySelector(".menu-title");
+ if (menuTitle) menuTitle.textContent = english ? "MAIN MENU" : "القائمة الرئيسية";
+ const logoutButton = document.querySelector(".logout");
+ if (logoutButton) logoutButton.textContent = english ? "↪ Log out" : "↪ تسجيل الخروج";
 }
 
 // ===================================
 // NAVIGATION
 // ===================================
 
-const titles={
+const titles = {
  home:["لوحة تحكم المدرس","إدارة المنصة التعليمية"],
  users:["إدارة الحسابات","إضافة وإدارة الطلاب والمدرسين"],
  lessons:["إدارة الدروس","إضافة وتعديل محتوى المنهج"],
@@ -701,40 +830,42 @@ const titles={
 };
 
 function go(page) {
-  closeSidebar();
- const teacherPages=["home","users","lessons","teacherAssignments","createExam","exams","results"];
- if(currentUser.role==="teacher"&&!teacherPages.includes(page)&&page!=="settings")return;
- if(currentUser.role==="student"&&teacherPages.includes(page))return;
+ closeSidebar();
+ if (!currentUser) return;
+ if (!titles[page]) return;
 
- document.querySelectorAll("#menu button").forEach(b=>
-  b.classList.toggle("active",b.dataset.page===page)
+ const teacherPages = ["home","users","lessons","teacherAssignments","createExam","exams","results"];
+ if (currentUser.role === "teacher" && !teacherPages.includes(page) && page !== "settings") return;
+ if (currentUser.role === "student" && teacherPages.includes(page)) return;
+
+ document.querySelectorAll("#menu button").forEach(b =>
+  b.classList.toggle("active", b.dataset.page === page)
  );
 
- document.getElementById("pageTitle").textContent=titles[page][0];
- document.getElementById("pageSubtitle").textContent=titles[page][1];
+ document.getElementById("pageTitle").textContent = titles[page][0];
+ document.getElementById("pageSubtitle").textContent = titles[page][1];
 
- const c=document.getElementById("content");
+ const c = document.getElementById("content");
 
- switch(page) {
-  case "home": teacherHome(c);break;
-  case "users": userManagement(c);break;
-  case "lessons": lessonManagement(c);break;
-  case "teacherAssignments": teacherAssignments(c);break;
-  case "createExam": examBuilder(c);break;
-  case "exams": examManagement(c);break;
-  case "results": showResults(c,true);break;
-  case "studentHome": studentHome(c);break;
-  case "studentLessons": studentLessons(c);break;
-  case "studentAssignments": studentAssignments(c);break;
-  case "studentExams": studentExams(c);break;
-  case "studentResults": showResults(c,false);break;
-  case "settings": settingsPage(c);break;
+ switch (page) {
+  case "home": teacherHome(c); break;
+  case "users": userManagement(c); break;
+  case "lessons": lessonManagement(c); break;
+  case "teacherAssignments": teacherAssignments(c); break;
+  case "createExam": examBuilder(c); break;
+  case "exams": examManagement(c); break;
+  case "results": showResults(c, true); break;
+  case "studentHome": studentHome(c); break;
+  case "studentLessons": studentLessons(c); break;
+  case "studentAssignments": studentAssignments(c); break;
+  case "studentExams": studentExams(c); break;
+  case "studentResults": showResults(c, false); break;
+  case "settings": settingsPage(c); break;
  }
 }
 
-
 // ===================================
-// SETTINGS: LANGUAGE, THEME & ACCOUNT
+// SETTINGS
 // ===================================
 
 function currentLanguage() {
@@ -742,27 +873,27 @@ function currentLanguage() {
 }
 
 function applyLanguage() {
- const english=currentLanguage()==="en";
- document.documentElement.lang=english?"en":"ar";
- document.documentElement.dir=english?"ltr":"rtl";
- document.body.classList.toggle("english-mode",english);
+ const english = currentLanguage() === "en";
+ document.documentElement.lang = english ? "en" : "ar";
+ document.documentElement.dir = english ? "ltr" : "rtl";
+ document.body.classList.toggle("english-mode", english);
 
- const brand=document.querySelector(".brand strong");
- const brandSmall=document.querySelector(".brand small");
- if(brand)brand.textContent=english?"Learning Platform":"منصة تعليمية";
- if(brandSmall)brandSmall.textContent=english?"Mr. Ahmed Mahmoud":"مستر / أحمد محمود";
+ const brand = document.querySelector(".brand strong");
+ const brandSmall = document.querySelector(".brand small");
+ if (brand) brand.textContent = english ? "Learning Platform" : "منصة تعليمية";
+ if (brandSmall) brandSmall.textContent = english ? "Mr. Ahmed Mahmoud" : "مستر / أحمد محمود";
 
- if(currentUser) {
-  const role=document.getElementById("profileRole");
-  if(role)role.textContent=english?(currentUser.role==="teacher"?"Teacher":"Student"):(currentUser.role==="teacher"?"مدرس":"طالب");
+ if (currentUser) {
+  const role = document.getElementById("profileRole");
+  if (role) role.textContent = english ? (currentUser.role === "teacher" ? "Teacher" : "Student") : (currentUser.role === "teacher" ? "مدرس" : "طالب");
   buildMenu();
  }
- const active=document.querySelector("#menu button.active");
- if(active) {
-  const page=active.dataset.page;
-  const title=document.getElementById("pageTitle");
-  const subtitle=document.getElementById("pageSubtitle");
-  const englishTitles={
+ const active = document.querySelector("#menu button.active");
+ if (active) {
+  const page = active.dataset.page;
+  const title = document.getElementById("pageTitle");
+  const subtitle = document.getElementById("pageSubtitle");
+  const englishTitles = {
    home:["Teacher Dashboard","Manage your learning platform"],
    users:["Manage Accounts","Add and manage students and teachers"],
    lessons:["Manage Lessons","Add and edit course content"],
@@ -777,37 +908,37 @@ function applyLanguage() {
    studentResults:["My Results","Track your grades and progress"],
    settings:["Settings","Manage language, appearance and account details"]
   };
-  if(english&&englishTitles[page]) {
-   title.textContent=englishTitles[page][0];
-   subtitle.textContent=englishTitles[page][1];
-  } else if(titles[page]) {
-   title.textContent=titles[page][0];
-   subtitle.textContent=titles[page][1];
+  if (english && englishTitles[page]) {
+   title.textContent = englishTitles[page][0];
+   subtitle.textContent = englishTitles[page][1];
+  } else if (titles[page]) {
+   title.textContent = titles[page][0];
+   subtitle.textContent = titles[page][1];
   }
  }
- const toggle=document.querySelector(".theme-toggle");
- if(toggle)toggle.textContent=document.body.classList.contains("dark-mode")?"☀":"☾";
+ const toggle = document.querySelector(".theme-toggle");
+ if (toggle) toggle.textContent = document.body.classList.contains("dark-mode") ? "☀" : "☾";
 }
 
 function setLanguage(language) {
- localStorage.setItem("ah_language",language==="en"?"en":"ar");
+ localStorage.setItem("ah_language", language === "en" ? "en" : "ar");
  applyLanguage();
- if(currentUser)go("settings");
+ if (currentUser) go("settings");
 }
 
 function setTheme(theme) {
- const dark=theme==="dark";
- document.body.classList.toggle("dark-mode",dark);
- localStorage.setItem("ah_theme",dark?"dark":"light");
- const toggle=document.querySelector(".theme-toggle");
- if(toggle)toggle.textContent=dark?"☀":"☾";
+ const dark = theme === "dark";
+ document.body.classList.toggle("dark-mode", dark);
+ localStorage.setItem("ah_theme", dark ? "dark" : "light");
+ const toggle = document.querySelector(".theme-toggle");
+ if (toggle) toggle.textContent = dark ? "☀" : "☾";
 }
 
 function settingsPage(c) {
- const en=currentLanguage()==="en";
- const dark=localStorage.getItem("ah_theme")==="dark";
- const user=users.find(u=>u.username===currentUser.username)||currentUser;
- c.innerHTML=`
+ const en = currentLanguage() === "en";
+ const dark = localStorage.getItem("ah_theme") === "dark";
+ const user = users.find(u => u.username === currentUser.username) || currentUser;
+ c.innerHTML = `
   <div class="settings-grid">
    <section class="panel settings-panel">
     <div class="settings-heading"><span class="settings-icon">🌐</span><div><h3>${en?"Language":"اللغة"}</h3><p class="muted">${en?"Choose the interface language":"اختر لغة واجهة المنصة"}</p></div></div>
@@ -844,34 +975,34 @@ function settingsPage(c) {
      <div class="field"><label>${en?"Confirm new password":"تأكيد كلمة المرور الجديدة"}</label><input id="settingConfirmPassword" type="password" autocomplete="new-password"></div>
     </div>
     <button class="primary" onclick="saveAccountSettings()">${en?"Save changes":"حفظ التعديلات"}</button>
-    <p class="muted settings-note">${en?"Account changes are currently saved in this browser only.":"التعديلات تُحفظ حاليًا على هذا المتصفح فقط."}</p>
+    <p class="muted settings-note">${en?"Account changes are saved locally and synced to Firebase when available.":"التعديلات تُحفظ محليًا وتتزامن مع Firebase عند توفره."}</p>
    </section>
   </div>`;
 }
 
 function saveAccountSettings() {
- const user=users.find(u=>u.username===currentUser.username);
- if(!user)return alert(currentLanguage()==="en"?"Account not found":"لم يتم العثور على الحساب");
+ const user = users.find(u => u.username === currentUser.username);
+ if (!user) return alert(currentLanguage() === "en" ? "Account not found" : "لم يتم العثور على الحساب");
 
- const name=document.getElementById("settingName").value.trim();
- const currentPassword=document.getElementById("settingCurrentPassword").value;
- const newPassword=document.getElementById("settingNewPassword").value;
- const confirmPassword=document.getElementById("settingConfirmPassword").value;
- const en=currentLanguage()==="en";
+ const name = document.getElementById("settingName").value.trim();
+ const currentPassword = document.getElementById("settingCurrentPassword").value;
+ const newPassword = document.getElementById("settingNewPassword").value;
+ const confirmPassword = document.getElementById("settingConfirmPassword").value;
+ const en = currentLanguage() === "en";
 
- if(!name)return alert(en?"Please enter your name":"اكتب الاسم");
- if(newPassword||confirmPassword) {
-  if(currentPassword!==user.password)return alert(en?"Current password is incorrect":"كلمة المرور الحالية غير صحيحة");
-  if(newPassword.length<4)return alert(en?"New password must be at least 4 characters":"كلمة المرور الجديدة يجب ألا تقل عن 4 أحرف");
-  if(newPassword!==confirmPassword)return alert(en?"New passwords do not match":"كلمتا المرور غير متطابقتين");
-  user.password=newPassword;
+ if (!name) return alert(en ? "Please enter your name" : "اكتب الاسم");
+ if (newPassword || confirmPassword) {
+  if (currentPassword !== user.password) return alert(en ? "Current password is incorrect" : "كلمة المرور الحالية غير صحيحة");
+  if (newPassword.length < 4) return alert(en ? "New password must be at least 4 characters" : "كلمة المرور الجديدة يجب ألا تقل عن 4 أحرف");
+  if (newPassword !== confirmPassword) return alert(en ? "New passwords do not match" : "كلمتا المرور غير متطابقتين");
+  user.password = newPassword;
  }
- user.name=name;
- currentUser=user;
+ user.name = name;
+ currentUser = user;
  save();
- document.getElementById("profileName").textContent=user.name;
- document.getElementById("avatar").textContent=user.name[0]||"A";
- alert(en?"Account information saved successfully":"تم حفظ بيانات الحساب بنجاح");
+ document.getElementById("profileName").textContent = user.name;
+ document.getElementById("avatar").textContent = user.name[0] || "A";
+ alert(en ? "Account information saved successfully" : "تم حفظ بيانات الحساب بنجاح");
  go("settings");
 }
 
@@ -879,7 +1010,7 @@ function saveAccountSettings() {
 // STATISTICS
 // ===================================
 
-function stat(title,value,symbol) {
+function stat(title, value, symbol) {
  return `<div class="stat">
  <div class="symbol">${symbol}</div>
  <small>${title}</small>
@@ -887,12 +1018,12 @@ function stat(title,value,symbol) {
 }
 
 function teacherHome(c) {
- c.innerHTML=`
+ c.innerHTML = `
  <div class="grid">
- ${stat("إجمالي الطلاب",users.filter(u=>u.role==="student").length,"♙")}
- ${stat("عدد المدرسين",users.filter(u=>u.role==="teacher").length,"♟")}
- ${stat("الدروس",lessons.length,"▤")}
- ${stat("الامتحانات",exams.length,"▣")}
+ ${stat("إجمالي الطلاب", users.filter(u => u.role === "student").length, "♙")}
+ ${stat("عدد المدرسين", users.filter(u => u.role === "teacher").length, "♟")}
+ ${stat("الدروس", lessons.length, "▤")}
+ ${stat("الامتحانات", exams.length, "▣")}
  </div>
  <div class="panel">
   <h3>مرحباً بك في لوحة تحكم المدرس 👋</h3>
@@ -902,24 +1033,24 @@ function teacherHome(c) {
  </div>
  <div class="panel">
   <h3>آخر نتائج الطلاب</h3>
-  ${results.length?`<table><tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th></tr>
-  ${results.slice(-5).reverse().map(r=>`<tr>
+  ${results.length ? `<table><tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th></tr>
+  ${results.slice(-5).reverse().map(r => `<tr>
    <td>${esc(r.student)}</td><td>${esc(r.exam)}</td>
-   <td>${r.score}/${r.total}</td></tr>`).join("")}</table>`:
+   <td>${r.score}/${r.total}</td></tr>`).join("")}</table>` :
   `<div class="empty">لا توجد نتائج حتى الآن</div>`}
  </div>`;
 }
 
 function studentHome(c) {
- const mine=results.filter(r=>r.username===currentUser.username);
- const avg=mine.length?Math.round(mine.reduce((a,b)=>a+b.score/b.total*100,0)/mine.length):0;
+ const mine = results.filter(r => r.username === currentUser.username);
+ const avg = mine.length ? Math.round(mine.reduce((a, b) => a + b.score / b.total * 100, 0) / mine.length) : 0;
 
- c.innerHTML=`
+ c.innerHTML = `
  <div class="grid">
- ${stat("الدروس المتاحة",lessons.length,"▤")}
- ${stat("الامتحانات المتاحة",exams.length,"▣")}
- ${stat("الامتحانات المنجزة",mine.length,"✓")}
- ${stat("متوسط درجاتك",avg+"%","★")}
+ ${stat("الدروس المتاحة", lessons.length, "▤")}
+ ${stat("الامتحانات المتاحة", exams.length, "▣")}
+ ${stat("الامتحانات المنجزة", mine.length, "✓")}
+ ${stat("متوسط درجاتك", avg + "%", "★")}
  </div>
  <div class="panel">
   <h3>أهلاً بك يا ${esc(currentUser.name)} 👋</h3>
@@ -935,7 +1066,7 @@ function studentHome(c) {
 // ===================================
 
 function userManagement(c) {
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <h3>إضافة حساب جديد</h3>
   <div class="form-grid">
@@ -956,10 +1087,10 @@ function userManagement(c) {
   <div style="overflow-x:auto">
   <table>
    <tr><th>الاسم</th><th>المستخدم</th><th>النوع</th><th>كلمة المرور</th><th>الإجراء</th></tr>
-   ${users.map(u=>`<tr>
+   ${users.map(u => `<tr>
     <td>${esc(u.name)}</td>
     <td>${esc(u.username)}</td>
-    <td>${u.role==="teacher"?"مدرس":"طالب"}</td>
+    <td>${u.role === "teacher" ? "مدرس" : "طالب"}</td>
     <td><span class="password-protected">••••••••</span></td>
     <td>
      <button class="btn-small" onclick="resetUserPassword(${u.id})">تغيير كلمة المرور</button>
@@ -972,37 +1103,38 @@ function userManagement(c) {
 }
 
 function addUser() {
- const name=document.getElementById("newName").value.trim();
- const username=document.getElementById("newUsername").value.trim();
- const password=document.getElementById("newPassword").value;
- const role=document.getElementById("newRole").value;
+ const name = document.getElementById("newName").value.trim();
+ const username = document.getElementById("newUsername").value.trim();
+ const password = document.getElementById("newPassword").value;
+ const role = document.getElementById("newRole").value;
 
- if(!name||!username||!password)return alert("أكمل جميع البيانات");
- if(users.some(u=>u.username===username))return alert("اسم المستخدم موجود بالفعل");
+ if (!name || !username || !password) return alert("أكمل جميع البيانات");
+ if (users.some(u => u.username === username)) return alert("اسم المستخدم موجود بالفعل");
 
- users.push({id:Date.now(),name,username,password,role});
+ users.push({ id: Date.now(), name, username, password, role });
  save();
  alert("تم إنشاء الحساب بنجاح");
  go("users");
 }
 
 function resetUserPassword(id) {
- const user=users.find(u=>u.id===id);
- if(!user)return alert("الحساب غير موجود");
- const newPassword=prompt("اكتب كلمة المرور الجديدة للحساب: "+user.username);
- if(newPassword===null)return;
- if(newPassword.trim().length<4)return alert("كلمة المرور يجب ألا تقل عن 4 أحرف");
- user.password=newPassword;
+ const user = users.find(u => u.id === id);
+ if (!user) return alert("الحساب غير موجود");
+ const newPassword = prompt("اكتب كلمة المرور الجديدة للحساب: " + user.username);
+ if (newPassword === null) return;
+ if (newPassword.trim().length < 4) return alert("كلمة المرور يجب ألا تقل عن 4 أحرف");
+ user.password = newPassword;
  save();
  alert("تم تغيير كلمة المرور بنجاح");
  go("users");
 }
 
 function deleteUser(id) {
- if(id===currentUser.id)return alert("لا يمكنك حذف حسابك الحالي");
- if(!confirm("هل تريد حذف الحساب؟"))return;
- users=users.filter(u=>u.id!==id);
- save();go("users");
+ if (id === currentUser.id) return alert("لا يمكنك حذف حسابك الحالي");
+ if (!confirm("هل تريد حذف الحساب؟")) return;
+ users = users.filter(u => u.id !== id);
+ save();
+ go("users");
 }
 
 // ===================================
@@ -1010,7 +1142,7 @@ function deleteUser(id) {
 // ===================================
 
 function lessonManagement(c) {
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <h3>إضافة درس جديد</h3>
 
@@ -1056,29 +1188,23 @@ function lessonManagement(c) {
   ${lessonCards(true)}
  </div>`;
 }
+
 async function importWordLesson(event) {
-
  const file = event.target.files[0];
+ if (!file) return;
 
- if(!file) return;
-
- if(!file.name.toLowerCase().endsWith(".docx")) {
+ if (!file.name.toLowerCase().endsWith(".docx")) {
   alert("من فضلك اختر ملف Word بصيغة DOCX");
-  event.target.value="";
+  event.target.value = "";
   return;
  }
 
  try {
-
   const arrayBuffer = await file.arrayBuffer();
-
-  const result = await mammoth.extractRawText({
-   arrayBuffer: arrayBuffer
-  });
-
+  const result = await mammoth.extractRawText({ arrayBuffer });
   const content = result.value.trim();
 
-  if(!content) {
+  if (!content) {
    alert("الملف لا يحتوي على نص");
    return;
   }
@@ -1086,57 +1212,56 @@ async function importWordLesson(event) {
   document.getElementById("lessonText").value = content;
 
   const titleInput = document.getElementById("lessonName");
-
-  if(!titleInput.value.trim()) {
-   titleInput.value = file.name.replace(/\.docx$/i,"");
+  if (!titleInput.value.trim()) {
+   titleInput.value = file.name.replace(/\.docx$/i, "");
   }
 
   alert("تم استيراد الدرس بنجاح من ملف Word");
-
- } catch(error) {
-
+ } catch (error) {
   alert("حدث خطأ أثناء قراءة ملف Word");
-
   console.error(error);
-
  }
 
- event.target.value="";
+ event.target.value = "";
 }
+
 function lessonCards(manage) {
- if(!lessons.length)return `<div class="empty">لا توجد دروس</div>`;
- return `<div class="cards">${lessons.map(l=>`
+ if (!lessons.length) return `<div class="empty">لا توجد دروس</div>`;
+ return `<div class="cards">${lessons.map(l => `
  <div class="card">
   <span class="tag">Python</span>
   <h3>${esc(l.title)}</h3>
   <p>${esc(l.description)}</p>
   <button class="btn-small" onclick="readLesson(${l.id})">عرض الدرس</button>
-  ${manage?`<button class="btn-small btn-danger" onclick="deleteLesson(${l.id})">حذف</button>`:""}
+  ${manage ? `<button class="btn-small btn-danger" onclick="deleteLesson(${l.id})">حذف</button>` : ""}
  </div>`).join("")}</div>`;
 }
 
 function addLesson() {
- const title=document.getElementById("lessonName").value.trim();
- const description=document.getElementById("lessonDesc").value.trim();
- const content=document.getElementById("lessonText").value.trim();
- if(!title||!content)return alert("اكتب عنوان الدرس والشرح");
- lessons.push({id:Date.now(),title,description,content});
- save();alert("تم نشر الدرس");go("lessons");
+ const title = document.getElementById("lessonName").value.trim();
+ const description = document.getElementById("lessonDesc").value.trim();
+ const content = document.getElementById("lessonText").value.trim();
+ if (!title || !content) return alert("اكتب عنوان الدرس والشرح");
+ lessons.push({ id: Date.now(), title, description, content });
+ save();
+ alert("تم نشر الدرس");
+ go("lessons");
 }
 
 function deleteLesson(id) {
- if(!confirm("حذف الدرس؟"))return;
- lessons=lessons.filter(l=>l.id!==id);
- save();go("lessons");
+ if (!confirm("حذف الدرس؟")) return;
+ lessons = lessons.filter(l => l.id !== id);
+ save();
+ go("lessons");
 }
 
 function readLesson(id) {
- const l=lessons.find(x=>x.id===id);
- if(!l)return;
- const c=document.getElementById("content");
- c.innerHTML=`
+ const l = lessons.find(x => x.id === id);
+ if (!l) return;
+ const c = document.getElementById("content");
+ c.innerHTML = `
  <div class="panel">
-  <button class="btn-small" onclick="go('${currentUser.role==="teacher"?"lessons":"studentLessons"}')">رجوع</button>
+  <button class="btn-small" onclick="go('${currentUser.role === "teacher" ? "lessons" : "studentLessons"}')">رجوع</button>
   <h2>${esc(l.title)}</h2>
   <p class="muted">${esc(l.description)}</p>
   <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
@@ -1144,20 +1269,19 @@ function readLesson(id) {
  </div>`;
 }
 
-
 // ===================================
 // HOMEWORK / ASSIGNMENTS
 // ===================================
 
 function teacherAssignments(c) {
- const submittedCount=assignments.reduce((sum,a)=>sum+(a.submissions||[]).length,0);
- const pendingCount=assignments.reduce((sum,a)=>sum+(a.submissions||[]).filter(s=>s.grade===null||s.grade===undefined).length,0);
+ const submittedCount = assignments.reduce((sum, a) => sum + (a.submissions || []).length, 0);
+ const pendingCount = assignments.reduce((sum, a) => sum + (a.submissions || []).filter(s => s.grade === null || s.grade === undefined).length, 0);
 
- c.innerHTML=`
+ c.innerHTML = `
  <div class="grid">
-  ${stat("الواجبات المنشورة",assignments.length,"📝")}
-  ${stat("الإجابات المستلمة",submittedCount,"📩")}
-  ${stat("تحتاج إلى تصحيح",pendingCount,"⏳")}
+  ${stat("الواجبات المنشورة", assignments.length, "📝")}
+  ${stat("الإجابات المستلمة", submittedCount, "📩")}
+  ${stat("تحتاج إلى تصحيح", pendingCount, "⏳")}
  </div>
  <div class="panel">
   <h3>إضافة واجب جديد</h3>
@@ -1183,55 +1307,52 @@ function teacherAssignments(c) {
  </div>
  <div class="panel">
   <h3>الواجبات المنشورة</h3>
-  ${assignments.length?assignments.slice().reverse().map(a=>teacherHomeworkCard(a)).join(""):`<div class="empty">لم يتم إضافة واجبات حتى الآن</div>`}
+  ${assignments.length ? assignments.slice().reverse().map(a => teacherHomeworkCard(a)).join("") : `<div class="empty">لم يتم إضافة واجبات حتى الآن</div>`}
  </div>`;
 }
 
 function teacherHomeworkCard(a) {
- const submissions=a.submissions||[];
- const pending=submissions.filter(s=>s.grade===null||s.grade===undefined).length;
+ const submissions = a.submissions || [];
+ const pending = submissions.filter(s => s.grade === null || s.grade === undefined).length;
  return `<div class="card" style="margin:14px 0">
   <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
    <span class="tag">${submissions.length} إجابة مستلمة</span>
-   <span class="muted">${a.dueDate?"موعد التسليم: "+esc(a.dueDate):"بدون موعد محدد"}</span>
+   <span class="muted">${a.dueDate ? "موعد التسليم: " + esc(a.dueDate) : "بدون موعد محدد"}</span>
   </div>
   <h3>${esc(a.title)}</h3>
   <p style="white-space:pre-wrap;line-height:1.9">${esc(a.description)}</p>
   <p class="muted">الدرجة النهائية: ${a.total} | إجابات تحتاج تصحيح: ${pending}</p>
-  ${submissions.length?`
+  ${submissions.length ? `
    <div style="overflow-x:auto">
     <table>
      <tr><th>الطالب</th><th>تاريخ الإرسال</th><th>الحالة</th><th>الدرجة</th><th>الإجراء</th></tr>
-     ${submissions.map((s,submissionIndex)=>`<tr>
+     ${submissions.map((s, submissionIndex) => `<tr>
       <td>${esc(s.studentName)}</td>
-      <td>${esc(s.submittedAt||"-")}</td>
-      <td>${s.grade===null||s.grade===undefined?"بانتظار التصحيح":"تم التصحيح"}</td>
-      <td>${s.grade===null||s.grade===undefined?"—":s.grade+" / "+a.total}</td>
-      <td><button class="btn-small" onclick="gradeHomework(${a.id},${submissionIndex})">${s.grade===null||s.grade===undefined?"تصحيح":"تعديل التصحيح"}</button></td>
+      <td>${esc(s.submittedAt || "-")}</td>
+      <td>${s.grade === null || s.grade === undefined ? "بانتظار التصحيح" : "تم التصحيح"}</td>
+      <td>${s.grade === null || s.grade === undefined ? "—" : s.grade + " / " + a.total}</td>
+      <td><button class="btn-small" onclick="gradeHomework(${a.id},${submissionIndex})">${s.grade === null || s.grade === undefined ? "تصحيح" : "تعديل التصحيح"}</button></td>
      </tr>`).join("")}
     </table>
-   </div>`:`<div class="empty">لم يرسل أي طالب إجابته بعد</div>`}
+   </div>` : `<div class="empty">لم يرسل أي طالب إجابته بعد</div>`}
   <button class="btn-small btn-danger" onclick="deleteHomework(${a.id})">حذف الواجب</button>
  </div>`;
 }
 
 function addHomework() {
- const title=document.getElementById("homeworkTitle").value.trim();
- const description=document.getElementById("homeworkDescription").value.trim();
- const dueDate=document.getElementById("homeworkDueDate").value;
- const total=Number(document.getElementById("homeworkTotal").value);
+ const title = document.getElementById("homeworkTitle").value.trim();
+ const description = document.getElementById("homeworkDescription").value.trim();
+ const dueDate = document.getElementById("homeworkDueDate").value;
+ const total = Number(document.getElementById("homeworkTotal").value);
 
- if(!title||!description)return alert("اكتب عنوان الواجب والتعليمات");
- if(!Number.isFinite(total)||total<1)return alert("اكتب درجة نهائية صحيحة");
+ if (!title || !description) return alert("اكتب عنوان الواجب والتعليمات");
+ if (!Number.isFinite(total) || total < 1) return alert("اكتب درجة نهائية صحيحة");
 
  assignments.push({
-  id:Date.now(),
-  title,
-  description,
-  dueDate,
-  total,
-  createdAt:new Date().toLocaleString("ar-EG"),
-  submissions:[]
+  id: Date.now(),
+  title, description, dueDate, total,
+  createdAt: new Date().toLocaleString("ar-EG"),
+  submissions: []
  });
  save();
  alert("تم نشر الواجب بنجاح");
@@ -1239,53 +1360,53 @@ function addHomework() {
 }
 
 function deleteHomework(id) {
- if(!confirm("هل تريد حذف هذا الواجب وكل الإجابات المرتبطة به؟"))return;
- assignments=assignments.filter(a=>a.id!==id);
+ if (!confirm("هل تريد حذف هذا الواجب وكل الإجابات المرتبطة به؟")) return;
+ assignments = assignments.filter(a => a.id !== id);
  save();
  go("teacherAssignments");
 }
 
 function studentAssignments(c) {
- const now=new Date().toISOString().slice(0,10);
- c.innerHTML=`
+ const now = new Date().toISOString().slice(0, 10);
+ c.innerHTML = `
  <div class="panel">
   <h3>واجباتي</h3>
   <p class="muted">افتح كل واجب، واكتب إجابتك ثم اضغط على إرسال الإجابة.</p>
-  ${assignments.length?assignments.slice().reverse().map(a=>studentHomeworkCard(a,now)).join(""):`<div class="empty">لا توجد واجبات منشورة حاليًا</div>`}
+  ${assignments.length ? assignments.slice().reverse().map(a => studentHomeworkCard(a, now)).join("") : `<div class="empty">لا توجد واجبات منشورة حاليًا</div>`}
  </div>`;
 }
 
-function studentHomeworkCard(a,now) {
- const submission=(a.submissions||[]).find(s=>s.username===currentUser.username);
- const isLate=!!(a.dueDate&&now>a.dueDate);
- let status="لم يتم التسليم";
- if(submission)status=(submission.grade===null||submission.grade===undefined)?"تم التسليم - بانتظار التصحيح":"تم التصحيح";
+function studentHomeworkCard(a, now) {
+ const submission = (a.submissions || []).find(s => s.username === currentUser.username);
+ const isLate = !!(a.dueDate && now > a.dueDate);
+ let status = "لم يتم التسليم";
+ if (submission) status = (submission.grade === null || submission.grade === undefined) ? "تم التسليم - بانتظار التصحيح" : "تم التصحيح";
 
  return `<div class="card" style="margin:14px 0">
   <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
    <span class="tag">${esc(status)}</span>
-   <span class="muted">${a.dueDate?"آخر موعد: "+esc(a.dueDate):"لا يوجد موعد نهائي"}</span>
+   <span class="muted">${a.dueDate ? "آخر موعد: " + esc(a.dueDate) : "لا يوجد موعد نهائي"}</span>
   </div>
   <h3>${esc(a.title)}</h3>
   <p style="white-space:pre-wrap;line-height:1.9">${esc(a.description)}</p>
-  <p class="muted">الدرجة النهائية: ${a.total}${isLate?" | انتهى موعد التسليم":""}</p>
-  ${submission?`
+  <p class="muted">الدرجة النهائية: ${a.total}${isLate ? " | انتهى موعد التسليم" : ""}</p>
+  ${submission ? `
    <div class="notice">
     <strong>إجابتك المرسلة:</strong>
     <p style="white-space:pre-wrap;line-height:1.8">${esc(submission.answer)}</p>
-    <small>تاريخ الإرسال: ${esc(submission.submittedAt||"-")}</small>
+    <small>تاريخ الإرسال: ${esc(submission.submittedAt || "-")}</small>
    </div>
-   ${submission.grade!==null&&submission.grade!==undefined?`
+   ${submission.grade !== null && submission.grade !== undefined ? `
     <div class="notice">
      <strong>نتيجة التصحيح: ${submission.grade} / ${a.total}</strong>
-     <p style="white-space:pre-wrap">${esc(submission.feedback||"لا توجد ملاحظات من المدرس")}</p>
-    </div>`:`
+     <p style="white-space:pre-wrap">${esc(submission.feedback || "لا توجد ملاحظات من المدرس")}</p>
+    </div>` : `
     <div class="field">
      <label>تعديل إجابتك قبل التصحيح</label>
      <textarea id="homeworkAnswer_${a.id}" rows="4" placeholder="اكتب إجابتك هنا">${esc(submission.answer)}</textarea>
     </div>
     <button class="primary" onclick="submitHomework(${a.id})">تحديث الإجابة</button>`}
-  `:`
+  ` : `
    <div class="field">
     <label>اكتب إجابتك</label>
     <textarea id="homeworkAnswer_${a.id}" rows="5" placeholder="اكتب إجابتك هنا..."></textarea>
@@ -1296,27 +1417,27 @@ function studentHomeworkCard(a,now) {
 }
 
 function submitHomework(id) {
- const a=assignments.find(x=>x.id===id);
- if(!a)return alert("الواجب غير موجود");
- const existing=(a.submissions||[]).find(s=>s.username===currentUser.username);
- if(existing&&existing.grade!==null&&existing.grade!==undefined)
+ const a = assignments.find(x => x.id === id);
+ if (!a) return alert("الواجب غير موجود");
+ const existing = (a.submissions || []).find(s => s.username === currentUser.username);
+ if (existing && existing.grade !== null && existing.grade !== undefined)
   return alert("تم تصحيح هذا الواجب بالفعل، ولا يمكن تعديل الإجابة");
 
- const field=document.getElementById("homeworkAnswer_"+id);
- const answer=field?field.value.trim():"";
- if(!answer)return alert("اكتب إجابتك قبل الإرسال");
+ const field = document.getElementById("homeworkAnswer_" + id);
+ const answer = field ? field.value.trim() : "";
+ if (!answer) return alert("اكتب إجابتك قبل الإرسال");
 
- if(!a.submissions)a.submissions=[];
- const submission={
-  username:currentUser.username,
-  studentName:currentUser.name,
+ if (!a.submissions) a.submissions = [];
+ const submission = {
+  username: currentUser.username,
+  studentName: currentUser.name,
   answer,
-  submittedAt:new Date().toLocaleString("ar-EG"),
-  grade:null,
-  feedback:""
+  submittedAt: new Date().toLocaleString("ar-EG"),
+  grade: null,
+  feedback: ""
  };
- const index=a.submissions.findIndex(s=>s.username===currentUser.username);
- if(index>=0)a.submissions[index]=submission;
+ const index = a.submissions.findIndex(s => s.username === currentUser.username);
+ if (index >= 0) a.submissions[index] = submission;
  else a.submissions.push(submission);
 
  save();
@@ -1324,24 +1445,24 @@ function submitHomework(id) {
  go("studentAssignments");
 }
 
-function gradeHomework(assignmentId,submissionIndex) {
- const a=assignments.find(x=>x.id===assignmentId);
- if(!a)return;
- const submission=(a.submissions||[])[submissionIndex];
- if(!submission)return;
+function gradeHomework(assignmentId, submissionIndex) {
+ const a = assignments.find(x => x.id === assignmentId);
+ if (!a) return;
+ const submission = (a.submissions || [])[submissionIndex];
+ if (!submission) return;
 
- const rawGrade=prompt("اكتب درجة الطالب من "+a.total,submission.grade??"");
- if(rawGrade===null)return;
- const grade=Number(rawGrade);
- if(rawGrade.trim()===""||!Number.isFinite(grade)||grade<0||grade>a.total)
-  return alert("اكتب درجة صحيحة من 0 إلى "+a.total);
+ const rawGrade = prompt("اكتب درجة الطالب من " + a.total, submission.grade ?? "");
+ if (rawGrade === null) return;
+ const grade = Number(rawGrade);
+ if (rawGrade.trim() === "" || !Number.isFinite(grade) || grade < 0 || grade > a.total)
+  return alert("اكتب درجة صحيحة من 0 إلى " + a.total);
 
- const feedback=prompt("اكتب ملاحظاتك للطالب (اختياري)",submission.feedback||"");
- if(feedback===null)return;
+ const feedback = prompt("اكتب ملاحظاتك للطالب (اختياري)", submission.feedback || "");
+ if (feedback === null) return;
 
- submission.grade=grade;
- submission.feedback=feedback.trim();
- submission.gradedAt=new Date().toLocaleString("ar-EG");
+ submission.grade = grade;
+ submission.feedback = feedback.trim();
+ submission.gradedAt = new Date().toLocaleString("ar-EG");
  save();
  alert("تم حفظ التصحيح بنجاح");
  go("teacherAssignments");
@@ -1351,11 +1472,13 @@ function gradeHomework(assignmentId,submissionIndex) {
 // EXAM BUILDER
 // ===================================
 
-let draftQuestions=[];
+let draftQuestions = [];
+let qCounter = 0;
 
 function examBuilder(c) {
- draftQuestions=[];
- c.innerHTML=`
+ draftQuestions = [];
+ qCounter = 0;
+ c.innerHTML = `
  <div class="panel">
   <h3>بيانات الامتحان</h3>
   <div class="form-grid">
@@ -1380,85 +1503,85 @@ function examBuilder(c) {
 }
 
 function addQuestion(type) {
- const id=Date.now()+Math.random();
- draftQuestions.push({id,type});
+ draftQuestions.push({ id: ++qCounter, type });
  renderQuestions();
 }
 
 function renderQuestions() {
- const box=document.getElementById("questionList");
- document.getElementById("questionCount").textContent=draftQuestions.length+" سؤال";
+ const box = document.getElementById("questionList");
+ if (!box) return;
+ document.getElementById("questionCount").textContent = draftQuestions.length + " سؤال";
 
- box.innerHTML=draftQuestions.map((q,i)=>`
+ box.innerHTML = draftQuestions.map((q, i) => `
  <div class="question-builder" id="q_${q.id}">
-  <h4>السؤال ${i+1} - ${
-   q.type==="mcq"?"اختيار من متعدد":q.type==="tf"?"صح أو خطأ":"إجابة نصية"
+  <h4>السؤال ${i + 1} - ${
+   q.type === "mcq" ? "اختيار من متعدد" : q.type === "tf" ? "صح أو خطأ" : "إجابة نصية"
   }</h4>
   <input class="q-title" placeholder="اكتب السؤال هنا">
-  <div class="${q.type==="mcq"?"option-grid":""}">
-  ${q.type==="mcq"?[0,1,2,3].map(n=>`
-   <input class="q-option" placeholder="الاختيار ${n+1}">
-  `).join(""):""}
+  <div class="${q.type === "mcq" ? "option-grid" : ""}">
+  ${q.type === "mcq" ? [0,1,2,3].map(n => `
+   <input class="q-option" placeholder="الاختيار ${n + 1}">
+  `).join("") : ""}
   </div>
-  ${q.type==="mcq"?`
+  ${q.type === "mcq" ? `
    <label>الإجابة الصحيحة</label>
    <select class="q-correct">
     <option value="0">الاختيار الأول</option>
     <option value="1">الاختيار الثاني</option>
     <option value="2">الاختيار الثالث</option>
     <option value="3">الاختيار الرابع</option>
-   </select>`:""}
-  ${q.type==="tf"?`
+   </select>` : ""}
+  ${q.type === "tf" ? `
    <label>الإجابة الصحيحة</label>
    <select class="q-correct">
     <option value="true">صح</option>
     <option value="false">خطأ</option>
-   </select>`:""}
-  ${q.type==="text"?`
+   </select>` : ""}
+  ${q.type === "text" ? `
    <label>الإجابة النموذجية للتصحيح اليدوي</label>
    <input class="q-model" placeholder="اكتب الإجابة النموذجية">
-   <p class="muted">سيتم عرض إجابة الطالب للمدرس لتصحيحها يدوياً.</p>`:""}
+   <p class="muted">سيتم عرض إجابة الطالب للمدرس لتصحيحها يدوياً.</p>` : ""}
   <button class="btn-small btn-danger" onclick="removeQuestion(${q.id})">حذف السؤال</button>
  </div>`).join("");
 }
 
 function removeQuestion(id) {
- draftQuestions=draftQuestions.filter(q=>q.id!==id);
+ draftQuestions = draftQuestions.filter(q => q.id !== id);
  renderQuestions();
 }
 
 function publishExam() {
- const title=document.getElementById("examName").value.trim();
- const duration=Number(document.getElementById("examDuration").value);
- const total=Number(document.getElementById("examTotal").value);
+ const title = document.getElementById("examName").value.trim();
+ const duration = Number(document.getElementById("examDuration").value);
+ const total = Number(document.getElementById("examTotal").value);
 
- if(!title||duration<1||total<1||!draftQuestions.length)
+ if (!title || duration < 1 || total < 1 || !draftQuestions.length)
   return alert("أكمل بيانات الامتحان وأضف سؤالاً واحداً على الأقل");
 
- const questions=[];
- for(const q of draftQuestions) {
-  const box=document.getElementById("q_"+q.id);
-  const text=box.querySelector(".q-title").value.trim();
-  if(!text)return alert("هناك سؤال بدون نص");
+ const questions = [];
+ for (const q of draftQuestions) {
+  const box = document.getElementById("q_" + q.id);
+  const text = box.querySelector(".q-title").value.trim();
+  if (!text) return alert("هناك سؤال بدون نص");
 
-  let item={type:q.type,text,mark:total/draftQuestions.length};
+  let item = { type: q.type, text, mark: total / draftQuestions.length };
 
-  if(q.type==="mcq") {
-   item.options=[...box.querySelectorAll(".q-option")].map(x=>x.value.trim());
-   if(item.options.some(x=>!x))return alert("أكمل الاختيارات الأربعة");
-   item.correct=Number(box.querySelector(".q-correct").value);
+  if (q.type === "mcq") {
+   item.options = [...box.querySelectorAll(".q-option")].map(x => x.value.trim());
+   if (item.options.some(x => !x)) return alert("أكمل الاختيارات الأربعة");
+   item.correct = Number(box.querySelector(".q-correct").value);
   }
-  if(q.type==="tf")item.correct=box.querySelector(".q-correct").value==="true";
-  if(q.type==="text") {
-   item.model=box.querySelector(".q-model").value.trim();
-   if(!item.model)return alert("اكتب الإجابة النموذجية");
+  if (q.type === "tf") item.correct = box.querySelector(".q-correct").value === "true";
+  if (q.type === "text") {
+   item.model = box.querySelector(".q-model").value.trim();
+   if (!item.model) return alert("اكتب الإجابة النموذجية");
   }
   questions.push(item);
  }
 
  exams.push({
-  id:Date.now(),title,duration,total,questions,
-  created:new Date().toLocaleDateString("ar-EG")
+  id: Date.now(), title, duration, total, questions,
+  created: new Date().toLocaleDateString("ar-EG")
  });
 
  save();
@@ -1471,29 +1594,30 @@ function publishExam() {
 // ===================================
 
 function examManagement(c) {
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <div class="section-title">
    <h3>الامتحانات المنشورة</h3>
    <button class="primary" onclick="go('createExam')">+ امتحان جديد</button>
   </div>
-  ${exams.length?`<table>
+  ${exams.length ? `<table>
    <tr><th>الامتحان</th><th>الأسئلة</th><th>الدرجة</th><th>المدة</th><th>الإجراء</th></tr>
-   ${exams.map(e=>`<tr>
+   ${exams.map(e => `<tr>
     <td>${esc(e.title)}</td>
     <td>${e.questions.length}</td>
     <td>${e.total}</td>
     <td>${e.duration} دقيقة</td>
     <td><button class="btn-small btn-danger" onclick="deleteExam(${e.id})">حذف</button></td>
    </tr>`).join("")}
-  </table>`:`<div class="empty">لم يتم إنشاء امتحانات بعد</div>`}
+  </table>` : `<div class="empty">لم يتم إنشاء امتحانات بعد</div>`}
  </div>`;
 }
 
 function deleteExam(id) {
- if(!confirm("حذف الامتحان؟"))return;
- exams=exams.filter(e=>e.id!==id);
- save();go("exams");
+ if (!confirm("حذف الامتحان؟")) return;
+ exams = exams.filter(e => e.id !== id);
+ save();
+ go("exams");
 }
 
 // ===================================
@@ -1501,7 +1625,7 @@ function deleteExam(id) {
 // ===================================
 
 function studentLessons(c) {
- c.innerHTML=`<div class="panel">
+ c.innerHTML = `<div class="panel">
  <h3>دروس المنهج</h3>${lessonCards(false)}</div>`;
 }
 
@@ -1510,33 +1634,33 @@ function studentLessons(c) {
 // ===================================
 
 function studentExams(c) {
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <h3>الامتحانات المتاحة</h3>
-  ${exams.length?`<div class="cards">${exams.map(e=>{
-   const done=results.some(r=>r.examId===e.id&&r.username===currentUser.username);
+  ${exams.length ? `<div class="cards">${exams.map(e => {
+   const done = results.some(r => r.examId === e.id && r.username === currentUser.username);
    return `<div class="card">
     <span class="tag">${e.duration} دقيقة</span>
     <h3>${esc(e.title)}</h3>
     <p>${e.questions.length} أسئلة - ${e.total} درجة</p>
-    ${done?`<span class="tag">تم الحل</span>`:
+    ${done ? `<span class="tag">تم الحل</span>` :
      `<button class="primary" onclick="startExam(${e.id})">ابدأ الامتحان</button>`}
    </div>`;
-  }).join("")}</div>`:`<div class="empty">لا توجد امتحانات متاحة حالياً</div>`}
+  }).join("")}</div>` : `<div class="empty">لا توجد امتحانات متاحة حالياً</div>`}
  </div>`;
 }
 
 function startExam(id) {
- const e=exams.find(x=>x.id===id);
- if(!e)return;
+ const e = exams.find(x => x.id === id);
+ if (!e) return;
 
- if(results.some(r=>r.examId===id&&r.username===currentUser.username))
+ if (results.some(r => r.examId === id && r.username === currentUser.username))
   return alert("لقد قمت بحل هذا الامتحان بالفعل");
 
- activeExam=e;
- const c=document.getElementById("content");
+ activeExam = e;
+ const c = document.getElementById("content");
 
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <h2>${esc(e.title)}</h2>
   <p class="muted">المدة: ${e.duration} دقيقة | الدرجة: ${e.total}</p>
@@ -1545,31 +1669,32 @@ function startExam(id) {
   <button class="primary" onclick="submitExam()">تسليم الامتحان</button>
  </div>`;
 
- document.getElementById("takeQuestions").innerHTML=e.questions.map((q,i)=>`
+ document.getElementById("takeQuestions").innerHTML = e.questions.map((q, i) => `
  <div class="exam-question">
-  <strong>${i+1}. ${esc(q.text)}</strong>
-  ${q.type==="mcq"?q.options.map((o,j)=>`
+  <strong>${i + 1}. ${esc(q.text)}</strong>
+  ${q.type === "mcq" ? q.options.map((o, j) => `
    <label><input type="radio" name="answer_${i}" value="${j}">${esc(o)}</label>
-  `).join(""):""}
-  ${q.type==="tf"?`
+  `).join("") : ""}
+  ${q.type === "tf" ? `
    <label><input type="radio" name="answer_${i}" value="true">صح</label>
-   <label><input type="radio" name="answer_${i}" value="false">خطأ</label>`:""}
-  ${q.type==="text"?`<textarea id="answer_${i}" placeholder="اكتب إجابتك هنا"></textarea>`:""}
+   <label><input type="radio" name="answer_${i}" value="false">خطأ</label>` : ""}
+  ${q.type === "text" ? `<textarea id="answer_${i}" placeholder="اكتب إجابتك هنا"></textarea>` : ""}
  </div>`).join("");
 
- let seconds=e.duration*60;
- const timer=document.getElementById("timer");
+ let seconds = e.duration * 60;
+ const timer = document.getElementById("timer");
 
- if(window.examTimer)clearInterval(window.examTimer);
+ if (window.examTimer) clearInterval(window.examTimer);
 
- window.examTimer=setInterval(()=>{
+ window.examTimer = setInterval(() => {
   seconds--;
-  if(!document.getElementById("timer")) {
-   clearInterval(window.examTimer);return;
+  if (!document.getElementById("timer")) {
+   clearInterval(window.examTimer);
+   return;
   }
-  timer.textContent="الوقت: "+Math.floor(seconds/60)+":"+String(seconds%60).padStart(2,"0");
-  if(seconds<=0)submitExam();
- },1000);
+  timer.textContent = "الوقت: " + Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
+  if (seconds <= 0) submitExam();
+ }, 1000);
 }
 
 // ===================================
@@ -1577,158 +1702,195 @@ function startExam(id) {
 // ===================================
 
 function submitExam() {
- if(!activeExam)return;
- if(window.examTimer)clearInterval(window.examTimer);
+ if (!activeExam) return;
+ if (window.examTimer) clearInterval(window.examTimer);
 
- let score=0;
- let pending=0;
- let answers=[];
+ let score = 0;
+ let pending = 0;
+ let answers = [];
 
- activeExam.questions.forEach((q,i)=>{
-  let answer=null;
-  if(q.type==="mcq"||q.type==="tf") {
-   const selected=document.querySelector(`input[name="answer_${i}"]:checked`);
-   answer=selected?selected.value:null;
-   const correct=q.type==="mcq"
-    ?answer!==null&&Number(answer)===q.correct
-    :answer!==null&&(answer==="true")===q.correct;
-   if(correct)score+=q.mark;
+ activeExam.questions.forEach((q, i) => {
+  let answer = null;
+  if (q.type === "mcq" || q.type === "tf") {
+   const selected = document.querySelector(`input[name="answer_${i}"]:checked`);
+   answer = selected ? selected.value : null;
+   const correct = q.type === "mcq"
+    ? answer !== null && Number(answer) === q.correct
+    : answer !== null && (answer === "true") === q.correct;
+   if (correct) score += q.mark;
   } else {
-   answer=document.getElementById("answer_"+i).value.trim();
+   const field = document.getElementById("answer_" + i);
+   answer = field ? field.value.trim() : "";
    pending++;
   }
-  answers.push({answer});
+  answers.push({ answer });
  });
 
- const finalScore=Math.round(score*100)/100;
+ const finalScore = Math.round(score * 100) / 100;
+ const currentExamTotal = activeExam.total;
+ const currentExamTitle = activeExam.title;
+ const currentExamId = activeExam.id;
+
  results.push({
-  id:Date.now(),
-  examId:activeExam.id,
-  exam:activeExam.title,
-  username:currentUser.username,
-  student:currentUser.name,
-  score:finalScore,
-  total:activeExam.total,
+  id: Date.now(),
+  examId: currentExamId,
+  exam: currentExamTitle,
+  username: currentUser.username,
+  student: currentUser.name,
+  score: finalScore,
+  objectiveScore: finalScore,
+  total: currentExamTotal,
   pending,
   answers,
-  date:new Date().toLocaleDateString("ar-EG")
+  date: new Date().toLocaleDateString("ar-EG")
  });
 
  save();
+ activeExam = null;
 
- document.getElementById("content").innerHTML=`
+ document.getElementById("content").innerHTML = `
  <div class="panel" style="text-align:center;padding:40px">
   <div style="font-size:45px">🎉</div>
   <h2>تم تسليم الامتحان بنجاح</h2>
-  <h1 style="color:var(--blue)">${finalScore} / ${activeExam.total}</h1>
+  <h1 style="color:var(--blue)">${finalScore} / ${currentExamTotal}</h1>
   <p class="muted">الدرجة المعروضة للأسئلة الموضوعية فقط.</p>
-  ${pending?`<p class="notice">لديك ${pending} سؤال نصي في انتظار تصحيح المدرس.</p>`:""}
-  <button class="primary" onclick="activeExam=null;go('studentExams')">العودة للامتحانات</button>
+  ${pending ? `<p class="notice">لديك ${pending} سؤال نصي في انتظار تصحيح المدرس.</p>` : ""}
+  <button class="primary" onclick="go('studentExams')">العودة للامتحانات</button>
  </div>`;
- activeExam=null;
 }
 
 // ===================================
 // RESULTS
 // ===================================
 
-function showResults(c,isTeacher) {
- const list=isTeacher?results:results.filter(r=>r.username===currentUser.username);
+function showResults(c, isTeacher) {
+ const list = isTeacher ? results : results.filter(r => r.username === currentUser.username);
 
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
-  <h3>${isTeacher?"سجل نتائج الطلاب":"نتائج امتحاناتي"}</h3>
-  ${list.length?`<div style="overflow-x:auto">
+  <h3>${isTeacher ? "سجل نتائج الطلاب" : "نتائج امتحاناتي"}</h3>
+  ${list.length ? `<div style="overflow-x:auto">
    <table>
     <tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th><th>التاريخ</th>
-    ${isTeacher?"<th>التصحيح</th>":""}</tr>
-    ${list.slice().reverse().map(r=>`<tr>
+    ${isTeacher ? "<th>التصحيح</th>" : ""}</tr>
+    ${list.slice().reverse().map(r => `<tr>
      <td>${esc(r.student)}</td>
      <td>${esc(r.exam)}</td>
      <td>${r.score}/${r.total}</td>
      <td>${esc(r.date)}</td>
-     ${isTeacher?`<td>${r.pending?`<button class="btn-small" onclick="gradeResult(${r.id})">تصحيح (${r.pending})</button>`:"مكتمل"}</td>`:""}
+     ${isTeacher ? `<td>${r.pending ? `<button class="btn-small" onclick="gradeResult(${r.id})">تصحيح (${r.pending})</button>` : "مكتمل"}</td>` : ""}
     </tr>`).join("")}
    </table>
-  </div>`:`<div class="empty">لا توجد نتائج حتى الآن</div>`}
+  </div>` : `<div class="empty">لا توجد نتائج حتى الآن</div>`}
  </div>`;
 }
 
-// تصحيح الأسئلة النصية
 function gradeResult(id) {
- const r=results.find(x=>x.id===id);
- if(!r)return;
- const exam=exams.find(x=>x.id===r.examId);
- if(!exam)return alert("الامتحان غير موجود");
+ const r = results.find(x => x.id === id);
+ if (!r) return;
+ const exam = exams.find(x => x.id === r.examId);
+ if (!exam) return alert("الامتحان غير موجود");
 
- const c=document.getElementById("content");
- let textQuestions=exam.questions.map((q,i)=>({q,i})).filter(x=>x.q.type==="text");
+ const c = document.getElementById("content");
+ const textQuestions = exam.questions.map((q, i) => ({ q, i })).filter(x => x.q.type === "text");
 
- c.innerHTML=`
+ c.innerHTML = `
  <div class="panel">
   <h3>تصحيح إجابات ${esc(r.student)}</h3>
   <p class="muted">${esc(r.exam)}</p>
-  ${textQuestions.map(({q,i})=>`
+  ${textQuestions.map(({ q, i }) => {
+   const ans = r.answers[i] || {};
+   return `
    <div class="question-builder">
     <strong>${esc(q.text)}</strong>
-    <p>إجابة الطالب: ${esc(r.answers[i].answer||"لم يجب")}</p>
+    <p>إجابة الطالب: ${esc(ans.answer || "لم يجب")}</p>
     <p class="muted">الإجابة النموذجية: ${esc(q.model)}</p>
     <label>درجة السؤال (من ${q.mark})</label>
     <input type="number" min="0" max="${q.mark}" step="0.01"
-     id="grade_${i}" value="${r.answers[i].manualScore??0}">
-   </div>`).join("")}
+     id="grade_${i}" value="${ans.manualScore ?? 0}">
+   </div>`;
+  }).join("")}
   <button class="primary" onclick="saveGrades(${id})">حفظ التصحيح</button>
  </div>`;
 }
 
 function saveGrades(id) {
- const r=results.find(x=>x.id===id);
- const exam=exams.find(x=>x.id===r.examId);
- if(!r||!exam)return;
+ const r = results.find(x => x.id === id);
+ if (!r) return;
+ const exam = exams.find(x => x.id === r.examId);
+ if (!exam) return alert("الامتحان غير موجود");
 
- let extra=0;
- let pending=0;
+ let extra = 0;
+ let hasError = false;
 
- exam.questions.forEach((q,i)=>{
-  if(q.type!=="text")return;
-  const value=Number(document.getElementById("grade_"+i).value);
-  if(!Number.isFinite(value)||value<0||value>q.mark)
-   return alert("راجع درجات الأسئلة النصية");
-  r.answers[i].manualScore=value;
-  extra+=value;
-  if((r.answers[i].answer||"").trim()!=="")pending++;
+ exam.questions.forEach((q, i) => {
+  if (q.type !== "text") return;
+  const input = document.getElementById("grade_" + i);
+  if (!input) return;
+  const value = Number(input.value);
+  if (!Number.isFinite(value) || value < 0 || value > q.mark) {
+   hasError = true;
+   return;
+  }
+  if (!r.answers[i]) r.answers[i] = {};
+  r.answers[i].manualScore = value;
+  extra += value;
  });
 
- r.score=Math.round((r.score+extra)*100)/100;
- r.pending=pending;
+ if (hasError) return alert("راجع درجات الأسئلة النصية");
+
+ // إعادة الحساب من الصفر (بدون تراكم)
+ const objective = (typeof r.objectiveScore === "number") ? r.objectiveScore : r.score;
+ r.score = Math.round((objective + extra) * 100) / 100;
+ r.pending = 0;
 
  save();
  alert("تم حفظ التصحيح");
  go("results");
 }
 
+// ===================================
+// UI HELPERS
+// ===================================
 
-// UI helpers: mobile navigation and theme preference
 function toggleSidebar() {
-  const sidebar=document.querySelector(".sidebar");
-  const backdrop=document.getElementById("sidebarBackdrop");
-  sidebar.classList.toggle("open");
-  backdrop.classList.toggle("show");
+ const sidebar = document.querySelector(".sidebar");
+ const backdrop = document.getElementById("sidebarBackdrop");
+ if (!sidebar || !backdrop) return;
+ sidebar.classList.toggle("open");
+ backdrop.classList.toggle("show");
 }
 function closeSidebar() {
-  document.querySelector(".sidebar").classList.remove("open");
-  document.getElementById("sidebarBackdrop").classList.remove("show");
+ const sidebar = document.querySelector(".sidebar");
+ const backdrop = document.getElementById("sidebarBackdrop");
+ if (sidebar) sidebar.classList.remove("open");
+ if (backdrop) backdrop.classList.remove("show");
 }
 function toggleTheme() {
-  const enabled=!document.body.classList.contains("dark-mode");
-  setTheme(enabled?"dark":"light");
+ const enabled = !document.body.classList.contains("dark-mode");
+ setTheme(enabled ? "dark" : "light");
 }
-(function restorePreferences(){
-  setTheme(localStorage.getItem("ah_theme")==="dark"?"dark":"light");
-  applyLanguage();
+
+// ===================================
+// INIT
+// ===================================
+
+(function restorePreferences() {
+ setTheme(localStorage.getItem("ah_theme") === "dark" ? "dark" : "light");
+ applyLanguage();
 })();
 
-// Initial storage
+// تأكد من وجود مدرس واحد على الأقل
+if (!users.some(u => u.role === "teacher")) {
+ users.push({ id: Date.now(), name: "Admin", username: "admin", password: "admin123", role: "teacher" });
+}
+
+// شغّل المزامنة عند جاهزية Firebase
+window.addEventListener("firebase-ready", async () => {
+ await loadFromFirebase();
+});
+
+// حفظ ابتدائي
 save();
 </script>
 </body>
