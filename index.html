@@ -432,7 +432,7 @@ body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
 .show-password {
  position:absolute;left:8px;top:50%;transform:translateY(-50%);
  padding:7px 9px;border-radius:8px;background:#edf2ff;color:#315ed0;
- font-size:12px;font-weight:700;
+ font-size:20px;font-weight:700;
 }
 .login-submit {
  width:100%;margin-top:8px;padding:14px 18px;border-radius:12px;
@@ -471,7 +471,9 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
  body.english-mode .sidebar {left:auto;right:0}
  body.english-mode .main {margin:0}
 }
-
+.ha {
+  margin-right : 140px ;
+}
 /* Account password safety */
 .password-protected {letter-spacing:2px;color:var(--muted);font-weight:700}
 </style>
@@ -483,7 +485,8 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
 <div class="login-page" id="loginPage">
  <div class="login-box">
   <div class="login-brand" aria-hidden="true">🎓</div>
-  <h2>منصة مستر أحمد محمود</h2>
+  <h1 class = "ha">منصة</h1>
+  <h2> مستر/ أحمد محمود</h2>
   <p class="login-subtitle">مرحبًا بك من جديد<br>سجّل الدخول للوصول إلى دروسك واختباراتك</p>
 
   <div class="field">
@@ -495,7 +498,7 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
    <label for="loginPass">كلمة المرور</label>
    <div class="password-wrap">
     <input id="loginPass" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" onkeydown="if(event.key==='Enter') login()">
-    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">إظهار</button>
+    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">☺️</button>
    </div>
   </div>
 
@@ -602,7 +605,7 @@ function toggleLoginPassword() {
  const button = document.getElementById("showPasswordBtn");
  const visible = input.type === "password";
  input.type = visible ? "text" : "password";
- button.textContent = visible ? "إخفاء" : "إظهار";
+ button.textContent = visible ? "😂" : "☺️";
 }
 
 function login() {
