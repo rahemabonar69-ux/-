@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -443,6 +444,36 @@ body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
 .login-footer {border-top:1px solid #edf0f5;margin-top:24px;padding-top:17px;text-align:center;color:#a0aaba;font-size:11px}
 @media(max-width:480px) {.login-box{padding:30px 22px 24px;border-radius:21px}.login-box h2{font-size:21px}}
 
+
+/* Settings page */
+.settings-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.settings-panel {margin:0}
+.settings-account {grid-column:1/-1}
+.settings-heading {display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.settings-heading h3 {margin:0 0 5px}
+.settings-heading p {margin:0}
+.settings-icon {width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:#edf2ff;font-size:22px}
+.settings-panel>label,.settings-panel .field label {display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.settings-note {font-size:12px;line-height:1.8;margin:12px 0 0}
+.settings-divider {height:1px;background:var(--border);margin:20px 0}
+.settings-account h4 {margin:0 0 15px}
+body.dark-mode .settings-icon {background:#22385c}
+body.english-mode .menu button {text-align:left}
+body.english-mode .sidebar {left:0;right:auto}
+body.english-mode .main {margin-right:0;margin-left:250px}
+body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
+@media(max-width:900px) {
+ .settings-grid {grid-template-columns:1fr}
+ .settings-account {grid-column:auto}
+ body.english-mode .main {margin-left:200px}
+}
+@media(max-width:600px) {
+ body.english-mode .sidebar {left:auto;right:0}
+ body.english-mode .main {margin:0}
+}
+
+/* Account password safety */
+.password-protected {letter-spacing:2px;color:var(--muted);font-weight:700}
 </style>
 </head>
 
@@ -594,6 +625,7 @@ function login() {
  document.getElementById("profileRole").textContent=
   user.role==="teacher"?"مدرس":"طالب";
 
+ applyLanguage();
  buildMenu();
  go(user.role==="teacher"?"home":"studentHome");
 }
@@ -618,18 +650,31 @@ function buildMenu() {
   ["teacherAssignments","📝","الواجبات"],
   ["createExam","✎","إنشاء امتحان"],
   ["exams","▣","الامتحانات"],
-  ["results","◷","نتائج الطلاب"]
+  ["results","◷","نتائج الطلاب"],
+  ["settings","⚙","الإعدادات"]
  ]:[
   ["studentHome","▦","الرئيسية"],
   ["studentLessons","▤","الدروس"],
   ["studentAssignments","📝","الواجبات"],
   ["studentExams","▣","الامتحانات"],
-  ["studentResults","◷","نتائجي"]
+  ["studentResults","◷","نتائجي"],
+  ["settings","⚙","الإعدادات"]
  ];
 
+ const english=localStorage.getItem("ah_language")==="en";
+ const labels={
+  home:"Dashboard",users:"Manage Accounts",lessons:"Lessons",teacherAssignments:"Assignments",
+  createExam:"Create Exam",exams:"Exams",results:"Student Results",
+  studentHome:"Dashboard",studentLessons:"Lessons",studentAssignments:"Assignments",
+  studentExams:"Exams",studentResults:"My Results",settings:"Settings"
+ };
  document.getElementById("menu").innerHTML=items.map(i=>
-  `<button data-page="${i[0]}" onclick="go('${i[0]}')">${i[1]} &nbsp; ${i[2]}</button>`
+  `<button data-page="${i[0]}" onclick="go('${i[0]}')">${i[1]} &nbsp; ${english?(labels[i[0]]||i[2]):i[2]}</button>`
  ).join("");
+ const menuTitle=document.querySelector(".menu-title");
+ if(menuTitle)menuTitle.textContent=english?"MAIN MENU":"القائمة الرئيسية";
+ const logoutButton=document.querySelector(".logout");
+ if(logoutButton)logoutButton.textContent=english?"↪ Log out":"↪ تسجيل الخروج";
 }
 
 // ===================================
@@ -648,13 +693,14 @@ const titles={
  studentLessons:["الدروس التعليمية","تعلم Python خطوة بخطوة"],
  studentAssignments:["الواجبات","تابع واجباتك وأرسل إجاباتك"],
  studentExams:["الامتحانات","اختبر مستواك في البرمجة"],
- studentResults:["نتائجي","تابع درجاتك وتقدمك"]
+ studentResults:["نتائجي","تابع درجاتك وتقدمك"],
+ settings:["الإعدادات","تحكم في اللغة والمظهر ومعلومات حسابك"]
 };
 
 function go(page) {
   closeSidebar();
  const teacherPages=["home","users","lessons","teacherAssignments","createExam","exams","results"];
- if(currentUser.role==="teacher"&&!teacherPages.includes(page))return;
+ if(currentUser.role==="teacher"&&!teacherPages.includes(page)&&page!=="settings")return;
  if(currentUser.role==="student"&&teacherPages.includes(page))return;
 
  document.querySelectorAll("#menu button").forEach(b=>
@@ -679,7 +725,151 @@ function go(page) {
   case "studentAssignments": studentAssignments(c);break;
   case "studentExams": studentExams(c);break;
   case "studentResults": showResults(c,false);break;
+  case "settings": settingsPage(c);break;
  }
+}
+
+
+// ===================================
+// SETTINGS: LANGUAGE, THEME & ACCOUNT
+// ===================================
+
+function currentLanguage() {
+ return localStorage.getItem("ah_language") || "ar";
+}
+
+function applyLanguage() {
+ const english=currentLanguage()==="en";
+ document.documentElement.lang=english?"en":"ar";
+ document.documentElement.dir=english?"ltr":"rtl";
+ document.body.classList.toggle("english-mode",english);
+
+ const brand=document.querySelector(".brand strong");
+ const brandSmall=document.querySelector(".brand small");
+ if(brand)brand.textContent=english?"Learning Platform":"منصة تعليمية";
+ if(brandSmall)brandSmall.textContent=english?"Mr. Ahmed Mahmoud":"مستر / أحمد محمود";
+
+ if(currentUser) {
+  const role=document.getElementById("profileRole");
+  if(role)role.textContent=english?(currentUser.role==="teacher"?"Teacher":"Student"):(currentUser.role==="teacher"?"مدرس":"طالب");
+  buildMenu();
+ }
+ const active=document.querySelector("#menu button.active");
+ if(active) {
+  const page=active.dataset.page;
+  const title=document.getElementById("pageTitle");
+  const subtitle=document.getElementById("pageSubtitle");
+  const englishTitles={
+   home:["Teacher Dashboard","Manage your learning platform"],
+   users:["Manage Accounts","Add and manage students and teachers"],
+   lessons:["Manage Lessons","Add and edit course content"],
+   teacherAssignments:["Assignments","Create assignments and grade submissions"],
+   createExam:["Create Exam","Prepare a new exam for your students"],
+   exams:["Manage Exams","View all published exams"],
+   results:["Student Results","Track student performance"],
+   studentHome:["Student Dashboard","Continue your learning journey"],
+   studentLessons:["Learning Lessons","Learn Python step by step"],
+   studentAssignments:["Assignments","View and submit your assignments"],
+   studentExams:["Exams","Test your programming skills"],
+   studentResults:["My Results","Track your grades and progress"],
+   settings:["Settings","Manage language, appearance and account details"]
+  };
+  if(english&&englishTitles[page]) {
+   title.textContent=englishTitles[page][0];
+   subtitle.textContent=englishTitles[page][1];
+  } else if(titles[page]) {
+   title.textContent=titles[page][0];
+   subtitle.textContent=titles[page][1];
+  }
+ }
+ const toggle=document.querySelector(".theme-toggle");
+ if(toggle)toggle.textContent=document.body.classList.contains("dark-mode")?"☀":"☾";
+}
+
+function setLanguage(language) {
+ localStorage.setItem("ah_language",language==="en"?"en":"ar");
+ applyLanguage();
+ if(currentUser)go("settings");
+}
+
+function setTheme(theme) {
+ const dark=theme==="dark";
+ document.body.classList.toggle("dark-mode",dark);
+ localStorage.setItem("ah_theme",dark?"dark":"light");
+ const toggle=document.querySelector(".theme-toggle");
+ if(toggle)toggle.textContent=dark?"☀":"☾";
+}
+
+function settingsPage(c) {
+ const en=currentLanguage()==="en";
+ const dark=localStorage.getItem("ah_theme")==="dark";
+ const user=users.find(u=>u.username===currentUser.username)||currentUser;
+ c.innerHTML=`
+  <div class="settings-grid">
+   <section class="panel settings-panel">
+    <div class="settings-heading"><span class="settings-icon">🌐</span><div><h3>${en?"Language":"اللغة"}</h3><p class="muted">${en?"Choose the interface language":"اختر لغة واجهة المنصة"}</p></div></div>
+    <label for="settingLanguage">${en?"Display language":"لغة العرض"}</label>
+    <select id="settingLanguage" onchange="setLanguage(this.value)">
+     <option value="ar" ${!en?"selected":""}>العربية</option>
+     <option value="en" ${en?"selected":""}>English</option>
+    </select>
+    <p class="muted settings-note">${en?"In this version, navigation and settings are translated. Lesson and exam content remains in its original language.":"في هذه النسخة، القوائم والإعدادات مترجمة، بينما يظل محتوى الدروس والامتحانات بلغته الأصلية."}</p>
+   </section>
+
+   <section class="panel settings-panel">
+    <div class="settings-heading"><span class="settings-icon">🎨</span><div><h3>${en?"Appearance":"المظهر"}</h3><p class="muted">${en?"Switch between light and dark mode":"اختار الوضع المناسب لك"}</p></div></div>
+    <label for="settingTheme">${en?"Theme":"المظهر"}</label>
+    <select id="settingTheme" onchange="setTheme(this.value)">
+     <option value="light" ${!dark?"selected":""}>${en?"Light mode":"الوضع الفاتح"}</option>
+     <option value="dark" ${dark?"selected":""}>${en?"Dark mode":"الوضع الداكن"}</option>
+    </select>
+    <p class="muted settings-note">${en?"Your theme preference is saved on this browser.":"سيتم حفظ اختيارك على هذا المتصفح."}</p>
+   </section>
+
+   <section class="panel settings-panel settings-account">
+    <div class="settings-heading"><span class="settings-icon">👤</span><div><h3>${en?"Account information":"معلومات الحساب"}</h3><p class="muted">${en?"View and update your account details":"عرض وتعديل بيانات حسابك"}</p></div></div>
+    <div class="form-grid">
+     <div class="field"><label>${en?"Full name":"الاسم"}</label><input id="settingName" value="${esc(user.name)}" maxlength="60"></div>
+     <div class="field"><label>${en?"Username (cannot be changed)":"اسم المستخدم (غير قابل للتعديل)"}</label><input value="${esc(user.username)}" disabled></div>
+     <div class="field"><label>${en?"Account type":"نوع الحساب"}</label><input value="${en?(user.role==="teacher"?"Teacher":"Student"):(user.role==="teacher"?"مدرس":"طالب")}" disabled></div>
+    </div>
+    <div class="settings-divider"></div>
+    <h4>${en?"Change password":"تغيير كلمة المرور"}</h4>
+    <div class="form-grid">
+     <div class="field"><label>${en?"Current password":"كلمة المرور الحالية"}</label><input id="settingCurrentPassword" type="password" autocomplete="current-password"></div>
+     <div class="field"><label>${en?"New password (optional)":"كلمة المرور الجديدة (اختياري)"}</label><input id="settingNewPassword" type="password" autocomplete="new-password"></div>
+     <div class="field"><label>${en?"Confirm new password":"تأكيد كلمة المرور الجديدة"}</label><input id="settingConfirmPassword" type="password" autocomplete="new-password"></div>
+    </div>
+    <button class="primary" onclick="saveAccountSettings()">${en?"Save changes":"حفظ التعديلات"}</button>
+    <p class="muted settings-note">${en?"Account changes are currently saved in this browser only.":"التعديلات تُحفظ حاليًا على هذا المتصفح فقط."}</p>
+   </section>
+  </div>`;
+}
+
+function saveAccountSettings() {
+ const user=users.find(u=>u.username===currentUser.username);
+ if(!user)return alert(currentLanguage()==="en"?"Account not found":"لم يتم العثور على الحساب");
+
+ const name=document.getElementById("settingName").value.trim();
+ const currentPassword=document.getElementById("settingCurrentPassword").value;
+ const newPassword=document.getElementById("settingNewPassword").value;
+ const confirmPassword=document.getElementById("settingConfirmPassword").value;
+ const en=currentLanguage()==="en";
+
+ if(!name)return alert(en?"Please enter your name":"اكتب الاسم");
+ if(newPassword||confirmPassword) {
+  if(currentPassword!==user.password)return alert(en?"Current password is incorrect":"كلمة المرور الحالية غير صحيحة");
+  if(newPassword.length<4)return alert(en?"New password must be at least 4 characters":"كلمة المرور الجديدة يجب ألا تقل عن 4 أحرف");
+  if(newPassword!==confirmPassword)return alert(en?"New passwords do not match":"كلمتا المرور غير متطابقتين");
+  user.password=newPassword;
+ }
+ user.name=name;
+ currentUser=user;
+ save();
+ document.getElementById("profileName").textContent=user.name;
+ document.getElementById("avatar").textContent=user.name[0]||"A";
+ alert(en?"Account information saved successfully":"تم حفظ بيانات الحساب بنجاح");
+ go("settings");
 }
 
 // ===================================
@@ -762,12 +952,16 @@ function userManagement(c) {
   <h3>الحسابات المسجلة (${users.length})</h3>
   <div style="overflow-x:auto">
   <table>
-   <tr><th>الاسم</th><th>المستخدم</th><th>النوع</th><th>الإجراء</th></tr>
+   <tr><th>الاسم</th><th>المستخدم</th><th>النوع</th><th>كلمة المرور</th><th>الإجراء</th></tr>
    ${users.map(u=>`<tr>
     <td>${esc(u.name)}</td>
     <td>${esc(u.username)}</td>
     <td>${u.role==="teacher"?"مدرس":"طالب"}</td>
-    <td><button class="btn-small btn-danger" onclick="deleteUser(${u.id})">حذف</button></td>
+    <td><span class="password-protected">••••••••</span></td>
+    <td>
+     <button class="btn-small" onclick="resetUserPassword(${u.id})">تغيير كلمة المرور</button>
+     <button class="btn-small btn-danger" onclick="deleteUser(${u.id})">حذف</button>
+    </td>
    </tr>`).join("")}
   </table>
   </div>
@@ -786,6 +980,18 @@ function addUser() {
  users.push({id:Date.now(),name,username,password,role});
  save();
  alert("تم إنشاء الحساب بنجاح");
+ go("users");
+}
+
+function resetUserPassword(id) {
+ const user=users.find(u=>u.id===id);
+ if(!user)return alert("الحساب غير موجود");
+ const newPassword=prompt("اكتب كلمة المرور الجديدة للحساب: "+user.username);
+ if(newPassword===null)return;
+ if(newPassword.trim().length<4)return alert("كلمة المرور يجب ألا تقل عن 4 أحرف");
+ user.password=newPassword;
+ save();
+ alert("تم تغيير كلمة المرور بنجاح");
  go("users");
 }
 
@@ -1511,16 +1717,12 @@ function closeSidebar() {
   document.getElementById("sidebarBackdrop").classList.remove("show");
 }
 function toggleTheme() {
-  const enabled=document.body.classList.toggle("dark-mode");
-  localStorage.setItem("ah_theme",enabled?"dark":"light");
-  const button=document.querySelector(".theme-toggle");
-  if(button) button.textContent=enabled?"☀":"☾";
+  const enabled=!document.body.classList.contains("dark-mode");
+  setTheme(enabled?"dark":"light");
 }
-(function restoreTheme(){
-  const enabled=localStorage.getItem("ah_theme")==="dark";
-  document.body.classList.toggle("dark-mode",enabled);
-  const button=document.querySelector(".theme-toggle");
-  if(button) button.textContent=enabled?"☀":"☾";
+(function restorePreferences(){
+  setTheme(localStorage.getItem("ah_theme")==="dark"?"dark":"light");
+  applyLanguage();
 })();
 
 // Initial storage
