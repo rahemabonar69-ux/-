@@ -226,6 +226,223 @@ textarea {min-height:110px;resize:vertical}
  .cards,.form-grid {grid-template-columns:1fr}
  .topbar h2 {font-size:18px}
 }
+
+/* ===== Visual refresh ===== */
+:root {
+  --navy:#101d33;
+  --blue:#4169f5;
+  --bg:#f5f7fc;
+  --text:#1d2a40;
+  --muted:#77859b;
+  --border:#e8edf5;
+  --surface:#ffffff;
+  --shadow:0 8px 28px rgba(25,45,80,.06);
+}
+body { background:var(--bg); }
+.login-page {
+  background:
+    radial-gradient(circle at 15% 20%, #5f83ff55, transparent 30%),
+    radial-gradient(circle at 85% 80%, #6ab6ff33, transparent 28%),
+    linear-gradient(135deg,#101d33,#254b80);
+}
+.login-box {
+  border:1px solid #ffffff70;
+  box-shadow:0 28px 90px #07152c66;
+  animation:loginIn .45s ease both;
+}
+@keyframes loginIn {
+  from { opacity:0; transform:translateY(12px) scale(.985); }
+  to { opacity:1; transform:translateY(0) scale(1); }
+}
+.login-box h2 { color:#172945; letter-spacing:-.3px; }
+.logo { box-shadow:0 8px 20px #3568e822; }
+.sidebar {
+  background:linear-gradient(180deg,#101d33,#172d4d);
+  box-shadow:-8px 0 30px #0c1b3212;
+}
+.brand-icon {
+  display:grid; place-items:center;
+  min-width:44px; min-height:44px;
+  background:linear-gradient(135deg,#fff,#e8efff);
+  color:var(--blue);
+  box-shadow:0 5px 16px #0002;
+}
+.menu button {
+  transition:background .2s ease, color .2s ease, transform .2s ease;
+}
+.menu button:hover { transform:translateX(-3px); }
+.menu button.active {
+  background:linear-gradient(90deg,#ffffff28,#ffffff0d);
+  box-shadow:inset -3px 0 #8eafff;
+}
+.main { max-width:1600px; }
+.topbar { min-height:64px; }
+.topbar h2 { letter-spacing:-.4px; }
+.profile {
+  box-shadow:0 4px 16px #1b31500a;
+  transition:box-shadow .2s ease, transform .2s ease;
+}
+.profile:hover { box-shadow:var(--shadow); transform:translateY(-1px); }
+.stat,.panel,.card {
+  background:var(--surface);
+  border-color:var(--border);
+  box-shadow:var(--shadow);
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+.stat:hover,.card:hover {
+  transform:translateY(-3px);
+  box-shadow:0 14px 34px rgba(25,45,80,.10);
+}
+.stat { position:relative; overflow:hidden; }
+.stat:after {
+  content:""; position:absolute; left:-24px; bottom:-34px;
+  width:92px; height:92px; border-radius:50%;
+  background:#4169f50b;
+}
+.stat .symbol { display:inline-grid; place-items:center; width:40px;height:40px;
+  border-radius:12px;background:#edf2ff;margin-bottom:8px; }
+.card { display:flex; flex-direction:column; align-items:flex-start; }
+.card p { flex:1; }
+.primary,.btn-small,.btn-danger,.btn-green,.logout,.icon-action {
+  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
+}
+.primary { box-shadow:0 5px 14px #3568e82b; }
+.primary:hover,.btn-small:hover,.logout:hover,.icon-action:hover {
+  filter:brightness(.97); transform:translateY(-1px);
+}
+input,select,textarea {
+  transition:border-color .2s ease, box-shadow .2s ease;
+}
+input:focus,select:focus,textarea:focus {
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px #4169f51c;
+}
+table tr:hover td { background:#f8faff; }
+.tag { font-weight:600; }
+.icon-action {
+  display:grid;place-items:center;
+  width:42px;height:42px;border-radius:12px;
+  background:#fff;color:var(--navy);
+  border:1px solid var(--border);font-size:19px;
+}
+.topbar-actions { margin-right:auto; }
+.mobile-menu-button { display:none; }
+.sidebar-backdrop { display:none; }
+
+/* Optional dark appearance */
+body.dark-mode {
+  --bg:#0c1422; --surface:#142136; --text:#e8eef8;
+  --muted:#9aa9bf; --border:#263750; --navy:#0b1525;
+  background:var(--bg); color:var(--text);
+}
+body.dark-mode .profile,
+body.dark-mode .icon-action,
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea { background:#142136;color:var(--text);border-color:var(--border); }
+body.dark-mode .stat,body.dark-mode .panel,body.dark-mode .card { background:var(--surface); }
+body.dark-mode .menu button.active { background:#ffffff20; }
+body.dark-mode table tr:hover td { background:#1b2b43; }
+body.dark-mode .exam-question label { background:#1b2b43; }
+body.dark-mode .tag,.dark-mode .btn-small { background:#22385c;color:#b9ccff; }
+body.dark-mode .stat .symbol { background:#22385c; }
+body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
+
+@media(max-width:900px) {
+  .main { padding:22px; }
+}
+@media(max-width:600px) {
+  .sidebar {
+    position:fixed; right:0; top:0; bottom:0;
+    width:min(290px,84vw); height:100vh;
+    padding:18px 14px;
+    transform:translateX(105%);
+    transition:transform .25s ease;
+    overflow-y:auto;
+    z-index:20;
+  }
+  .sidebar.open { transform:translateX(0); }
+  .sidebar-backdrop {
+    position:fixed; inset:0; z-index:19;
+    background:#07132680; backdrop-filter:blur(2px);
+  }
+  .sidebar-backdrop.show { display:block; }
+  .brand { padding-bottom:18px; }
+  .menu { display:block; overflow:visible; }
+  .menu-title { display:block; }
+  .menu button { min-width:0; padding:13px; }
+  .logout { margin-top:20px; width:100%; }
+  .main { margin:0; padding:14px; }
+  .topbar { gap:9px; align-items:center; margin-bottom:20px; }
+  .mobile-menu-button { display:grid; flex:0 0 42px; }
+  .topbar-actions { margin-right:auto; }
+  .profile { padding:7px 9px; gap:7px; }
+  .profile .muted { font-size:11px; }
+  .avatar { width:34px;height:34px; }
+  .topbar h2 { font-size:17px; }
+  .topbar .muted { font-size:11px; }
+  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
+  .stat { min-width:0; padding:13px; }
+  .stat h2 { font-size:21px; }
+  .cards,.form-grid { grid-template-columns:1fr; }
+  .panel { padding:16px; }
+  .section-title { gap:10px; flex-wrap:wrap; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
+}
+
+
+/* Login page refresh v3 */
+.login-page {
+ position:relative;overflow:hidden;
+ background:
+  radial-gradient(circle at 12% 18%,#6d8fff55 0,transparent 28%),
+  radial-gradient(circle at 88% 82%,#40c6c455 0,transparent 25%),
+  linear-gradient(135deg,#101d35,#1e3d69 58%,#254f82);
+}
+.login-page:before,.login-page:after {
+ content:"";position:absolute;border:1px solid #ffffff18;border-radius:50%;
+ width:430px;height:430px;pointer-events:none;
+}
+.login-page:before {top:-250px;right:-140px}
+.login-page:after {bottom:-300px;left:-160px;width:560px;height:560px}
+.login-box {
+ position:relative;z-index:1;max-width:440px;padding:38px 36px 30px;
+ border:1px solid #ffffffa8;border-radius:25px;
+ box-shadow:0 28px 90px #06152d66;
+}
+.login-brand {
+ width:68px;height:68px;display:grid;place-items:center;margin:0 auto 18px;
+ border-radius:21px;color:#fff;background:linear-gradient(145deg,#4779f4,#244fc2);
+ box-shadow:0 10px 25px #3568e844;font-size:31px;
+}
+.login-box h2 {margin:0 0 9px;text-align:center;color:#172945;font-size:24px}
+.login-subtitle {text-align:center;line-height:1.8;margin:0 0 27px;color:#8290a5;font-size:13px}
+.login-box .field {margin:17px 0}
+.login-box .field label {display:block;font-size:13px;font-weight:700;color:#35445b;margin-bottom:9px}
+.login-box input {
+ width:100%;padding:14px;border:1px solid #e1e7f0;border-radius:12px;
+ background:#f9fbfe;outline:none;color:#1d2b41;transition:.2s;
+}
+.login-box input:focus {border-color:#4779f4;background:#fff;box-shadow:0 0 0 4px #4779f41c}
+.password-wrap {position:relative}
+.password-wrap input {padding-left:76px}
+.show-password {
+ position:absolute;left:8px;top:50%;transform:translateY(-50%);
+ padding:7px 9px;border-radius:8px;background:#edf2ff;color:#315ed0;
+ font-size:12px;font-weight:700;
+}
+.login-submit {
+ width:100%;margin-top:8px;padding:14px 18px;border-radius:12px;
+ color:#fff;background:linear-gradient(110deg,#4779f4,#2856ce);
+ font-weight:700;box-shadow:0 8px 18px #3568e833;transition:transform .2s,box-shadow .2s;
+}
+.login-submit:hover {transform:translateY(-1px);box-shadow:0 12px 22px #3568e844}
+.login-error {min-height:18px;color:var(--red);font-size:13px;text-align:center;margin:12px 0 0}
+.login-footer {border-top:1px solid #edf0f5;margin-top:24px;padding-top:17px;text-align:center;color:#a0aaba;font-size:11px}
+@media(max-width:480px) {.login-box{padding:30px 22px 24px;border-radius:21px}.login-box h2{font-size:21px}}
+
 </style>
 </head>
 
@@ -234,33 +451,36 @@ textarea {min-height:110px;resize:vertical}
 <!-- LOGIN -->
 <div class="login-page" id="loginPage">
  <div class="login-box">
- 
-  <h2>منصة مستر / أحمد محمود</h2>
-  <p class="muted">منصتك لتعلم البرمجة  </p>
+  <div class="login-brand" aria-hidden="true">🎓</div>
+  <h2>منصة مستر أحمد محمود</h2>
+  <p class="login-subtitle">مرحبًا بك من جديد<br>سجّل الدخول للوصول إلى دروسك واختباراتك</p>
 
   <div class="field">
-   <label>اسم المستخدم</label>
-   <input id="loginUser" placeholder="اسم المستخدم">
+   <label for="loginUser">اسم المستخدم</label>
+   <input id="loginUser" autocomplete="username" placeholder="اكتب اسم المستخدم">
   </div>
 
   <div class="field">
-   <label>كلمة المرور</label>
-   <input id="loginPass" type="password" placeholder="كلمة المرور">
+   <label for="loginPass">كلمة المرور</label>
+   <div class="password-wrap">
+    <input id="loginPass" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" onkeydown="if(event.key==='Enter') login()">
+    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">إظهار</button>
+   </div>
   </div>
 
-  <button class="primary full" onclick="login()">تسجيل الدخول</button>
-  <p id="loginError" class="error"></p>
-
-  
+  <button class="login-submit" type="button" onclick="login()">تسجيل الدخول</button>
+  <p id="loginError" class="login-error" role="alert"></p>
+  <div class="login-footer">منصة تعليمية لتنظيم الدروس والاختبارات والنتائج</div>
  </div>
 </div>
 
 <!-- APP -->
 <div class="app hidden" id="app">
 
- <aside class="sidebar">
+ <div class="sidebar-backdrop" id="sidebarBackdrop" onclick="closeSidebar()"></div>
+  <aside class="sidebar">
   <div class="brand">
-   <div class="brand-icon"></div>
+   <div class="brand-icon">🎓</div>
    <div>
     <strong>منصه تعليمية</strong>
     <small>مستر / أحمد محمود</small>
@@ -276,9 +496,13 @@ textarea {min-height:110px;resize:vertical}
 
  <main class="main">
   <div class="topbar">
+   <button class="icon-action mobile-menu-button" type="button" onclick="toggleSidebar()" aria-label="فتح القائمة">☰</button>
    <div>
     <h2 id="pageTitle">الرئيسية</h2>
     <p class="muted" id="pageSubtitle">مرحباً بك في منصتك التعليمية</p>
+   </div>
+   <div class="topbar-actions">
+    <button class="icon-action theme-toggle" type="button" onclick="toggleTheme()" aria-label="تغيير المظهر" title="تغيير المظهر">☾</button>
    </div>
    <div class="profile">
     <div class="avatar" id="avatar">A</div>
@@ -318,6 +542,7 @@ let lessons = getData("ah_lessons",[
 
 let exams = getData("ah_exams",[]);
 let results = getData("ah_results",[]);
+let assignments = getData("ah_assignments",[]);
 let currentUser = null;
 let activeExam = null;
 
@@ -326,6 +551,7 @@ function save() {
  localStorage.setItem("ah_lessons",JSON.stringify(lessons));
  localStorage.setItem("ah_exams",JSON.stringify(exams));
  localStorage.setItem("ah_results",JSON.stringify(results));
+ localStorage.setItem("ah_assignments",JSON.stringify(assignments));
 }
 
 function esc(value) {
@@ -338,6 +564,15 @@ function esc(value) {
 // ===================================
 // LOGIN
 // ===================================
+
+
+function toggleLoginPassword() {
+ const input = document.getElementById("loginPass");
+ const button = document.getElementById("showPasswordBtn");
+ const visible = input.type === "password";
+ input.type = visible ? "text" : "password";
+ button.textContent = visible ? "إخفاء" : "إظهار";
+}
 
 function login() {
  const username=document.getElementById("loginUser").value.trim();
@@ -380,12 +615,14 @@ function buildMenu() {
   ["home","▦","الرئيسية"],
   ["users","♙","إدارة الحسابات"],
   ["lessons","▤","إدارة الدروس"],
+  ["teacherAssignments","📝","الواجبات"],
   ["createExam","✎","إنشاء امتحان"],
   ["exams","▣","الامتحانات"],
   ["results","◷","نتائج الطلاب"]
  ]:[
   ["studentHome","▦","الرئيسية"],
   ["studentLessons","▤","الدروس"],
+  ["studentAssignments","📝","الواجبات"],
   ["studentExams","▣","الامتحانات"],
   ["studentResults","◷","نتائجي"]
  ];
@@ -403,17 +640,20 @@ const titles={
  home:["لوحة تحكم المدرس","إدارة المنصة التعليمية"],
  users:["إدارة الحسابات","إضافة وإدارة الطلاب والمدرسين"],
  lessons:["إدارة الدروس","إضافة وتعديل محتوى المنهج"],
+ teacherAssignments:["الواجبات","إضافة الواجبات ومراجعة إجابات الطلاب وتصحيحها"],
  createExam:["إنشاء امتحان","جهز اختباراً جديداً لطلابك"],
  exams:["إدارة الامتحانات","كل الامتحانات المنشورة"],
  results:["نتائج الطلاب","متابعة أداء الطلاب"],
  studentHome:["لوحة الطالب","تابع رحلتك التعليمية"],
  studentLessons:["الدروس التعليمية","تعلم Python خطوة بخطوة"],
+ studentAssignments:["الواجبات","تابع واجباتك وأرسل إجاباتك"],
  studentExams:["الامتحانات","اختبر مستواك في البرمجة"],
  studentResults:["نتائجي","تابع درجاتك وتقدمك"]
 };
 
 function go(page) {
- const teacherPages=["home","users","lessons","createExam","exams","results"];
+  closeSidebar();
+ const teacherPages=["home","users","lessons","teacherAssignments","createExam","exams","results"];
  if(currentUser.role==="teacher"&&!teacherPages.includes(page))return;
  if(currentUser.role==="student"&&teacherPages.includes(page))return;
 
@@ -430,11 +670,13 @@ function go(page) {
   case "home": teacherHome(c);break;
   case "users": userManagement(c);break;
   case "lessons": lessonManagement(c);break;
+  case "teacherAssignments": teacherAssignments(c);break;
   case "createExam": examBuilder(c);break;
   case "exams": examManagement(c);break;
   case "results": showResults(c,true);break;
   case "studentHome": studentHome(c);break;
   case "studentLessons": studentLessons(c);break;
+  case "studentAssignments": studentAssignments(c);break;
   case "studentExams": studentExams(c);break;
   case "studentResults": showResults(c,false);break;
  }
@@ -691,6 +933,209 @@ function readLesson(id) {
   <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
   <div style="white-space:pre-wrap;line-height:2.2">${esc(l.content)}</div>
  </div>`;
+}
+
+
+// ===================================
+// HOMEWORK / ASSIGNMENTS
+// ===================================
+
+function teacherAssignments(c) {
+ const submittedCount=assignments.reduce((sum,a)=>sum+(a.submissions||[]).length,0);
+ const pendingCount=assignments.reduce((sum,a)=>sum+(a.submissions||[]).filter(s=>s.grade===null||s.grade===undefined).length,0);
+
+ c.innerHTML=`
+ <div class="grid">
+  ${stat("الواجبات المنشورة",assignments.length,"📝")}
+  ${stat("الإجابات المستلمة",submittedCount,"📩")}
+  ${stat("تحتاج إلى تصحيح",pendingCount,"⏳")}
+ </div>
+ <div class="panel">
+  <h3>إضافة واجب جديد</h3>
+  <div class="field">
+   <label>عنوان الواجب</label>
+   <input id="homeworkTitle" placeholder="مثال: حل تدريبات الدرس الأول">
+  </div>
+  <div class="field">
+   <label>تفاصيل وتعليمات الواجب</label>
+   <textarea id="homeworkDescription" rows="5" placeholder="اكتب المطلوب من الطلاب بالتفصيل..."></textarea>
+  </div>
+  <div class="form-grid">
+   <div class="field">
+    <label>آخر موعد للتسليم (اختياري)</label>
+    <input id="homeworkDueDate" type="date">
+   </div>
+   <div class="field">
+    <label>الدرجة النهائية</label>
+    <input id="homeworkTotal" type="number" min="1" value="10">
+   </div>
+  </div>
+  <button class="primary" onclick="addHomework()">نشر الواجب</button>
+ </div>
+ <div class="panel">
+  <h3>الواجبات المنشورة</h3>
+  ${assignments.length?assignments.slice().reverse().map(a=>teacherHomeworkCard(a)).join(""):`<div class="empty">لم يتم إضافة واجبات حتى الآن</div>`}
+ </div>`;
+}
+
+function teacherHomeworkCard(a) {
+ const submissions=a.submissions||[];
+ const pending=submissions.filter(s=>s.grade===null||s.grade===undefined).length;
+ return `<div class="card" style="margin:14px 0">
+  <div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center">
+   <span class="tag">${submissions.length} إجابة مستلمة</span>
+   <span class="muted">${a.dueDate?"موعد التسليم: "+esc(a.dueDate):"بدون موعد محدد"}</span>
+  </div>
+  <h3>${esc(a.title)}</h3>
+  <p style="white-space:pre-wrap;line-height:1.9">${esc(a.description)}</p>
+  <p class="muted">الدرجة النهائية: ${a.total} | إجابات تحتاج تصحيح: ${pending}</p>
+  ${submissions.length?`
+   <div style="overflow-x:auto">
+    <table>
+     <tr><th>الطالب</th><th>تاريخ الإرسال</th><th>الحالة</th><th>الدرجة</th><th>الإجراء</th></tr>
+     ${submissions.map((s,submissionIndex)=>`<tr>
+      <td>${esc(s.studentName)}</td>
+      <td>${esc(s.submittedAt||"-")}</td>
+      <td>${s.grade===null||s.grade===undefined?"بانتظار التصحيح":"تم التصحيح"}</td>
+      <td>${s.grade===null||s.grade===undefined?"—":s.grade+" / "+a.total}</td>
+      <td><button class="btn-small" onclick="gradeHomework(${a.id},${submissionIndex})">${s.grade===null||s.grade===undefined?"تصحيح":"تعديل التصحيح"}</button></td>
+     </tr>`).join("")}
+    </table>
+   </div>`:`<div class="empty">لم يرسل أي طالب إجابته بعد</div>`}
+  <button class="btn-small btn-danger" onclick="deleteHomework(${a.id})">حذف الواجب</button>
+ </div>`;
+}
+
+function addHomework() {
+ const title=document.getElementById("homeworkTitle").value.trim();
+ const description=document.getElementById("homeworkDescription").value.trim();
+ const dueDate=document.getElementById("homeworkDueDate").value;
+ const total=Number(document.getElementById("homeworkTotal").value);
+
+ if(!title||!description)return alert("اكتب عنوان الواجب والتعليمات");
+ if(!Number.isFinite(total)||total<1)return alert("اكتب درجة نهائية صحيحة");
+
+ assignments.push({
+  id:Date.now(),
+  title,
+  description,
+  dueDate,
+  total,
+  createdAt:new Date().toLocaleString("ar-EG"),
+  submissions:[]
+ });
+ save();
+ alert("تم نشر الواجب بنجاح");
+ go("teacherAssignments");
+}
+
+function deleteHomework(id) {
+ if(!confirm("هل تريد حذف هذا الواجب وكل الإجابات المرتبطة به؟"))return;
+ assignments=assignments.filter(a=>a.id!==id);
+ save();
+ go("teacherAssignments");
+}
+
+function studentAssignments(c) {
+ const now=new Date().toISOString().slice(0,10);
+ c.innerHTML=`
+ <div class="panel">
+  <h3>واجباتي</h3>
+  <p class="muted">افتح كل واجب، واكتب إجابتك ثم اضغط على إرسال الإجابة.</p>
+  ${assignments.length?assignments.slice().reverse().map(a=>studentHomeworkCard(a,now)).join(""):`<div class="empty">لا توجد واجبات منشورة حاليًا</div>`}
+ </div>`;
+}
+
+function studentHomeworkCard(a,now) {
+ const submission=(a.submissions||[]).find(s=>s.username===currentUser.username);
+ const isLate=!!(a.dueDate&&now>a.dueDate);
+ let status="لم يتم التسليم";
+ if(submission)status=(submission.grade===null||submission.grade===undefined)?"تم التسليم - بانتظار التصحيح":"تم التصحيح";
+
+ return `<div class="card" style="margin:14px 0">
+  <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+   <span class="tag">${esc(status)}</span>
+   <span class="muted">${a.dueDate?"آخر موعد: "+esc(a.dueDate):"لا يوجد موعد نهائي"}</span>
+  </div>
+  <h3>${esc(a.title)}</h3>
+  <p style="white-space:pre-wrap;line-height:1.9">${esc(a.description)}</p>
+  <p class="muted">الدرجة النهائية: ${a.total}${isLate?" | انتهى موعد التسليم":""}</p>
+  ${submission?`
+   <div class="notice">
+    <strong>إجابتك المرسلة:</strong>
+    <p style="white-space:pre-wrap;line-height:1.8">${esc(submission.answer)}</p>
+    <small>تاريخ الإرسال: ${esc(submission.submittedAt||"-")}</small>
+   </div>
+   ${submission.grade!==null&&submission.grade!==undefined?`
+    <div class="notice">
+     <strong>نتيجة التصحيح: ${submission.grade} / ${a.total}</strong>
+     <p style="white-space:pre-wrap">${esc(submission.feedback||"لا توجد ملاحظات من المدرس")}</p>
+    </div>`:`
+    <div class="field">
+     <label>تعديل إجابتك قبل التصحيح</label>
+     <textarea id="homeworkAnswer_${a.id}" rows="4" placeholder="اكتب إجابتك هنا">${esc(submission.answer)}</textarea>
+    </div>
+    <button class="primary" onclick="submitHomework(${a.id})">تحديث الإجابة</button>`}
+  `:`
+   <div class="field">
+    <label>اكتب إجابتك</label>
+    <textarea id="homeworkAnswer_${a.id}" rows="5" placeholder="اكتب إجابتك هنا..."></textarea>
+   </div>
+   <button class="primary" onclick="submitHomework(${a.id})">إرسال الإجابة</button>
+  `}
+ </div>`;
+}
+
+function submitHomework(id) {
+ const a=assignments.find(x=>x.id===id);
+ if(!a)return alert("الواجب غير موجود");
+ const existing=(a.submissions||[]).find(s=>s.username===currentUser.username);
+ if(existing&&existing.grade!==null&&existing.grade!==undefined)
+  return alert("تم تصحيح هذا الواجب بالفعل، ولا يمكن تعديل الإجابة");
+
+ const field=document.getElementById("homeworkAnswer_"+id);
+ const answer=field?field.value.trim():"";
+ if(!answer)return alert("اكتب إجابتك قبل الإرسال");
+
+ if(!a.submissions)a.submissions=[];
+ const submission={
+  username:currentUser.username,
+  studentName:currentUser.name,
+  answer,
+  submittedAt:new Date().toLocaleString("ar-EG"),
+  grade:null,
+  feedback:""
+ };
+ const index=a.submissions.findIndex(s=>s.username===currentUser.username);
+ if(index>=0)a.submissions[index]=submission;
+ else a.submissions.push(submission);
+
+ save();
+ alert("تم إرسال إجابتك بنجاح");
+ go("studentAssignments");
+}
+
+function gradeHomework(assignmentId,submissionIndex) {
+ const a=assignments.find(x=>x.id===assignmentId);
+ if(!a)return;
+ const submission=(a.submissions||[])[submissionIndex];
+ if(!submission)return;
+
+ const rawGrade=prompt("اكتب درجة الطالب من "+a.total,submission.grade??"");
+ if(rawGrade===null)return;
+ const grade=Number(rawGrade);
+ if(rawGrade.trim()===""||!Number.isFinite(grade)||grade<0||grade>a.total)
+  return alert("اكتب درجة صحيحة من 0 إلى "+a.total);
+
+ const feedback=prompt("اكتب ملاحظاتك للطالب (اختياري)",submission.feedback||"");
+ if(feedback===null)return;
+
+ submission.grade=grade;
+ submission.feedback=feedback.trim();
+ submission.gradedAt=new Date().toLocaleString("ar-EG");
+ save();
+ alert("تم حفظ التصحيح بنجاح");
+ go("teacherAssignments");
 }
 
 // ===================================
@@ -1052,6 +1497,31 @@ function saveGrades(id) {
  alert("تم حفظ التصحيح");
  go("results");
 }
+
+
+// UI helpers: mobile navigation and theme preference
+function toggleSidebar() {
+  const sidebar=document.querySelector(".sidebar");
+  const backdrop=document.getElementById("sidebarBackdrop");
+  sidebar.classList.toggle("open");
+  backdrop.classList.toggle("show");
+}
+function closeSidebar() {
+  document.querySelector(".sidebar").classList.remove("open");
+  document.getElementById("sidebarBackdrop").classList.remove("show");
+}
+function toggleTheme() {
+  const enabled=document.body.classList.toggle("dark-mode");
+  localStorage.setItem("ah_theme",enabled?"dark":"light");
+  const button=document.querySelector(".theme-toggle");
+  if(button) button.textContent=enabled?"☀":"☾";
+}
+(function restoreTheme(){
+  const enabled=localStorage.getItem("ah_theme")==="dark";
+  document.body.classList.toggle("dark-mode",enabled);
+  const button=document.querySelector(".theme-toggle");
+  if(button) button.textContent=enabled?"☀":"☾";
+})();
 
 // Initial storage
 save();
