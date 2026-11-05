@@ -485,6 +485,135 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
 }
 .fb-status.offline { background:#fff0f0; color:#e34e5b; }
 .fb-status.syncing { background:#fff6df; color:#966b17; }
+
+/* ===== PDF Notes & Question Bank additions ===== */
+.pdf-viewer {
+ width:100%;
+ height:75vh;
+ border:1px solid var(--border);
+ border-radius:12px;
+ background:#f9fbfe;
+}
+.pdf-card { display:flex; flex-direction:column; }
+.pdf-card .pdf-preview-icon {
+ width:100%;height:120px;display:grid;place-items:center;
+ background:linear-gradient(135deg,#fff0f0,#ffe0e0);
+ color:var(--red);font-size:38px;border-radius:10px;margin-bottom:10px;
+}
+.bank-filters {
+ display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;
+}
+.bank-filters select,.bank-filters input {
+ padding:9px 12px;font-size:13px;border-radius:9px;
+ width:auto;min-width:140px;
+}
+.bank-question {
+ padding:16px;border:1px solid var(--border);
+ border-radius:12px;margin:12px 0;background:#fff;
+}
+.bank-question .bank-q-head {
+ display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+ align-items:center;margin-bottom:10px;
+}
+.bank-question .bank-q-text {font-weight:700;line-height:1.8;margin:6px 0}
+.bank-question .bank-q-options {margin:8px 0;padding-right:20px}
+.bank-question .bank-q-options li {margin:5px 0;font-size:14px;line-height:1.7}
+.bank-question .bank-q-answer {
+ background:#e7f8ef;color:#0f7a4f;padding:8px 12px;border-radius:8px;
+ font-size:13px;font-weight:700;display:inline-block;margin-top:6px;
+}
+body.dark-mode .bank-question {background:var(--surface)}
+body.dark-mode .pdf-card .pdf-preview-icon {background:#3a1c1c;color:#ff9a9a}
+
+/* ===== Interactive question bank ===== */
+.bank-q-interactive {
+ padding:18px;border:1px solid var(--border);
+ border-radius:14px;margin:14px 0;background:#fff;
+ transition:border-color .2s ease, box-shadow .2s ease;
+}
+.bank-q-interactive.solved-correct {border-color:#16a36a;background:linear-gradient(135deg,#fff,#f0fdf6)}
+.bank-q-interactive.solved-wrong {border-color:#e34e5b;background:linear-gradient(135deg,#fff,#fff5f5)}
+.bank-q-interactive.solved-pending {border-color:#dba617;background:linear-gradient(135deg,#fff,#fffbf0)}
+body.dark-mode .bank-q-interactive {background:var(--surface)}
+body.dark-mode .bank-q-interactive.solved-correct {background:linear-gradient(135deg,#142136,#0f2a1e)}
+body.dark-mode .bank-q-interactive.solved-wrong {background:linear-gradient(135deg,#142136,#2a1010)}
+body.dark-mode .bank-q-interactive.solved-pending {background:linear-gradient(135deg,#142136,#2a2410)}
+
+.bank-opt-row {
+ display:flex;align-items:center;gap:10px;
+ padding:11px 14px;margin:6px 0;border-radius:10px;
+ background:#f7f9fc;border:2px solid transparent;
+ cursor:pointer;transition:all .18s ease;font-size:14px;
+}
+.bank-opt-row:hover {background:#eef3ff}
+.bank-opt-row input {width:auto;margin:0;cursor:pointer;accent-color:var(--blue)}
+.bank-opt-row.selected {border-color:var(--blue);background:#eef3ff}
+.bank-opt-row.correct-answer {
+ border-color:#16a36a;background:#e7f8ef;color:#0f7a4f;font-weight:700;
+}
+.bank-opt-row.wrong-answer {
+ border-color:#e34e5b;background:#fff0f0;color:#b32e3b;
+}
+body.dark-mode .bank-opt-row {background:#1b2b43}
+body.dark-mode .bank-opt-row:hover {background:#22385c}
+body.dark-mode .bank-opt-row.selected {background:#22385c;border-color:var(--blue)}
+body.dark-mode .bank-opt-row.correct-answer {background:#0f2a1e;color:#5ee9a7;border-color:#16a36a}
+body.dark-mode .bank-opt-row.wrong-answer {background:#2a1010;color:#ff9a9a;border-color:#e34e5b}
+
+.bank-feedback {
+ margin-top:12px;padding:12px 14px;border-radius:10px;
+ font-size:13px;font-weight:700;line-height:1.8;
+}
+.bank-feedback.correct {background:#e7f8ef;color:#0f7a4f}
+.bank-feedback.wrong {background:#fff0f0;color:#b32e3b}
+.bank-feedback.pending {background:#fffbf0;color:#966b17}
+body.dark-mode .bank-feedback.correct {background:#0f2a1e;color:#5ee9a7}
+body.dark-mode .bank-feedback.wrong {background:#2a1010;color:#ff9a9a}
+body.dark-mode .bank-feedback.pending {background:#2a2410;color:#f3d58b}
+
+.bank-progress-card {
+ background:linear-gradient(135deg,#4169f5,#2c4fd1);color:#fff;
+ padding:24px;border-radius:16px;margin-bottom:20px;
+ display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.bank-progress-card h2 {margin:0;font-size:26px}
+.bank-progress-card .bank-progress-stats {
+ display:flex;gap:22px;flex-wrap:wrap;
+}
+.bank-progress-card .bank-progress-stats div {
+ text-align:center;
+}
+.bank-progress-card .bank-progress-stats strong {
+ display:block;font-size:22px;
+}
+.bank-progress-card .bank-progress-stats small {
+ opacity:.85;font-size:11px;
+}
+.bank-progress-card .progress {background:#ffffff33;margin:0;max-width:260px}
+.bank-progress-card .progress span {background:#fff}
+
+.bank-status-pill {
+ display:inline-block;padding:3px 10px;border-radius:20px;
+ font-size:11px;font-weight:700;margin-right:6px;
+}
+.bank-status-pill.correct {background:#e7f8ef;color:#0f7a4f}
+.bank-status-pill.wrong {background:#fff0f0;color:#b32e3b}
+.bank-status-pill.pending {background:#fffbf0;color:#966b17}
+body.dark-mode .bank-status-pill.correct {background:#0f2a1e;color:#5ee9a7}
+body.dark-mode .bank-status-pill.wrong {background:#2a1010;color:#ff9a9a}
+body.dark-mode .bank-status-pill.pending {background:#2a2410;color:#f3d58b}
+
+/* Modal for teacher viewing bank answers */
+.modal-backdrop {
+ position:fixed;inset:0;background:#071326aa;backdrop-filter:blur(3px);
+ z-index:300;display:grid;place-items:center;padding:20px;
+}
+.modal-box {
+ background:#fff;border-radius:18px;padding:26px;
+ max-width:720px;width:100%;max-height:88vh;overflow-y:auto;
+ box-shadow:0 30px 90px #0004;
+}
+body.dark-mode .modal-box {background:var(--surface);color:var(--text)}
 </style>
 </head>
 
@@ -563,7 +692,7 @@ body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.9.0/mammoth.browser.min.js"></script>
 
 <!-- =============================================
-     Firebase: تحميل صحيح من CDN كـ module
+     Firebase
      ============================================= -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
@@ -593,7 +722,6 @@ try {
   window.firebaseReady = false;
 }
 
-// أعلم السكربت الأساسي أن Firebase جاهز (أو فشل)
 window.dispatchEvent(new Event("firebase-ready"));
 </script>
 
@@ -627,6 +755,13 @@ let lessons = getData("ah_lessons", [
 let exams = getData("ah_exams", []);
 let results = getData("ah_results", []);
 let assignments = getData("ah_assignments", []);
+let pdfNotes = getData("ah_pdf_notes", []);
+let questionBank = getData("ah_question_bank", []);
+
+// ✅ إجابات الطلاب في بنك الأسئلة
+// structure: { [username]: { [questionId]: { answer, isCorrect, status, submittedAt, manualScore, feedback } } }
+let bankAnswers = getData("ah_bank_answers", {});
+
 let currentUser = null;
 let activeExam = null;
 
@@ -636,8 +771,10 @@ function save() {
  localStorage.setItem("ah_exams", JSON.stringify(exams));
  localStorage.setItem("ah_results", JSON.stringify(results));
  localStorage.setItem("ah_assignments", JSON.stringify(assignments));
+ localStorage.setItem("ah_pdf_notes", JSON.stringify(pdfNotes));
+ localStorage.setItem("ah_question_bank", JSON.stringify(questionBank));
+ localStorage.setItem("ah_bank_answers", JSON.stringify(bankAnswers));
 
- // مزامنة Firebase (غير حاجزة)
  syncToFirebase();
 }
 
@@ -648,7 +785,7 @@ async function syncToFirebase() {
  try {
   const { db, doc, setDoc } = window.firebaseDB;
   await setDoc(doc(db, "platform", "data"), {
-   users, lessons, exams, results, assignments,
+   users, lessons, exams, results, assignments, pdfNotes, questionBank, bankAnswers,
    updatedAt: new Date().toISOString()
   });
   if (badge) { badge.textContent = "🟢 Firebase: متصل"; badge.className = "fb-status"; }
@@ -670,42 +807,40 @@ async function loadFromFirebase() {
   const snap = await getDoc(doc(db, "platform", "data"));
   if (snap.exists()) {
    const data = snap.data();
-   
-   // ✅ دمج المستخدمين بدل الاستبدال — نضمن عدم ضياع الحسابات الافتراضية
    const firebaseUsers = Array.isArray(data.users) ? data.users : [];
    const defaults = [
     {id:1, name:"أحمد محمود", username:"hassan", password:"1234", role:"teacher"},
     {id:2, name:"علي محمد", username:"ali", password:"1234", role:"student"}
    ];
-   // ابدأ بالافتراضيين، ثم أضف من Firebase (بدون تكرار username)
    const merged = [...defaults];
    firebaseUsers.forEach(fu => {
     const idx = merged.findIndex(m => m.username === fu.username);
-    if (idx >= 0) merged[idx] = fu;  // حدّث الموجود
-    else merged.push(fu);            // أضف الجديد
+    if (idx >= 0) merged[idx] = fu;
+    else merged.push(fu);
    });
    users = merged;
-   
-   // باقي البيانات: استبدال عادي (لكن لو Firebase فاضي نحتفظ بالمحلي)
+
    if (Array.isArray(data.lessons) && data.lessons.length) lessons = data.lessons;
    if (Array.isArray(data.exams)) exams = data.exams;
    if (Array.isArray(data.results)) results = data.results;
    if (Array.isArray(data.assignments)) assignments = data.assignments;
-   
-   // حفظ محلي
+   if (Array.isArray(data.pdfNotes)) pdfNotes = data.pdfNotes;
+   if (Array.isArray(data.questionBank)) questionBank = data.questionBank;
+   if (data.bankAnswers && typeof data.bankAnswers === "object") bankAnswers = data.bankAnswers;
+
    localStorage.setItem("ah_users", JSON.stringify(users));
    localStorage.setItem("ah_lessons", JSON.stringify(lessons));
    localStorage.setItem("ah_exams", JSON.stringify(exams));
    localStorage.setItem("ah_results", JSON.stringify(results));
    localStorage.setItem("ah_assignments", JSON.stringify(assignments));
-   
-   console.log("✅ تم تحميل البيانات من Firebase (مع دمج المستخدمين)");
+   localStorage.setItem("ah_pdf_notes", JSON.stringify(pdfNotes));
+   localStorage.setItem("ah_question_bank", JSON.stringify(questionBank));
+   localStorage.setItem("ah_bank_answers", JSON.stringify(bankAnswers));
+
+   console.log("✅ تم تحميل البيانات من Firebase");
    if (badge) { badge.textContent = "🟢 Firebase: متصل"; badge.className = "fb-status"; }
-   
-   // ✅ ارفع النسخة المدموجة لـ Firebase لو كان فيها مستخدمين جداد
-   if (merged.length > firebaseUsers.length) {
-    await syncToFirebase();
-   }
+
+   if (merged.length > firebaseUsers.length) await syncToFirebase();
   } else {
    console.log("ℹ️ لا توجد بيانات على Firebase، رفع البيانات الحالية...");
    await syncToFirebase();
@@ -780,6 +915,8 @@ function buildMenu() {
   ["users","♙","إدارة الحسابات"],
   ["lessons","▤","إدارة الدروس"],
   ["teacherAssignments","📝","الواجبات"],
+  ["pdfNotes","📕","الملازم PDF"],
+  ["questionBank","❓","بنك الأسئلة"],
   ["createExam","✎","إنشاء امتحان"],
   ["exams","▣","الامتحانات"],
   ["results","◷","نتائج الطلاب"],
@@ -788,6 +925,8 @@ function buildMenu() {
   ["studentHome","▦","الرئيسية"],
   ["studentLessons","▤","الدروس"],
   ["studentAssignments","📝","الواجبات"],
+  ["studentPdfNotes","📕","الملازم PDF"],
+  ["questionBank","❓","بنك الأسئلة"],
   ["studentExams","▣","الامتحانات"],
   ["studentResults","◷","نتائجي"],
   ["settings","⚙","الإعدادات"]
@@ -796,9 +935,10 @@ function buildMenu() {
  const english = localStorage.getItem("ah_language") === "en";
  const labels = {
   home:"Dashboard",users:"Manage Accounts",lessons:"Lessons",teacherAssignments:"Assignments",
+  pdfNotes:"PDF Notes",questionBank:"Question Bank",
   createExam:"Create Exam",exams:"Exams",results:"Student Results",
   studentHome:"Dashboard",studentLessons:"Lessons",studentAssignments:"Assignments",
-  studentExams:"Exams",studentResults:"My Results",settings:"Settings"
+  studentPdfNotes:"PDF Notes",studentExams:"Exams",studentResults:"My Results",settings:"Settings"
  };
  document.getElementById("menu").innerHTML = items.map(i =>
   `<button data-page="${i[0]}" onclick="go('${i[0]}')">${i[1]} &nbsp; ${english ? (labels[i[0]] || i[2]) : i[2]}</button>`
@@ -818,12 +958,15 @@ const titles = {
  users:["إدارة الحسابات","إضافة وإدارة الطلاب والمدرسين"],
  lessons:["إدارة الدروس","إضافة وتعديل محتوى المنهج"],
  teacherAssignments:["الواجبات","إضافة الواجبات ومراجعة إجابات الطلاب وتصحيحها"],
+ pdfNotes:["الملازم PDF","رفع وإدارة الملازم بصيغة PDF"],
+ questionBank:["بنك الأسئلة","حل الأسئلة وتتبع تقدمك"],
  createExam:["إنشاء امتحان","جهز اختباراً جديداً لطلابك"],
  exams:["إدارة الامتحانات","كل الامتحانات المنشورة"],
  results:["نتائج الطلاب","متابعة أداء الطلاب"],
  studentHome:["لوحة الطالب","تابع رحلتك التعليمية"],
  studentLessons:["الدروس التعليمية","تعلم Python خطوة بخطوة"],
  studentAssignments:["الواجبات","تابع واجباتك وأرسل إجاباتك"],
+ studentPdfNotes:["الملازم PDF","تصفح وحمّل الملازم التعليمية"],
  studentExams:["الامتحانات","اختبر مستواك في البرمجة"],
  studentResults:["نتائجي","تابع درجاتك وتقدمك"],
  settings:["الإعدادات","تحكم في اللغة والمظهر ومعلومات حسابك"]
@@ -834,8 +977,8 @@ function go(page) {
  if (!currentUser) return;
  if (!titles[page]) return;
 
- const teacherPages = ["home","users","lessons","teacherAssignments","createExam","exams","results"];
- if (currentUser.role === "teacher" && !teacherPages.includes(page) && page !== "settings") return;
+ const teacherPages = ["home","users","lessons","teacherAssignments","pdfNotes","createExam","exams","results"];
+ if (currentUser.role === "teacher" && !teacherPages.includes(page) && page !== "settings" && page !== "questionBank") return;
  if (currentUser.role === "student" && teacherPages.includes(page)) return;
 
  document.querySelectorAll("#menu button").forEach(b =>
@@ -852,12 +995,15 @@ function go(page) {
   case "users": userManagement(c); break;
   case "lessons": lessonManagement(c); break;
   case "teacherAssignments": teacherAssignments(c); break;
+  case "pdfNotes": pdfNotesManagement(c); break;
+  case "questionBank": questionBankPage(c); break;
   case "createExam": examBuilder(c); break;
   case "exams": examManagement(c); break;
   case "results": showResults(c, true); break;
   case "studentHome": studentHome(c); break;
   case "studentLessons": studentLessons(c); break;
   case "studentAssignments": studentAssignments(c); break;
+  case "studentPdfNotes": studentPdfNotes(c); break;
   case "studentExams": studentExams(c); break;
   case "studentResults": showResults(c, false); break;
   case "settings": settingsPage(c); break;
@@ -898,12 +1044,15 @@ function applyLanguage() {
    users:["Manage Accounts","Add and manage students and teachers"],
    lessons:["Manage Lessons","Add and edit course content"],
    teacherAssignments:["Assignments","Create assignments and grade submissions"],
+   pdfNotes:["PDF Notes","Upload and manage PDF notes"],
+   questionBank:["Question Bank","Solve questions and track your progress"],
    createExam:["Create Exam","Prepare a new exam for your students"],
    exams:["Manage Exams","View all published exams"],
    results:["Student Results","Track student performance"],
    studentHome:["Student Dashboard","Continue your learning journey"],
    studentLessons:["Learning Lessons","Learn Python step by step"],
    studentAssignments:["Assignments","View and submit your assignments"],
+   studentPdfNotes:["PDF Notes","Browse and download study notes"],
    studentExams:["Exams","Test your programming skills"],
    studentResults:["My Results","Track your grades and progress"],
    settings:["Settings","Manage language, appearance and account details"]
@@ -1058,6 +1207,8 @@ function studentHome(c) {
   <div class="progress"><span style="width:${avg}%"></span></div>
   <button class="primary" onclick="go('studentLessons')">ابدأ التعلم</button>
   <button class="btn-small" onclick="go('studentExams')">الامتحانات المتاحة</button>
+  <button class="btn-small" onclick="go('studentPdfNotes')">الملازم PDF</button>
+  <button class="btn-small" onclick="go('questionBank')">بنك الأسئلة</button>
  </div>`;
 }
 
@@ -1166,13 +1317,7 @@ function lessonManagement(c) {
     placeholder="اكتب الشرح هنا أو استورد ملف Word..."></textarea>
   </div>
 
-  <input
-   type="file"
-   id="wordFile"
-   accept=".docx"
-   style="display:none"
-   onchange="importWordLesson(event)"
-  >
+  <input type="file" id="wordFile" accept=".docx" style="display:none" onchange="importWordLesson(event)">
 
   <button class="btn-small" onclick="document.getElementById('wordFile').click()">
    📄 استيراد درس من Word
@@ -1204,17 +1349,11 @@ async function importWordLesson(event) {
   const result = await mammoth.extractRawText({ arrayBuffer });
   const content = result.value.trim();
 
-  if (!content) {
-   alert("الملف لا يحتوي على نص");
-   return;
-  }
+  if (!content) { alert("الملف لا يحتوي على نص"); return; }
 
   document.getElementById("lessonText").value = content;
-
   const titleInput = document.getElementById("lessonName");
-  if (!titleInput.value.trim()) {
-   titleInput.value = file.name.replace(/\.docx$/i, "");
-  }
+  if (!titleInput.value.trim()) titleInput.value = file.name.replace(/\.docx$/i, "");
 
   alert("تم استيراد الدرس بنجاح من ملف Word");
  } catch (error) {
@@ -1469,6 +1608,578 @@ function gradeHomework(assignmentId, submissionIndex) {
 }
 
 // ===================================
+// PDF NOTES MANAGEMENT
+// ===================================
+
+function pdfNotesManagement(c) {
+ const en = currentLanguage() === "en";
+ c.innerHTML = `
+ <div class="panel">
+  <h3>${en?"Upload a new PDF note":"رفع ملزمة PDF جديدة"}</h3>
+  <div class="notice">
+   ${en?"Choose a PDF file from your device. Max recommended size 5MB for smooth sync.":"اختر ملف PDF من جهازك. الحجم الموصى به أقل من 5 ميجا لسهولة المزامنة."}
+  </div>
+  <div class="field">
+   <label>${en?"Note title":"عنوان الملزمة"}</label>
+   <input id="pdfTitle" placeholder="${en?"Example: Chapter 1 - Basics":"مثال: الفصل الأول - الأساسيات"}">
+  </div>
+  <div class="field">
+   <label>${en?"Short description (optional)":"وصف مختصر (اختياري)"}</label>
+   <input id="pdfDesc">
+  </div>
+  <div class="field">
+   <label>${en?"PDF file":"ملف PDF"}</label>
+   <input type="file" id="pdfFile" accept="application/pdf" onchange="handlePdfSelect(event)">
+  </div>
+  <div id="pdfPreviewBox" class="muted" style="margin-bottom:12px"></div>
+  <button class="primary" onclick="uploadPdfNote()">${en?"Upload note":"رفع الملزمة"}</button>
+ </div>
+
+ <div class="panel">
+  <h3>${en?"Uploaded notes":"الملازم المرفوعة"} (${pdfNotes.length})</h3>
+  ${pdfNotes.length ? `<div class="cards">${pdfNotes.map(n => `
+   <div class="card pdf-card">
+    <div class="pdf-preview-icon">📕</div>
+    <span class="tag">PDF</span>
+    <h3>${esc(n.title)}</h3>
+    <p>${esc(n.description || "—")}</p>
+    <button class="btn-small" onclick="viewPdfNote(${n.id})">${en?"View":"عرض"}</button>
+    <button class="btn-small btn-green" onclick="downloadPdfNote(${n.id})">${en?"Download":"تحميل"}</button>
+    <button class="btn-small btn-danger" onclick="deletePdfNote(${n.id})">${en?"Delete":"حذف"}</button>
+   </div>`).join("")}</div>` : `<div class="empty">${en?"No PDF notes uploaded yet":"لم يتم رفع ملازم بعد"}</div>`}
+ </div>`;
+
+ pendingPdfData = null;
+}
+
+let pendingPdfData = null;
+
+function handlePdfSelect(event) {
+ const file = event.target.files[0];
+ const box = document.getElementById("pdfPreviewBox");
+ if (!file) { box.textContent = ""; pendingPdfData = null; return; }
+ if (file.type !== "application/pdf") {
+  box.textContent = "❌ الملف ليس PDF";
+  pendingPdfData = null;
+  return;
+ }
+ if (file.size > 8 * 1024 * 1024) {
+  box.textContent = "⚠️ الملف كبير (أكثر من 8 ميجا) قد لا يتزامن بسلاسة";
+ }
+ const reader = new FileReader();
+ reader.onload = () => {
+  pendingPdfData = { name: file.name, dataUrl: reader.result, size: file.size };
+  box.textContent = `✅ تم اختيار: ${file.name} (${(file.size/1024/1024).toFixed(2)} MB)`;
+ };
+ reader.readAsDataURL(file);
+}
+
+function uploadPdfNote() {
+ const title = document.getElementById("pdfTitle").value.trim();
+ const description = document.getElementById("pdfDesc").value.trim();
+ if (!title) return alert("اكتب عنوان الملزمة");
+ if (!pendingPdfData) return alert("اختر ملف PDF أولاً");
+
+ pdfNotes.push({
+  id: Date.now(),
+  title, description,
+  fileName: pendingPdfData.name,
+  dataUrl: pendingPdfData.dataUrl,
+  size: pendingPdfData.size,
+  createdAt: new Date().toLocaleString("ar-EG")
+ });
+ pendingPdfData = null;
+ save();
+ alert("تم رفع الملزمة بنجاح");
+ go("pdfNotes");
+}
+
+function viewPdfNote(id) {
+ const n = pdfNotes.find(x => x.id === id);
+ if (!n) return;
+ const c = document.getElementById("content");
+ c.innerHTML = `
+ <div class="panel">
+  <div class="section-title">
+   <h3>${esc(n.title)}</h3>
+   <div>
+    <button class="btn-small" onclick="go('${currentUser.role === "teacher" ? "pdfNotes" : "studentPdfNotes"}')">رجوع</button>
+    <button class="btn-small btn-green" onclick="downloadPdfNote(${n.id})">تحميل</button>
+   </div>
+  </div>
+  <p class="muted">${esc(n.description || "")}</p>
+  <iframe class="pdf-viewer" src="${n.dataUrl}" title="${esc(n.title)}"></iframe>
+ </div>`;
+}
+
+function downloadPdfNote(id) {
+ const n = pdfNotes.find(x => x.id === id);
+ if (!n) return;
+ const a = document.createElement("a");
+ a.href = n.dataUrl;
+ a.download = n.fileName || (n.title + ".pdf");
+ document.body.appendChild(a);
+ a.click();
+ document.body.removeChild(a);
+}
+
+function deletePdfNote(id) {
+ if (!confirm("حذف هذه الملزمة؟")) return;
+ pdfNotes = pdfNotes.filter(x => x.id !== id);
+ save();
+ go("pdfNotes");
+}
+
+function studentPdfNotes(c) {
+ const en = currentLanguage() === "en";
+ c.innerHTML = `
+ <div class="panel">
+  <h3>${en?"Available PDF notes":"الملازم المتاحة"} (${pdfNotes.length})</h3>
+  <p class="muted">${en?"Browse and download the uploaded notes.":"تصفح وحمّل الملازم التي رفعها المدرس."}</p>
+  ${pdfNotes.length ? `<div class="cards">${pdfNotes.slice().reverse().map(n => `
+   <div class="card pdf-card">
+    <div class="pdf-preview-icon">📕</div>
+    <span class="tag">PDF</span>
+    <h3>${esc(n.title)}</h3>
+    <p>${esc(n.description || "—")}</p>
+    <button class="btn-small" onclick="viewPdfNote(${n.id})">${en?"View":"عرض"}</button>
+    <button class="btn-small btn-green" onclick="downloadPdfNote(${n.id})">${en?"Download":"تحميل"}</button>
+   </div>`).join("")}</div>` : `<div class="empty">${en?"No notes available yet":"لا توجد ملازم متاحة حاليًا"}</div>`}
+ </div>`;
+}
+
+// ===================================
+// QUESTION BANK (تفاعلي)
+// ===================================
+
+function questionBankPage(c) {
+ const en = currentLanguage() === "en";
+ const isTeacher = currentUser.role === "teacher";
+
+ if (isTeacher) {
+  teacherQuestionBankPage(c);
+ } else {
+  studentQuestionBankPage(c);
+ }
+}
+
+// ---------- Teacher view ----------
+function teacherQuestionBankPage(c) {
+ const en = currentLanguage() === "en";
+ const filterType = window.__bankFilterType || "all";
+ const searchTerm = window.__bankSearch || "";
+
+ const filtered = questionBank.filter(q => {
+  const matchesType = filterType === "all" || q.type === filterType;
+  const matchesSearch = !searchTerm ||
+   (q.text || "").toLowerCase().includes(searchTerm.toLowerCase()) ||
+   (q.topic || "").toLowerCase().includes(searchTerm.toLowerCase());
+  return matchesType && matchesSearch;
+ });
+
+ c.innerHTML = `
+ <div class="panel">
+  <h3>${en?"Add new question":"إضافة سؤال جديد"}</h3>
+  <div class="field">
+   <label>${en?"Question text":"نص السؤال"}</label>
+   <textarea id="bankQText" rows="2" placeholder="${en?"Write the question...":"اكتب السؤال هنا..."}"></textarea>
+  </div>
+  <div class="form-grid">
+   <div class="field">
+    <label>${en?"Type":"النوع"}</label>
+    <select id="bankQType" onchange="toggleBankTypeFields()">
+     <option value="mcq">${en?"Multiple choice":"اختيار من متعدد"}</option>
+     <option value="tf">${en?"True / False":"صح أو خطأ"}</option>
+     <option value="text">${en?"Short text":"سؤال نصي"}</option>
+    </select>
+   </div>
+   <div class="field">
+    <label>${en?"Topic / tag (optional)":"الموضوع / التصنيف (اختياري)"}</label>
+    <input id="bankQTopic" placeholder="${en?"e.g. Variables":"مثال: المتغيرات"}">
+   </div>
+  </div>
+
+  <div id="bankMcqBox">
+   <div class="option-grid">
+    <input class="bank-opt" placeholder="${en?"Option 1":"الاختيار 1"}">
+    <input class="bank-opt" placeholder="${en?"Option 2":"الاختيار 2"}">
+    <input class="bank-opt" placeholder="${en?"Option 3":"الاختيار 3"}">
+    <input class="bank-opt" placeholder="${en?"Option 4":"الاختيار 4"}">
+   </div>
+   <div class="field" style="margin-top:10px">
+    <label>${en?"Correct option number":"رقم الاختيار الصحيح"}</label>
+    <select id="bankQCorrect">
+     <option value="0">1</option><option value="1">2</option>
+     <option value="2">3</option><option value="3">4</option>
+    </select>
+   </div>
+  </div>
+
+  <div id="bankTfBox" class="hidden">
+   <div class="field">
+    <label>${en?"Correct answer":"الإجابة الصحيحة"}</label>
+    <select id="bankTfCorrect">
+     <option value="true">${en?"True":"صح"}</option>
+     <option value="false">${en?"False":"خطأ"}</option>
+    </select>
+   </div>
+  </div>
+
+  <div id="bankTextBox" class="hidden">
+   <div class="field">
+    <label>${en?"Model answer":"الإجابة النموذجية"}</label>
+    <textarea id="bankTextModel" rows="2"></textarea>
+   </div>
+  </div>
+
+  <button class="primary" onclick="addBankQuestion()">${en?"Add to bank":"إضافة إلى بنك الأسئلة"}</button>
+ </div>
+
+ <div class="panel">
+  <h3>${en?"Question bank":"بنك الأسئلة"} (${questionBank.length})</h3>
+  <div class="bank-filters">
+   <select onchange="window.__bankFilterType=this.value; go('questionBank')">
+    <option value="all" ${filterType==="all"?"selected":""}>${en?"All types":"كل الأنواع"}</option>
+    <option value="mcq" ${filterType==="mcq"?"selected":""}>${en?"Multiple choice":"اختيار من متعدد"}</option>
+    <option value="tf" ${filterType==="tf"?"selected":""}>${en?"True / False":"صح أو خطأ"}</option>
+    <option value="text" ${filterType==="text"?"selected":""}>${en?"Short text":"سؤال نصي"}</option>
+   </select>
+   <input placeholder="${en?"Search...":"بحث..."}" value="${esc(searchTerm)}"
+    oninput="window.__bankSearch=this.value" onkeydown="if(event.key==='Enter') go('questionBank')">
+   <button class="btn-small" onclick="go('questionBank')">${en?"Apply":"تطبيق"}</button>
+  </div>
+
+  ${filtered.length ? filtered.slice().reverse().map(q => `
+   <div class="bank-question">
+    <div class="bank-q-head">
+     <span class="tag">${q.type === "mcq" ? "MCQ" : q.type === "tf" ? "True/False" : "Text"}</span>
+     ${q.topic ? `<span class="muted">${esc(q.topic)}</span>` : ""}
+    </div>
+    <div class="bank-q-text">${esc(q.text)}</div>
+    ${q.type === "mcq" ? `<ol class="bank-q-options" type="A">${q.options.map(o => `<li>${esc(o)}</li>`).join("")}</ol>` : ""}
+    ${q.type === "mcq" ? `<div class="bank-q-answer">${en?"Correct:":"الصحيح:"} ${esc(q.options[q.correct])}</div>` : ""}
+    ${q.type === "tf" ? `<div class="bank-q-answer">${en?"Correct:":"الإجابة:"} ${q.correct ? (en?"True":"صح") : (en?"False":"خطأ")}</div>` : ""}
+    ${q.type === "text" ? `<div class="bank-q-answer">${en?"Model answer:":"الإجابة النموذجية:"} ${esc(q.model)}</div>` : ""}
+    <div style="margin-top:10px">
+     <button class="btn-small btn-green" onclick="viewBankQuestionStats(${q.id})">${en?"View student answers":"عرض إجابات الطلاب"}</button>
+     <button class="btn-small btn-danger" onclick="deleteBankQuestion(${q.id})">${en?"Delete":"حذف"}</button>
+    </div>
+   </div>`).join("") : `<div class="empty">${en?"No questions match the filter":"لا توجد أسئلة مطابقة"}</div>`}
+ </div>`;
+}
+
+function toggleBankTypeFields() {
+ const type = document.getElementById("bankQType").value;
+ document.getElementById("bankMcqBox").classList.toggle("hidden", type !== "mcq");
+ document.getElementById("bankTfBox").classList.toggle("hidden", type !== "tf");
+ document.getElementById("bankTextBox").classList.toggle("hidden", type !== "text");
+}
+
+function addBankQuestion() {
+ const text = document.getElementById("bankQText").value.trim();
+ const type = document.getElementById("bankQType").value;
+ const topic = document.getElementById("bankQTopic").value.trim();
+ if (!text) return alert("اكتب نص السؤال");
+
+ const q = { id: Date.now(), type, text, topic, createdAt: new Date().toLocaleString("ar-EG") };
+
+ if (type === "mcq") {
+  const opts = [...document.querySelectorAll(".bank-opt")].map(x => x.value.trim());
+  if (opts.some(o => !o)) return alert("أكمل الاختيارات الأربعة");
+  q.options = opts;
+  q.correct = Number(document.getElementById("bankQCorrect").value);
+ }
+ if (type === "tf") q.correct = document.getElementById("bankTfCorrect").value === "true";
+ if (type === "text") {
+  q.model = document.getElementById("bankTextModel").value.trim();
+  if (!q.model) return alert("اكتب الإجابة النموذجية");
+ }
+
+ questionBank.push(q);
+ save();
+ alert("تمت إضافة السؤال إلى البنك");
+ go("questionBank");
+}
+
+function deleteBankQuestion(id) {
+ if (!confirm("حذف هذا السؤال من البنك؟")) return;
+ questionBank = questionBank.filter(q => q.id !== id);
+ // احذف إجابات الطلاب المرتبطة
+ Object.keys(bankAnswers).forEach(username => {
+  if (bankAnswers[username] && bankAnswers[username][id]) {
+   delete bankAnswers[username][id];
+  }
+ });
+ save();
+ go("questionBank");
+}
+
+// مدرس: عرض إجابات الطلاب لسؤال معين
+function viewBankQuestionStats(questionId) {
+ const q = questionBank.find(x => x.id === questionId);
+ if (!q) return;
+
+ const rows = [];
+ Object.keys(bankAnswers).forEach(username => {
+  const ans = bankAnswers[username] && bankAnswers[username][questionId];
+  if (!ans) return;
+  const u = users.find(x => x.username === username);
+  rows.push({ username, name: u ? u.name : username, ...ans });
+ });
+
+ const c = document.getElementById("content");
+ c.innerHTML = `
+ <div class="panel">
+  <div class="section-title">
+   <h3>إجابات الطلاب على: ${esc(q.text)}</h3>
+   <button class="btn-small" onclick="go('questionBank')">رجوع</button>
+  </div>
+  ${rows.length ? `<div style="overflow-x:auto">
+   <table>
+    <tr><th>الطالب</th><th>إجابته</th><th>الحالة</th><th>التاريخ</th><th>الإجراء</th></tr>
+    ${rows.map(r => `<tr>
+     <td>${esc(r.name)}</td>
+     <td>${esc(r.displayAnswer || "-")}</td>
+     <td>${
+      r.status === "correct" ? '<span class="bank-status-pill correct">صح</span>' :
+      r.status === "wrong" ? '<span class="bank-status-pill wrong">خطأ</span>' :
+      r.status === "pending" ? '<span class="bank-status-pill pending">بانتظار التصحيح</span>' :
+      '<span class="bank-status-pill pending">—</span>'
+     }</td>
+     <td>${esc(r.submittedAt || "-")}</td>
+     <td>${q.type === "text" && r.status === "pending" ? `<button class="btn-small" onclick="gradeBankTextAnswer(${q.id},'${esc(r.username)}')">تصحيح</button>` : "-"}</td>
+    </tr>`).join("")}
+   </table>
+  </div>` : `<div class="empty">لم يجب أي طالب على هذا السؤال بعد</div>`}
+ </div>`;
+}
+
+function gradeBankTextAnswer(questionId, username) {
+ const q = questionBank.find(x => x.id === questionId);
+ if (!q || q.type !== "text") return;
+ const ans = bankAnswers[username] && bankAnswers[username][questionId];
+ if (!ans) return;
+
+ const raw = prompt("اكتب درجة الطالب (من 1)", ans.manualScore ?? "1");
+ if (raw === null) return;
+ const score = Number(raw);
+ if (raw.trim() === "" || !Number.isFinite(score) || score < 0) return alert("درجة غير صحيحة");
+
+ const fb = prompt("ملاحظات (اختياري)", ans.feedback || "");
+ if (fb === null) return;
+
+ ans.manualScore = score;
+ ans.feedback = fb.trim();
+ ans.status = score >= 1 ? "correct" : "wrong";
+ ans.gradedAt = new Date().toLocaleString("ar-EG");
+
+ save();
+ alert("تم حفظ التصحيح");
+ viewBankQuestionStats(questionId);
+}
+
+// ---------- Student view (تفاعلي) ----------
+function studentQuestionBankPage(c) {
+ const en = currentLanguage() === "en";
+ const mine = bankAnswers[currentUser.username] || {};
+
+ const total = questionBank.length;
+ const solvedIds = Object.keys(mine).map(Number);
+ const correctCount = solvedIds.filter(id => mine[id].status === "correct").length;
+ const wrongCount = solvedIds.filter(id => mine[id].status === "wrong").length;
+ const pendingCount = solvedIds.filter(id => mine[id].status === "pending").length;
+ const unsolvedCount = total - solvedIds.length;
+ const percent = total ? Math.round((correctCount / total) * 100) : 0;
+
+ const filterStatus = window.__bankStudentFilter || "all";
+ const filterType = window.__bankStudentType || "all";
+
+ const filtered = questionBank.filter(q => {
+  const ans = mine[q.id];
+  const status = ans ? ans.status : "unsolved";
+  const matchStatus =
+   filterStatus === "all" ? true :
+   filterStatus === "unsolved" ? !ans :
+   filterStatus === "correct" ? ans && ans.status === "correct" :
+   filterStatus === "wrong" ? ans && ans.status === "wrong" :
+   filterStatus === "pending" ? ans && ans.status === "pending" : true;
+  const matchType = filterType === "all" || q.type === filterType;
+  return matchStatus && matchType;
+ });
+
+ c.innerHTML = `
+ <div class="bank-progress-card">
+  <div>
+   <h2>${en?"Your progress":"تقدمك في بنك الأسئلة"}</h2>
+   <p class="muted" style="color:#e0e8ff;margin:6px 0 0">${en?"Keep practicing to improve your score":"استمر في التدريب لتحسين نتيجتك"}</p>
+  </div>
+  <div class="bank-progress-stats">
+   <div><strong>${correctCount}</strong><small>${en?"Correct":"صح"}</small></div>
+   <div><strong>${wrongCount}</strong><small>${en?"Wrong":"خطأ"}</small></div>
+   <div><strong>${pendingCount}</strong><small>${en?"Pending":"بانتظار"}</small></div>
+   <div><strong>${unsolvedCount}</strong><small>${en?"Unsolved":"لم يُحل"}</small></div>
+   <div><strong>${percent}%</strong><small>${en?"Score":"النسبة"}</small></div>
+  </div>
+  <div style="width:100%">
+   <div class="progress"><span style="width:${percent}%"></span></div>
+  </div>
+ </div>
+
+ <div class="panel">
+  <div class="section-title">
+   <h3>${en?"Bank questions":"أسئلة البنك"} (${total})</h3>
+   <button class="btn-small" onclick="window.__bankStudentFilter='unsolved';window.__bankStudentType='all';go('questionBank')">${en?"Show unsolved only":"عرض غير المحلولة فقط"}</button>
+  </div>
+  <div class="bank-filters">
+   <select onchange="window.__bankStudentFilter=this.value; go('questionBank')">
+    <option value="all" ${filterStatus==="all"?"selected":""}>${en?"All":"الكل"}</option>
+    <option value="unsolved" ${filterStatus==="unsolved"?"selected":""}>${en?"Unsolved":"لم تُحل"}</option>
+    <option value="correct" ${filterStatus==="correct"?"selected":""}>${en?"Correct":"صح"}</option>
+    <option value="wrong" ${filterStatus==="wrong"?"selected":""}>${en?"Wrong":"خطأ"}</option>
+    <option value="pending" ${filterStatus==="pending"?"selected":""}>${en?"Pending grade":"بانتظار التصحيح"}</option>
+   </select>
+   <select onchange="window.__bankStudentType=this.value; go('questionBank')">
+    <option value="all" ${filterType==="all"?"selected":""}>${en?"All types":"كل الأنواع"}</option>
+    <option value="mcq" ${filterType==="mcq"?"selected":""}>${en?"Multiple choice":"اختيار من متعدد"}</option>
+    <option value="tf" ${filterType==="tf"?"selected":""}>${en?"True / False":"صح أو خطأ"}</option>
+    <option value="text" ${filterType==="text"?"selected":""}>${en?"Short text":"سؤال نصي"}</option>
+   </select>
+   <button class="btn-small" onclick="window.__bankStudentFilter='all';window.__bankStudentType='all';go('questionBank')">${en?"Reset":"إعادة ضبط"}</button>
+  </div>
+
+  ${filtered.length ? filtered.slice().reverse().map(q => renderStudentBankQuestion(q, mine[q.id], en)).join("") : `<div class="empty">${en?"No questions match the filter":"لا توجد أسئلة مطابقة"}</div>`}
+ </div>`;
+}
+
+function renderStudentBankQuestion(q, ans, en) {
+ const status = ans ? ans.status : "unsolved";
+ const solvedClass =
+  status === "correct" ? "solved-correct" :
+  status === "wrong" ? "solved-wrong" :
+  status === "pending" ? "solved-pending" : "";
+
+ let body = "";
+
+ if (q.type === "mcq" || q.type === "tf") {
+  const options = q.type === "mcq" ? q.options : [en?"True":"صح", en?"False":"خطأ"];
+  const correctIndex = q.type === "mcq" ? q.correct : (q.correct ? 0 : 1);
+  const selectedIndex = ans && ans.selectedIndex !== undefined ? ans.selectedIndex : (ans && ans.selected !== undefined ? ans.selected : null);
+
+  body = options.map((o, j) => {
+   let cls = "bank-opt-row";
+   if (selectedIndex !== null && selectedIndex === j) cls += " selected";
+   if (status === "correct" || status === "wrong") {
+    if (j === correctIndex) cls += " correct-answer";
+    else if (selectedIndex === j) cls += " wrong-answer";
+   }
+   return `<label class="${cls}" ${status === "correct" ? 'style="cursor:default"' : ""}>
+    <input type="radio" name="bankq_${q.id}" value="${j}"
+     ${selectedIndex === j ? "checked" : ""}
+     ${status === "correct" ? "disabled" : ""}
+     onchange="submitBankAnswer(${q.id}, ${j})">
+    <span>${esc(o)}</span>
+   </label>`;
+  }).join("");
+
+  if (status === "correct") {
+   body += `<div class="bank-feedback correct">✅ ${en?"Correct!":"إجابة صحيحة!"}</div>`;
+  } else if (status === "wrong") {
+   body += `<div class="bank-feedback wrong">❌ ${en?"Wrong. The correct answer is highlighted.":"إجابة خاطئة. الإجابة الصحيحة محددة."} 
+    <button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button></div>`;
+  }
+ }
+
+ if (q.type === "text") {
+  const display = ans && ans.displayAnswer ? ans.displayAnswer : "";
+  const disabled = ans && (status === "correct" || status === "pending");
+  body = `
+   <div class="field">
+    <label>${en?"Your answer":"إجابتك"}</label>
+    <textarea id="bankTextAns_${q.id}" rows="3" ${disabled ? "disabled" : ""} placeholder="${en?"Write your answer...":"اكتب إجابتك..."}">${esc(display)}</textarea>
+   </div>
+   ${!disabled ? `<button class="primary" onclick="submitBankTextAnswer(${q.id})">${en?"Send answer":"إرسال الإجابة"}</button>` : ""}
+   ${status === "pending" ? `<div class="bank-feedback pending">⏳ ${en?"Sent, waiting for teacher grading":"تم الإرسال، في انتظار تصحيح المدرس"}</div>` : ""}
+   ${status === "correct" ? `<div class="bank-feedback correct">✅ ${en?"Graded correct":"تم تصحيحها كإجابة صحيحة"} ${ans.manualScore ? '('+ans.manualScore+')' : ''} ${ans.feedback ? '<br>'+esc(ans.feedback) : ''}</div>` : ""}
+   ${status === "wrong" ? `<div class="bank-feedback wrong">❌ ${en?"Graded wrong":"تم تصحيحها كإجابة خاطئة"} ${ans.feedback ? '<br>'+esc(ans.feedback) : ''}</div>
+     <button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button>` : ""}
+  `;
+ }
+
+ return `<div class="bank-q-interactive ${solvedClass}">
+  <div class="bank-q-head">
+   <div>
+    <span class="tag">${q.type === "mcq" ? "MCQ" : q.type === "tf" ? (en?"True/False":"صح/خطأ") : (en?"Text":"نصي")}</span>
+    ${q.topic ? `<span class="muted" style="margin-right:8px">${esc(q.topic)}</span>` : ""}
+    ${status === "correct" ? `<span class="bank-status-pill correct">${en?"Solved":"محلول"}</span>` : ""}
+    ${status === "wrong" ? `<span class="bank-status-pill wrong">${en?"Wrong":"خطأ"}</span>` : ""}
+    ${status === "pending" ? `<span class="bank-status-pill pending">${en?"Pending":"قيد التصحيح"}</span>` : ""}
+   </div>
+  </div>
+  <div class="bank-q-text" style="margin:10px 0;font-size:15px;line-height:1.9">${esc(q.text)}</div>
+  ${body}
+ </div>`;
+}
+
+// الطالب: إجابة MCQ أو True/False → تصحيح فوري
+function submitBankAnswer(questionId, selectedIndex) {
+ const q = questionBank.find(x => x.id === questionId);
+ if (!q) return;
+
+ if (!bankAnswers[currentUser.username]) bankAnswers[currentUser.username] = {};
+ const existing = bankAnswers[currentUser.username][questionId];
+ if (existing && existing.status === "correct") return; // لا تغيير بعد الصح
+
+ let isCorrect = false;
+ let displayAnswer = "";
+ if (q.type === "mcq") {
+  isCorrect = selectedIndex === q.correct;
+  displayAnswer = q.options[selectedIndex] || "";
+ } else if (q.type === "tf") {
+  const boolAns = selectedIndex === 0;
+  isCorrect = boolAns === q.correct;
+  displayAnswer = boolAns ? "صح" : "خطأ";
+ }
+
+ bankAnswers[currentUser.username][questionId] = {
+  selectedIndex,
+  displayAnswer,
+  isCorrect,
+  status: isCorrect ? "correct" : "wrong",
+  submittedAt: new Date().toLocaleString("ar-EG")
+ };
+
+ save();
+ go("questionBank");
+}
+
+// الطالب: إجابة نصية
+function submitBankTextAnswer(questionId) {
+ const q = questionBank.find(x => x.id === questionId);
+ if (!q) return;
+ const field = document.getElementById("bankTextAns_" + questionId);
+ const text = field ? field.value.trim() : "";
+ if (!text) return alert("اكتب إجابتك");
+
+ if (!bankAnswers[currentUser.username]) bankAnswers[currentUser.username] = {};
+ bankAnswers[currentUser.username][questionId] = {
+  displayAnswer: text,
+  status: "pending",
+  submittedAt: new Date().toLocaleString("ar-EG")
+ };
+ save();
+ alert("تم إرسال إجابتك، في انتظار تصحيح المدرس");
+ go("questionBank");
+}
+
+// الطالب: إعادة المحاولة بعد إجابة خاطئة
+function retryBankQuestion(questionId) {
+ if (!bankAnswers[currentUser.username]) return;
+ delete bankAnswers[currentUser.username][questionId];
+ save();
+ go("questionBank");
+}
+
+// ===================================
 // EXAM BUILDER
 // ===================================
 
@@ -1497,9 +2208,69 @@ function examBuilder(c) {
   <button class="btn-small" onclick="addQuestion('mcq')">+ اختيار من متعدد</button>
   <button class="btn-small" onclick="addQuestion('tf')">+ صح وخطأ</button>
   <button class="btn-small" onclick="addQuestion('text')">+ سؤال نصي</button>
+  <button class="btn-small btn-green" onclick="importFromBank()">📥 استيراد من بنك الأسئلة</button>
   <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
   <button class="primary" onclick="publishExam()">نشر الامتحان</button>
  </div>`;
+}
+
+function importFromBank() {
+ if (!questionBank.length) return alert("بنك الأسئلة فارغ. أضف أسئلة أولاً من صفحة بنك الأسئلة.");
+ const c = document.getElementById("content");
+ c.innerHTML = `
+ <div class="panel">
+  <h3>اختر أسئلة من البنك لاستيرادها</h3>
+  <p class="muted">اختر الأسئلة التي تريد إضافتها إلى الامتحان الحالي.</p>
+  ${questionBank.map(q => `
+   <label style="display:block;padding:10px;border:1px solid var(--border);border-radius:8px;margin:8px 0;background:#f7f9fc">
+    <input type="checkbox" class="bank-pick" value="${q.id}" style="width:auto;margin-left:8px">
+    <strong>${esc(q.text)}</strong>
+    <small class="muted">(${q.type === "mcq" ? "MCQ" : q.type === "tf" ? "True/False" : "Text"})</small>
+   </label>`).join("")}
+  <button class="primary" onclick="applyBankImport()">إضافة الأسئلة المختارة</button>
+  <button class="btn-small" onclick="go('createExam')">إلغاء</button>
+ </div>`;
+}
+
+function applyBankImport() {
+ const picked = [...document.querySelectorAll(".bank-pick:checked")].map(x => Number(x.value));
+ if (!picked.length) return alert("اختر سؤالاً واحداً على الأقل");
+ let added = 0;
+ picked.forEach(id => {
+  const q = questionBank.find(b => b.id === id);
+  if (!q) return;
+  draftQuestions.push({ id: ++qCounter, type: q.type, fromBank: q });
+  added++;
+ });
+ alert(`تمت إضافة ${added} سؤال إلى الامتحان`);
+ renderQuestionsAfterImport();
+}
+
+function renderQuestionsAfterImport() {
+ const c = document.getElementById("content");
+ c.innerHTML = `
+ <div class="panel">
+  <h3>بيانات الامتحان</h3>
+  <div class="form-grid">
+   <div class="field"><label>اسم الامتحان</label><input id="examName" placeholder="امتحان الدرس الأول"></div>
+   <div class="field"><label>مدة الامتحان بالدقائق</label><input id="examDuration" type="number" min="1" value="30"></div>
+   <div class="field"><label>الدرجة النهائية</label><input id="examTotal" type="number" min="1" value="20"></div>
+  </div>
+ </div>
+ <div class="panel">
+  <div class="section-title">
+   <h3>أسئلة الامتحان</h3>
+   <span class="tag" id="questionCount">${draftQuestions.length} سؤال</span>
+  </div>
+  <div id="questionList"></div>
+  <button class="btn-small" onclick="addQuestion('mcq')">+ اختيار من متعدد</button>
+  <button class="btn-small" onclick="addQuestion('tf')">+ صح وخطأ</button>
+  <button class="btn-small" onclick="addQuestion('text')">+ سؤال نصي</button>
+  <button class="btn-small btn-green" onclick="importFromBank()">📥 استيراد من بنك الأسئلة</button>
+  <hr style="border:0;border-top:1px solid var(--border);margin:20px 0">
+  <button class="primary" onclick="publishExam()">نشر الامتحان</button>
+ </div>`;
+ renderQuestions();
 }
 
 function addQuestion(type) {
@@ -1512,37 +2283,40 @@ function renderQuestions() {
  if (!box) return;
  document.getElementById("questionCount").textContent = draftQuestions.length + " سؤال";
 
- box.innerHTML = draftQuestions.map((q, i) => `
+ box.innerHTML = draftQuestions.map((q, i) => {
+  const bank = q.fromBank;
+  return `
  <div class="question-builder" id="q_${q.id}">
   <h4>السؤال ${i + 1} - ${
    q.type === "mcq" ? "اختيار من متعدد" : q.type === "tf" ? "صح أو خطأ" : "إجابة نصية"
-  }</h4>
-  <input class="q-title" placeholder="اكتب السؤال هنا">
+  } ${bank ? '<span class="tag">من البنك</span>' : ''}</h4>
+  <input class="q-title" placeholder="اكتب السؤال هنا" value="${bank ? esc(bank.text) : ""}">
   <div class="${q.type === "mcq" ? "option-grid" : ""}">
   ${q.type === "mcq" ? [0,1,2,3].map(n => `
-   <input class="q-option" placeholder="الاختيار ${n + 1}">
+   <input class="q-option" placeholder="الاختيار ${n + 1}" value="${bank && bank.options ? esc(bank.options[n]||"") : ""}">
   `).join("") : ""}
   </div>
   ${q.type === "mcq" ? `
    <label>الإجابة الصحيحة</label>
    <select class="q-correct">
-    <option value="0">الاختيار الأول</option>
-    <option value="1">الاختيار الثاني</option>
-    <option value="2">الاختيار الثالث</option>
-    <option value="3">الاختيار الرابع</option>
+    <option value="0" ${bank && bank.correct===0?"selected":""}>الاختيار الأول</option>
+    <option value="1" ${bank && bank.correct===1?"selected":""}>الاختيار الثاني</option>
+    <option value="2" ${bank && bank.correct===2?"selected":""}>الاختيار الثالث</option>
+    <option value="3" ${bank && bank.correct===3?"selected":""}>الاختيار الرابع</option>
    </select>` : ""}
   ${q.type === "tf" ? `
    <label>الإجابة الصحيحة</label>
    <select class="q-correct">
-    <option value="true">صح</option>
-    <option value="false">خطأ</option>
+    <option value="true" ${bank && bank.correct===true?"selected":""}>صح</option>
+    <option value="false" ${bank && bank.correct===false?"selected":""}>خطأ</option>
    </select>` : ""}
   ${q.type === "text" ? `
    <label>الإجابة النموذجية للتصحيح اليدوي</label>
-   <input class="q-model" placeholder="اكتب الإجابة النموذجية">
+   <input class="q-model" placeholder="اكتب الإجابة النموذجية" value="${bank && bank.model ? esc(bank.model) : ""}">
    <p class="muted">سيتم عرض إجابة الطالب للمدرس لتصحيحها يدوياً.</p>` : ""}
   <button class="btn-small btn-danger" onclick="removeQuestion(${q.id})">حذف السؤال</button>
- </div>`).join("");
+ </div>`;
+ }).join("");
 }
 
 function removeQuestion(id) {
@@ -1839,7 +2613,6 @@ function saveGrades(id) {
 
  if (hasError) return alert("راجع درجات الأسئلة النصية");
 
- // إعادة الحساب من الصفر (بدون تراكم)
  const objective = (typeof r.objectiveScore === "number") ? r.objectiveScore : r.score;
  r.score = Math.round((objective + extra) * 100) / 100;
  r.pending = 0;
@@ -1880,17 +2653,14 @@ function toggleTheme() {
  applyLanguage();
 })();
 
-// تأكد من وجود مدرس واحد على الأقل
 if (!users.some(u => u.role === "teacher")) {
  users.push({ id: Date.now(), name: "Admin", username: "admin", password: "admin123", role: "teacher" });
 }
 
-// شغّل المزامنة عند جاهزية Firebase
 window.addEventListener("firebase-ready", async () => {
  await loadFromFirebase();
 });
 
-// حفظ ابتدائي
 save();
 </script>
 </body>
