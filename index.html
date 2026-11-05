@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="styles1.css"  />
 <title>منصة مستر أحمد محمود</title>
 
 <style>
@@ -433,7 +434,7 @@ body.dark-mode .empty { color:var(--muted); }
 .show-password {
  position:absolute;left:8px;top:50%;transform:translateY(-50%);
  padding:7px 9px;border-radius:8px;background:#edf2ff;color:#315ed0;
- font-size:12px;font-weight:700;
+ font-size:20px;font-weight:700;
 }
 .login-submit {
  width:100%;margin-top:8px;padding:14px 18px;border-radius:12px;
@@ -614,6 +615,7 @@ body.dark-mode .bank-status-pill.pending {background:#2a2410;color:#f3d58b}
  box-shadow:0 30px 90px #0004;
 }
 body.dark-mode .modal-box {background:var(--surface);color:var(--text)}
+
 </style>
 </head>
 
@@ -623,7 +625,8 @@ body.dark-mode .modal-box {background:var(--surface);color:var(--text)}
 <div class="login-page" id="loginPage">
  <div class="login-box">
   <div class="login-brand" aria-hidden="true">🎓</div>
-  <h2>منصة مستر أحمد محمود</h2>
+<h1 class="mn">منصة</h1>
+  <h2> مستر/ أحمد محمود</h2>
   <p class="login-subtitle">مرحبًا بك من جديد<br>سجّل الدخول للوصول إلى دروسك واختباراتك</p>
 
   <div class="field">
@@ -635,7 +638,7 @@ body.dark-mode .modal-box {background:var(--surface);color:var(--text)}
    <label for="loginPass">كلمة المرور</label>
    <div class="password-wrap">
     <input id="loginPass" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" onkeydown="if(event.key==='Enter') login()">
-    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">إظهار</button>
+    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">☺️</button>
    </div>
   </div>
 
@@ -867,7 +870,7 @@ function toggleLoginPassword() {
  const button = document.getElementById("showPasswordBtn");
  const visible = input.type === "password";
  input.type = visible ? "text" : "password";
- button.textContent = visible ? "إخفاء" : "إظهار";
+ button.textContent = visible ? "😆" : "☺️";
 }
 
 function login() {
