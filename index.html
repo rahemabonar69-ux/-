@@ -2,403 +2,67 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link rel="stylesheet" href="styles1.css"  />
+<meta name="viewport" content="width=1280, initial-scale=0.25, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"><meta name="theme-color" content="#101d33">
 <title>منصة مستر أحمد محمود</title>
 
 <style>
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
 :root {
- --navy:#14243c;
- --blue:#3568e8;
- --bg:#f4f7fc;
- --white:#fff;
- --text:#202d42;
- --muted:#8491a5;
- --border:#e7ecf3;
+ --navy:#101d33;
+ --blue:#4169f5;
+ --blue-dark:#2c4fd1;
+ --bg:#f5f7fc;
+ --text:#1d2a40;
+ --muted:#77859b;
+ --border:#e8edf5;
+ --surface:#ffffff;
  --green:#16a36a;
  --red:#e34e5b;
+ --yellow:#dba617;
+ --shadow:0 8px 28px rgba(25,45,80,.06);
+ --shadow-hover:0 14px 34px rgba(25,45,80,.10);
+ --radius:15px;
+ --radius-sm:10px;
+ --sidebar-width:250px;
+ --gap:16px;
+ --page-padding:28px;
+ --safe-top:env(safe-area-inset-top, 0px);
+ --safe-bottom:env(safe-area-inset-bottom, 0px);
 }
-* {box-sizing:border-box}
+* {box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body {margin:0;padding:0;overflow-x:hidden;width:100%}
 body {
- margin:0;
  font-family:Tahoma,Arial,sans-serif;
- background:var(--bg);
- color:var(--text);
+ background:var(--bg);color:var(--text);
+ font-size:15px;line-height:1.5;
+ min-height:100vh;
+ -webkit-font-smoothing:antialiased;
 }
-button,input,select,textarea {font:inherit}
-button {cursor:pointer;border:0}
+button,input,select,textarea {font:inherit;font-family:inherit}
+button {cursor:pointer;border:0;background:none}
+img,iframe,svg {max-width:100%;display:block}
 .hidden {display:none!important}
 
-/* Login */
+h1 {font-size:clamp(20px, 4vw, 30px)}
+h2 {font-size:clamp(17px, 3vw, 23px); letter-spacing:-.4px}
+h3 {font-size:clamp(15px, 2.4vw, 17px)}
+h4 {font-size:clamp(14px, 2vw, 16px)}
+p  {font-size:clamp(13px, 1.6vw, 14px)}
+small {font-size:12px}
+.muted {color:var(--muted); font-size:clamp(12px, 1.6vw, 13px)}
+
+/* ============================================================
+   LOGIN
+   ============================================================ */
 .login-page {
- min-height:100vh;
- display:grid;
- place-items:center;
+ min-height:100vh; min-height:100dvh;
+ display:grid; place-items:center;
  padding:20px;
- background:linear-gradient(135deg,#12243e,#284d81);
-}
-.login-box {
- background:white;
- width:100%;
- max-width:420px;
- padding:35px;
- border-radius:22px;
- box-shadow:0 20px 70px #0003;
-}
-.logo {
- width:58px;height:58px;
- display:grid;place-items:center;
- background:#e9efff;color:var(--blue);
- border-radius:17px;
- font-size:27px;margin-bottom:18px;
-}
-.login-box h2 {margin:0 0 8px}
-.muted {color:var(--muted);font-size:13px}
-.field {margin:18px 0}
-.field label {display:block;font-size:13px;margin-bottom:8px}
-input,select,textarea {
- width:100%;padding:12px;
- border:1px solid var(--border);
- border-radius:10px;
- background:white;outline:none;
-}
-input:focus,select:focus,textarea:focus {
- border-color:var(--blue);
-}
-.primary {
- background:var(--blue);
- color:white;padding:12px 18px;
- border-radius:10px;
-}
-.primary:hover {background:#2453c8}
-.full {width:100%}
-.error {color:var(--red);font-size:13px;margin-top:12px}
-
-/* Application layout */
-.app {min-height:100vh}
-.sidebar {
- position:fixed;right:0;top:0;bottom:0;
- width:250px;background:var(--navy);
- color:white;padding:23px 16px;
- display:flex;flex-direction:column;
- z-index:5;
-}
-.brand {
- display:flex;align-items:center;gap:12px;
- padding:8px 5px 28px;
- border-bottom:1px solid #ffffff20;
-}
-.brand-icon {
- background:#ffff;padding:12px;
- border-radius:12px;font-size:20px;
-}
-.brand strong {display:block;font-size:15px}
-.brand small {color:#aebbd0}
-.menu-title {
- color:#8193ac;font-size:11px;
- margin:25px 12px 10px;
-}
-.menu button {
- display:block;width:100%;
- text-align:right;color:#c3cee0;
- background:transparent;padding:13px;
- border-radius:9px;margin:4px 0;
- font-size:13px;
-}
-.menu button:hover,.menu button.active {
- background:#ffffff17;color:white;
-}
-.logout {
- margin-top:auto;background:#ffffff12;
- color:#ffb7b7;padding:13px;border-radius:9px;
-}
-.main {margin-right:250px;padding:28px 35px}
-.topbar {
- display:flex;justify-content:space-between;
- align-items:center;margin-bottom:28px;
- gap:15px;
-}
-.topbar h2 {margin:0 0 7px;font-size:23px}
-.profile {
- background:white;padding:10px 15px;
- border:1px solid var(--border);
- border-radius:12px;display:flex;
- align-items:center;gap:10px;
-}
-.avatar {
- width:38px;height:38px;border-radius:12px;
- background:#e7eeff;color:var(--blue);
- display:grid;place-items:center;font-weight:bold;
-}
-.grid {
- display:grid;grid-template-columns:repeat(4,1fr);
- gap:16px;margin-bottom:23px;
-}
-.stat,.panel,.card {
- background:white;border:1px solid var(--border);
- border-radius:15px;padding:20px;
-}
-.stat small {color:var(--muted)}
-.stat h2 {font-size:28px;margin:12px 0 5px}
-.stat .symbol {font-size:22px;color:var(--blue)}
-.panel {margin-bottom:20px}
-.panel h3 {margin:0 0 18px;font-size:17px}
-.section-title {
- display:flex;justify-content:space-between;
- align-items:center;margin-bottom:18px;
-}
-.section-title h3 {margin:0}
-.cards {
- display:grid;grid-template-columns:repeat(3,1fr);
- gap:15px;
-}
-.card h3 {font-size:16px;margin:8px 0}
-.card p {font-size:13px;color:var(--muted);line-height:1.8}
-.tag {
- display:inline-block;padding:5px 9px;
- background:#edf2ff;color:var(--blue);
- border-radius:7px;font-size:11px;
-}
-.btn-small {
- padding:8px 12px;border-radius:8px;
- background:#edf2ff;color:var(--blue);
- font-size:12px;margin:3px;
-}
-.btn-danger {background:#fff0f0;color:var(--red)}
-.btn-green {background:#e7f8ef;color:var(--green)}
-table {width:100%;border-collapse:collapse;font-size:13px}
-th,td {padding:14px 10px;text-align:right;border-bottom:1px solid var(--border)}
-th {color:var(--muted);font-weight:normal}
-.empty {text-align:center;color:var(--muted);padding:30px}
-.form-grid {
- display:grid;grid-template-columns:1fr 1fr;gap:15px;
-}
-.form-grid .field {margin:5px 0}
-textarea {min-height:110px;resize:vertical}
-.question-builder {
- padding:16px;border:1px solid var(--border);
- border-radius:12px;margin:14px 0;
-}
-.question-builder h4 {margin:0 0 12px}
-.option-grid {
- display:grid;grid-template-columns:1fr 1fr;gap:8px;
-}
-.exam-question {
- border:1px solid var(--border);
- padding:18px;border-radius:12px;margin:14px 0;
-}
-.exam-question label {
- display:block;padding:10px;background:#f7f9fc;
- margin:8px 0;border-radius:8px;
- cursor:pointer;font-size:14px;
-}
-.exam-question input {width:auto;margin-left:8px}
-.notice {
- padding:14px;border-radius:10px;
- background:#fff6df;color:#966b17;
- font-size:13px;line-height:1.8;
-}
-.progress {
- height:8px;background:#e9edf5;
- border-radius:10px;overflow:hidden;margin:12px 0;
-}
-.progress span {display:block;height:100%;background:var(--blue)}
-@media(max-width:900px) {
- .sidebar {width:200px}
- .main {margin-right:200px;padding:20px}
- .grid {grid-template-columns:repeat(2,1fr)}
- .cards {grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:600px) {
- .sidebar {
-  position:relative;width:100%;
-  height:auto;padding:12px;
- }
- .brand {padding-bottom:12px}
- .menu {display:flex;overflow-x:auto}
- .menu-title {display:none}
- .menu button {min-width:max-content;padding:10px}
- .logout {margin-top:10px}
- .main {margin:0;padding:15px}
- .grid {gap:8px}
- .stat {padding:13px}
- .stat h2 {font-size:22px}
- .cards,.form-grid {grid-template-columns:1fr}
- .topbar h2 {font-size:18px}
-}
-
-/* ===== Visual refresh ===== */
-:root {
-  --navy:#101d33;
-  --blue:#4169f5;
-  --bg:#f5f7fc;
-  --text:#1d2a40;
-  --muted:#77859b;
-  --border:#e8edf5;
-  --surface:#ffffff;
-  --shadow:0 8px 28px rgba(25,45,80,.06);
-}
-body { background:var(--bg); }
-.login-page {
-  background:
-    radial-gradient(circle at 15% 20%, #5f83ff55, transparent 30%),
-    radial-gradient(circle at 85% 80%, #6ab6ff33, transparent 28%),
-    linear-gradient(135deg,#101d33,#254b80);
-}
-.login-box {
-  border:1px solid #ffffff70;
-  box-shadow:0 28px 90px #07152c66;
-  animation:loginIn .45s ease both;
-}
-@keyframes loginIn {
-  from { opacity:0; transform:translateY(12px) scale(.985); }
-  to { opacity:1; transform:translateY(0) scale(1); }
-}
-.login-box h2 { color:#172945; letter-spacing:-.3px; }
-.logo { box-shadow:0 8px 20px #3568e822; }
-.sidebar {
-  background:linear-gradient(180deg,#101d33,#172d4d);
-  box-shadow:-8px 0 30px #0c1b3212;
-}
-.brand-icon {
-  display:grid; place-items:center;
-  min-width:44px; min-height:44px;
-  background:linear-gradient(135deg,#fff,#e8efff);
-  color:var(--blue);
-  box-shadow:0 5px 16px #0002;
-}
-.menu button {
-  transition:background .2s ease, color .2s ease, transform .2s ease;
-}
-.menu button:hover { transform:translateX(-3px); }
-.menu button.active {
-  background:linear-gradient(90deg,#ffffff28,#ffffff0d);
-  box-shadow:inset -3px 0 #8eafff;
-}
-.main { max-width:1600px; }
-.topbar { min-height:64px; }
-.topbar h2 { letter-spacing:-.4px; }
-.profile {
-  box-shadow:0 4px 16px #1b31500a;
-  transition:box-shadow .2s ease, transform .2s ease;
-}
-.profile:hover { box-shadow:var(--shadow); transform:translateY(-1px); }
-.stat,.panel,.card {
-  background:var(--surface);
-  border-color:var(--border);
-  box-shadow:var(--shadow);
-  transition:transform .2s ease, box-shadow .2s ease;
-}
-.stat:hover,.card:hover {
-  transform:translateY(-3px);
-  box-shadow:0 14px 34px rgba(25,45,80,.10);
-}
-.stat { position:relative; overflow:hidden; }
-.stat:after {
-  content:""; position:absolute; left:-24px; bottom:-34px;
-  width:92px; height:92px; border-radius:50%;
-  background:#4169f50b;
-}
-.stat .symbol { display:inline-grid; place-items:center; width:40px;height:40px;
-  border-radius:12px;background:#edf2ff;margin-bottom:8px; }
-.card { display:flex; flex-direction:column; align-items:flex-start; }
-.card p { flex:1; }
-.primary,.btn-small,.btn-danger,.btn-green,.logout,.icon-action {
-  transition:transform .15s ease, filter .15s ease, box-shadow .15s ease;
-}
-.primary { box-shadow:0 5px 14px #3568e82b; }
-.primary:hover,.btn-small:hover,.logout:hover,.icon-action:hover {
-  filter:brightness(.97); transform:translateY(-1px);
-}
-input,select,textarea {
-  transition:border-color .2s ease, box-shadow .2s ease;
-}
-input:focus,select:focus,textarea:focus {
-  border-color:var(--blue);
-  box-shadow:0 0 0 3px #4169f51c;
-}
-table tr:hover td { background:#f8faff; }
-.tag { font-weight:600; }
-.icon-action {
-  display:grid;place-items:center;
-  width:42px;height:42px;border-radius:12px;
-  background:#fff;color:var(--navy);
-  border:1px solid var(--border);font-size:19px;
-}
-.topbar-actions { margin-right:auto; }
-.mobile-menu-button { display:none; }
-.sidebar-backdrop { display:none; }
-
-/* Optional dark appearance */
-body.dark-mode {
-  --bg:#0c1422; --surface:#142136; --text:#e8eef8;
-  --muted:#9aa9bf; --border:#263750; --navy:#0b1525;
-  background:var(--bg); color:var(--text);
-}
-body.dark-mode .profile,
-body.dark-mode .icon-action,
-body.dark-mode input,
-body.dark-mode select,
-body.dark-mode textarea { background:#142136;color:var(--text);border-color:var(--border); }
-body.dark-mode .stat,body.dark-mode .panel,body.dark-mode .card { background:var(--surface); }
-body.dark-mode .menu button.active { background:#ffffff20; }
-body.dark-mode table tr:hover td { background:#1b2b43; }
-body.dark-mode .exam-question label { background:#1b2b43; }
-body.dark-mode .tag,.dark-mode .btn-small { background:#22385c;color:#b9ccff; }
-body.dark-mode .stat .symbol { background:#22385c; }
-body.dark-mode .notice { background:#3a321f;color:#f3d58b; }
-body.dark-mode table,
-body.dark-mode th,
-body.dark-mode td { color:var(--text); border-color:var(--border); }
-body.dark-mode .empty { color:var(--muted); }
-
-@media(max-width:900px) {
-  .main { padding:22px; }
-}
-@media(max-width:600px) {
-  .sidebar {
-    position:fixed; right:0; top:0; bottom:0;
-    width:min(290px,84vw); height:100vh;
-    padding:18px 14px;
-    transform:translateX(105%);
-    transition:transform .25s ease;
-    overflow-y:auto;
-    z-index:20;
-  }
-  .sidebar.open { transform:translateX(0); }
-  .sidebar-backdrop {
-    position:fixed; inset:0; z-index:19;
-    background:#07132680; backdrop-filter:blur(2px);
-  }
-  .sidebar-backdrop.show { display:block; }
-  .brand { padding-bottom:18px; }
-  .menu { display:block; overflow:visible; }
-  .menu-title { display:block; }
-  .menu button { min-width:0; padding:13px; }
-  .logout { margin-top:20px; width:100%; }
-  .main { margin:0; padding:14px; }
-  .topbar { gap:9px; align-items:center; margin-bottom:20px; }
-  .mobile-menu-button { display:grid; flex:0 0 42px; }
-  .topbar-actions { margin-right:auto; }
-  .profile { padding:7px 9px; gap:7px; }
-  .profile .muted { font-size:11px; }
-  .avatar { width:34px;height:34px; }
-  .topbar h2 { font-size:17px; }
-  .topbar .muted { font-size:11px; }
-  .grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:9px; }
-  .stat { min-width:0; padding:13px; }
-  .stat h2 { font-size:21px; }
-  .cards,.form-grid { grid-template-columns:1fr; }
-  .panel { padding:16px; }
-  .section-title { gap:10px; flex-wrap:wrap; }
-}
-@media(prefers-reduced-motion:reduce) {
-  *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; }
-}
-
-/* Login page refresh v3 */
-.login-page {
- position:relative;overflow:hidden;
+ padding-top:max(20px, var(--safe-top));
+ padding-bottom:max(20px, var(--safe-bottom));
+ position:relative; overflow:hidden;
  background:
   radial-gradient(circle at 12% 18%,#6d8fff55 0,transparent 28%),
   radial-gradient(circle at 88% 82%,#40c6c455 0,transparent 25%),
@@ -411,214 +75,709 @@ body.dark-mode .empty { color:var(--muted); }
 .login-page:before {top:-250px;right:-140px}
 .login-page:after {bottom:-300px;left:-160px;width:560px;height:560px}
 .login-box {
- position:relative;z-index:1;max-width:440px;padding:38px 36px 30px;
+ position:relative;z-index:1;background:#fff;
+ width:100%;max-width:440px;
+ padding:38px 36px 30px;
  border:1px solid #ffffffa8;border-radius:25px;
  box-shadow:0 28px 90px #06152d66;
+ animation:loginIn .45s ease both;
+}
+@keyframes loginIn {
+ from {opacity:0; transform:translateY(12px) scale(.985)}
+ to {opacity:1; transform:translateY(0) scale(1)}
 }
 .login-brand {
  width:68px;height:68px;display:grid;place-items:center;margin:0 auto 18px;
- border-radius:21px;color:#fff;background:linear-gradient(145deg,#4779f4,#244fc2);
+ border-radius:21px;color:#fff;
+ background:linear-gradient(145deg,#4779f4,#244fc2);
  box-shadow:0 10px 25px #3568e844;font-size:31px;
 }
-.login-box h2 {margin:0 0 9px;text-align:center;color:#172945;font-size:24px}
+.login-box h2 {margin:0 0 9px;text-align:center;color:#172945}
 .login-subtitle {text-align:center;line-height:1.8;margin:0 0 27px;color:#8290a5;font-size:13px}
 .login-box .field {margin:17px 0}
 .login-box .field label {display:block;font-size:13px;font-weight:700;color:#35445b;margin-bottom:9px}
 .login-box input {
- width:100%;padding:14px;border:1px solid #e1e7f0;border-radius:12px;
- background:#f9fbfe;outline:none;color:#1d2b41;transition:.2s;
+ width:100%;padding:14px;
+ border:1px solid #e1e7f0;border-radius:12px;
+ background:#f9fbfe;outline:none;color:#1d2b41;
+ transition:.2s;font-size:15px;
 }
 .login-box input:focus {border-color:#4779f4;background:#fff;box-shadow:0 0 0 4px #4779f41c}
 .password-wrap {position:relative}
 .password-wrap input {padding-left:76px}
 .show-password {
  position:absolute;left:8px;top:50%;transform:translateY(-50%);
- padding:7px 9px;border-radius:8px;background:#edf2ff;color:#315ed0;
- font-size:20px;font-weight:700;
+ padding:8px 12px;border-radius:8px;
+ background:#edf2ff;color:#315ed0;
+ font-size:20px;font-weight:700;min-height:38px;min-width:44px;
+ display:grid;place-items:center;
+ line-height:1;
+ cursor:pointer;
+ transition:background .15s, transform .15s;
 }
+.show-password:hover {background:#dbe5ff;transform:translateY(-50%) scale(1.05)}
+.show-password:active {transform:translateY(-50%) scale(.95)}
 .login-submit {
  width:100%;margin-top:8px;padding:14px 18px;border-radius:12px;
  color:#fff;background:linear-gradient(110deg,#4779f4,#2856ce);
- font-weight:700;box-shadow:0 8px 18px #3568e833;transition:transform .2s,box-shadow .2s;
+ font-weight:700;box-shadow:0 8px 18px #3568e833;
+ transition:transform .2s,box-shadow .2s;font-size:15px;
 }
 .login-submit:hover {transform:translateY(-1px);box-shadow:0 12px 22px #3568e844}
 .login-error {min-height:18px;color:var(--red);font-size:13px;text-align:center;margin:12px 0 0}
 .login-footer {border-top:1px solid #edf0f5;margin-top:24px;padding-top:17px;text-align:center;color:#a0aaba;font-size:11px}
-@media(max-width:480px) {.login-box{padding:30px 22px 24px;border-radius:21px}.login-box h2{font-size:21px}}
 
-/* Settings page */
-.settings-grid {display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+/* ============================================================
+   APP LAYOUT
+   ============================================================ */
+.app {min-height:100vh; min-height:100dvh}
+
+.sidebar {
+ position:fixed; right:0; top:0; bottom:0;
+ width:var(--sidebar-width);
+ background:linear-gradient(180deg,#101d33,#172d4d);
+ color:white;
+ padding:23px 16px;
+ padding-top:max(23px, var(--safe-top));
+ padding-bottom:max(23px, var(--safe-bottom));
+ display:flex;flex-direction:column;
+ z-index:50;
+ box-shadow:-8px 0 30px #0c1b3212;
+ overflow-y:auto;
+ transition:transform .25s ease;
+}
+.brand {
+ display:flex;align-items:center;gap:12px;
+ padding:8px 5px 28px;
+ border-bottom:1px solid #ffffff20;
+}
+.brand-icon {
+ display:grid;place-items:center;
+ min-width:44px;min-height:44px;
+ background:linear-gradient(135deg,#fff,#e8efff);
+ color:var(--blue);border-radius:12px;
+ font-size:20px;
+ box-shadow:0 5px 16px #0002;
+}
+.brand strong {display:block;font-size:15px}
+.brand small {color:#aebbd0;font-size:11px}
+.menu-title {color:#8193ac;font-size:11px;margin:25px 12px 10px}
+.menu {display:flex;flex-direction:column}
+.menu button {
+ display:flex;align-items:center;gap:6px;
+ width:100%;text-align:right;
+ color:#c3cee0;background:transparent;
+ padding:13px;border-radius:9px;margin:3px 0;
+ font-size:13px;
+ transition:background .2s,color .2s,transform .2s;
+}
+.menu button:hover {transform:translateX(-3px);background:#ffffff17;color:#fff}
+.menu button.active {
+ background:linear-gradient(90deg,#ffffff28,#ffffff0d);
+ color:#fff;box-shadow:inset -3px 0 #8eafff;
+}
+.logout {
+ margin-top:auto;background:#ffffff12;color:#ffb7b7;
+ padding:13px;border-radius:9px;
+ transition:filter .15s, transform .15s;
+}
+.logout:hover {filter:brightness(1.1);transform:translateY(-1px)}
+
+.main {
+ margin-right:var(--sidebar-width);
+ padding:var(--page-padding);
+ min-height:100vh;
+ transition:margin .25s ease;
+ max-width:1600px;
+}
+.topbar {
+ display:flex;justify-content:space-between;
+ align-items:center;margin-bottom:28px;
+ gap:15px;min-height:64px;flex-wrap:wrap;
+}
+.topbar h2 {margin:0 0 7px}
+.topbar p.muted {margin:0}
+.profile {
+ background:#fff;padding:10px 15px;
+ border:1px solid var(--border);
+ border-radius:12px;
+ display:flex;align-items:center;gap:10px;
+ box-shadow:0 4px 16px #1b31500a;
+ transition:box-shadow .2s, transform .2s;
+ flex-shrink:0;
+}
+.profile:hover {box-shadow:var(--shadow);transform:translateY(-1px)}
+.avatar {
+ width:38px;height:38px;border-radius:12px;
+ background:#e7eeff;color:var(--blue);
+ display:grid;place-items:center;font-weight:bold;
+ font-size:16px;flex-shrink:0;
+}
+.topbar-actions {margin-right:auto;display:flex;gap:8px}
+.mobile-menu-button {display:none}
+.sidebar-backdrop {display:none}
+
+.icon-action {
+ display:grid;place-items:center;
+ width:42px;height:42px;border-radius:12px;
+ background:#fff;color:var(--navy);
+ border:1px solid var(--border);font-size:19px;
+ transition:transform .15s, filter .15s, box-shadow .15s;
+}
+.icon-action:hover {filter:brightness(.97);transform:translateY(-1px)}
+
+/* ============================================================
+   GRID & CARDS
+   ============================================================ */
+.grid {
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+ gap:var(--gap);margin-bottom:23px;
+}
+.stat,.panel,.card {
+ background:#fff;border:1px solid var(--border);
+ border-radius:var(--radius);padding:20px;
+ box-shadow:var(--shadow);
+ transition:transform .2s, box-shadow .2s;
+}
+.stat:hover,.card:hover {transform:translateY(-3px);box-shadow:var(--shadow-hover)}
+.stat {position:relative;overflow:hidden}
+.stat:after {
+ content:"";position:absolute;left:-24px;bottom:-34px;
+ width:92px;height:92px;border-radius:50%;
+ background:#4169f50b;
+}
+.stat small {color:var(--muted)}
+.stat h2 {font-size:clamp(22px, 4vw, 28px); margin:12px 0 5px}
+.stat .symbol {
+ display:inline-grid;place-items:center;
+ width:40px;height:40px;border-radius:12px;
+ background:#edf2ff;color:var(--blue);
+ font-size:22px;margin-bottom:8px;
+}
+.panel {margin-bottom:20px}
+.panel h3 {margin:0 0 18px}
+.section-title {
+ display:flex;justify-content:space-between;
+ align-items:center;margin-bottom:18px;
+ gap:10px;flex-wrap:wrap;
+}
+.section-title h3 {margin:0}
+
+.cards {
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
+ gap:15px;
+}
+.card {display:flex;flex-direction:column;align-items:flex-start}
+.card p {flex:1}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+.primary {
+ background:var(--blue);color:#fff;
+ padding:12px 18px;border-radius:10px;
+ box-shadow:0 5px 14px #3568e82b;
+ transition:transform .15s, filter .15s, box-shadow .15s;
+ min-height:44px;font-size:14px;
+}
+.primary:hover {filter:brightness(.97);transform:translateY(-1px)}
+.primary:active {transform:translateY(0)}
+.btn-small {
+ padding:9px 13px;border-radius:8px;
+ background:#edf2ff;color:var(--blue);
+ font-size:12px;margin:3px;min-height:38px;
+ transition:transform .15s, filter .15s;
+}
+.btn-small:hover {filter:brightness(.97);transform:translateY(-1px)}
+.btn-danger {background:#fff0f0;color:var(--red)}
+.btn-green {background:#e7f8ef;color:var(--green)}
+/* عنوان "منصة" في شاشة الدخول */
+.login-brand-title {
+ margin:0 0 6px;
+ text-align:center;
+ color:#172945;
+ font-size:clamp(28px, 6vw, 38px);
+ font-weight:900;
+ letter-spacing:-1px;
+ line-height:1.1;
+}
+.login-brand-subtitle {
+ margin:0 0 14px;
+ text-align:center;
+ color:black;
+ font-size:clamp(15px, 2.4vw, 18px);
+ font-weight:bolder;
+}
+/* ============================================================
+   INPUTS
+   ============================================================ */
+.field {margin:18px 0}
+.field label {display:block;font-size:13px;margin-bottom:8px;font-weight:700}
+input,select,textarea {
+ width:100%;padding:12px;
+ border:1px solid var(--border);
+ border-radius:var(--radius-sm);
+ background:#fff;outline:none;color:var(--text);
+ transition:border-color .2s, box-shadow .2s;
+ font-size:15px;
+}
+input:focus,select:focus,textarea:focus {
+ border-color:var(--blue);
+ box-shadow:0 0 0 3px #4169f51c;
+}
+textarea {min-height:110px;resize:vertical}
+.form-grid {
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+ gap:15px;
+}
+.form-grid .field {margin:5px 0}
+
+/* ============================================================
+   TAGS & NOTICES
+   ============================================================ */
+.tag {
+ display:inline-block;padding:5px 9px;
+ background:#edf2ff;color:var(--blue);
+ border-radius:7px;font-size:11px;font-weight:600;
+}
+.notice {
+ padding:14px;border-radius:10px;
+ background:#fff6df;color:#966b17;
+ font-size:13px;line-height:1.8;
+}
+.password-protected {letter-spacing:2px;color:var(--muted);font-weight:700}
+
+/* ============================================================
+   TABLE — responsive: becomes cards on mobile
+   ============================================================ */
+.table-wrap {overflow-x:auto; -webkit-overflow-scrolling:touch}
+table {
+ width:100%;border-collapse:collapse;
+ font-size:13px;min-width:520px;
+}
+th,td {
+ padding:14px 10px;text-align:right;
+ border-bottom:1px solid var(--border);
+}
+th {color:var(--muted);font-weight:normal;background:#fafbfd}
+table tr:hover td {background:#f8faff}
+
+@media (max-width:768px) {
+ table, thead, tbody, tr, th, td {display:block;width:100%}
+ table {min-width:0}
+ thead {display:none}
+ tr {
+  background:#fff;border:1px solid var(--border);
+  border-radius:12px;padding:8px;margin-bottom:12px;
+  box-shadow:0 3px 10px #1b31500a;
+ }
+ td {
+  display:flex;justify-content:space-between;
+  align-items:center;gap:10px;
+  padding:10px 8px;
+  border-bottom:1px dashed var(--border);
+  text-align:left;font-size:13px;
+ }
+ td:last-child {border-bottom:0}
+ td::before {
+  content:attr(data-label);
+  font-weight:700;color:var(--muted);font-size:11px;
+  flex-shrink:0;
+ }
+ td:empty {display:none}
+}
+
+.empty {text-align:center;color:var(--muted);padding:30px;font-size:14px}
+
+.progress {
+ height:8px;background:#e9edf5;
+ border-radius:10px;overflow:hidden;margin:12px 0;
+}
+.progress span {display:block;height:100%;background:var(--blue);transition:width .4s ease}
+
+/* ============================================================
+   EXAMS & QUESTION BUILDER
+   ============================================================ */
+.question-builder {
+ padding:16px;border:1px solid var(--border);
+ border-radius:12px;margin:14px 0;
+}
+.question-builder h4 {margin:0 0 12px}
+.option-grid {
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(160px, 1fr));
+ gap:8px;
+}
+.exam-question {
+ border:1px solid var(--border);
+ padding:18px;border-radius:12px;margin:14px 0;
+}
+.exam-question label {
+ display:block;padding:12px;background:#f7f9fc;
+ margin:8px 0;border-radius:8px;
+ cursor:pointer;font-size:14px;
+}
+.exam-question input {width:auto;margin-left:8px;min-height:auto}
+
+/* ============================================================
+   SETTINGS
+   ============================================================ */
+.settings-grid {
+ display:grid;
+ grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+ gap:18px;
+}
 .settings-panel {margin:0}
 .settings-account {grid-column:1/-1}
 .settings-heading {display:flex;align-items:center;gap:12px;margin-bottom:20px}
 .settings-heading h3 {margin:0 0 5px}
 .settings-heading p {margin:0}
-.settings-icon {width:46px;height:46px;display:grid;place-items:center;border-radius:14px;background:#edf2ff;font-size:22px}
-.settings-panel>label,.settings-panel .field label {display:block;font-size:13px;font-weight:700;margin-bottom:8px}
+.settings-icon {
+ width:46px;height:46px;display:grid;place-items:center;
+ border-radius:14px;background:#edf2ff;font-size:22px;
+ flex-shrink:0;
+}
+.settings-panel>label,.settings-panel .field label {
+ display:block;font-size:13px;font-weight:700;margin-bottom:8px;
+}
 .settings-note {font-size:12px;line-height:1.8;margin:12px 0 0}
 .settings-divider {height:1px;background:var(--border);margin:20px 0}
 .settings-account h4 {margin:0 0 15px}
-body.dark-mode .settings-icon {background:#22385c}
-body.english-mode .menu button {text-align:left}
-body.english-mode .sidebar {left:0;right:auto}
-body.english-mode .main {margin-right:0;margin-left:250px}
-body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
-@media(max-width:900px) {
- .settings-grid {grid-template-columns:1fr}
- .settings-account {grid-column:auto}
- body.english-mode .main {margin-left:200px}
-}
-@media(max-width:600px) {
- body.english-mode .sidebar {left:auto;right:0}
- body.english-mode .main {margin:0}
-}
 
-/* Account password safety */
-.password-protected {letter-spacing:2px;color:var(--muted);font-weight:700}
-
-/* Firebase status indicator */
-.fb-status {
- position:fixed; bottom:12px; left:12px;
- padding:6px 12px; border-radius:20px;
- font-size:11px; font-weight:700;
- background:#e7f8ef; color:#16a36a;
- z-index:100; box-shadow:0 4px 14px rgba(0,0,0,.12);
-}
-.fb-status.offline { background:#fff0f0; color:#e34e5b; }
-.fb-status.syncing { background:#fff6df; color:#966b17; }
-
-/* ===== PDF Notes & Question Bank additions ===== */
+/* ============================================================
+   PDF VIEWER
+   ============================================================ */
 .pdf-viewer {
  width:100%;
- height:75vh;
+ height:clamp(400px, 75vh, 900px);
  border:1px solid var(--border);
  border-radius:12px;
  background:#f9fbfe;
 }
-.pdf-card { display:flex; flex-direction:column; }
+.pdf-card {display:flex;flex-direction:column}
 .pdf-card .pdf-preview-icon {
  width:100%;height:120px;display:grid;place-items:center;
  background:linear-gradient(135deg,#fff0f0,#ffe0e0);
- color:var(--red);font-size:38px;border-radius:10px;margin-bottom:10px;
+ color:var(--red);font-size:38px;
+ border-radius:10px;margin-bottom:10px;
 }
+
+/* ============================================================
+   QUESTION BANK (interactive)
+   ============================================================ */
 .bank-filters {
  display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;
 }
-.bank-filters select,.bank-filters input {
- padding:9px 12px;font-size:13px;border-radius:9px;
- width:auto;min-width:140px;
+.bank-filters select,
+.bank-filters input,
+.bank-filters button {
+ flex:1 1 auto;min-width:120px;
+ padding:10px 12px;font-size:13px;border-radius:9px;
 }
 .bank-question {
  padding:16px;border:1px solid var(--border);
  border-radius:12px;margin:12px 0;background:#fff;
 }
 .bank-question .bank-q-head {
- display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+ display:flex;justify-content:space-between;
+ gap:10px;flex-wrap:wrap;
  align-items:center;margin-bottom:10px;
 }
 .bank-question .bank-q-text {font-weight:700;line-height:1.8;margin:6px 0}
 .bank-question .bank-q-options {margin:8px 0;padding-right:20px}
 .bank-question .bank-q-options li {margin:5px 0;font-size:14px;line-height:1.7}
 .bank-question .bank-q-answer {
- background:#e7f8ef;color:#0f7a4f;padding:8px 12px;border-radius:8px;
- font-size:13px;font-weight:700;display:inline-block;margin-top:6px;
+ background:#e7f8ef;color:#0f7a4f;
+ padding:8px 12px;border-radius:8px;
+ font-size:13px;font-weight:700;
+ display:inline-block;margin-top:6px;
 }
-body.dark-mode .bank-question {background:var(--surface)}
-body.dark-mode .pdf-card .pdf-preview-icon {background:#3a1c1c;color:#ff9a9a}
-
-/* ===== Interactive question bank ===== */
 .bank-q-interactive {
  padding:18px;border:1px solid var(--border);
  border-radius:14px;margin:14px 0;background:#fff;
- transition:border-color .2s ease, box-shadow .2s ease;
+ transition:border-color .2s, box-shadow .2s;
 }
 .bank-q-interactive.solved-correct {border-color:#16a36a;background:linear-gradient(135deg,#fff,#f0fdf6)}
 .bank-q-interactive.solved-wrong {border-color:#e34e5b;background:linear-gradient(135deg,#fff,#fff5f5)}
 .bank-q-interactive.solved-pending {border-color:#dba617;background:linear-gradient(135deg,#fff,#fffbf0)}
-body.dark-mode .bank-q-interactive {background:var(--surface)}
-body.dark-mode .bank-q-interactive.solved-correct {background:linear-gradient(135deg,#142136,#0f2a1e)}
-body.dark-mode .bank-q-interactive.solved-wrong {background:linear-gradient(135deg,#142136,#2a1010)}
-body.dark-mode .bank-q-interactive.solved-pending {background:linear-gradient(135deg,#142136,#2a2410)}
 
 .bank-opt-row {
  display:flex;align-items:center;gap:10px;
  padding:11px 14px;margin:6px 0;border-radius:10px;
  background:#f7f9fc;border:2px solid transparent;
- cursor:pointer;transition:all .18s ease;font-size:14px;
+ cursor:pointer;transition:all .18s ease;
+ font-size:14px;min-height:48px;
 }
 .bank-opt-row:hover {background:#eef3ff}
-.bank-opt-row input {width:auto;margin:0;cursor:pointer;accent-color:var(--blue)}
+.bank-opt-row input {width:auto;margin:0;cursor:pointer;accent-color:var(--blue);min-height:auto}
 .bank-opt-row.selected {border-color:var(--blue);background:#eef3ff}
 .bank-opt-row.correct-answer {
- border-color:#16a36a;background:#e7f8ef;color:#0f7a4f;font-weight:700;
+ border-color:#16a36a;background:#e7f8ef;
+ color:#0f7a4f;font-weight:700;
 }
 .bank-opt-row.wrong-answer {
  border-color:#e34e5b;background:#fff0f0;color:#b32e3b;
 }
+.bank-feedback {
+ margin-top:12px;padding:12px 14px;
+ border-radius:10px;font-size:13px;
+ font-weight:700;line-height:1.8;
+}
+.bank-feedback.correct {background:#e7f8ef;color:#0f7a4f}
+.bank-feedback.wrong {background:#fff0f0;color:#b32e3b}
+.bank-feedback.pending {background:#fffbf0;color:#966b17}
+.bank-progress-card {
+ background:linear-gradient(135deg,#4169f5,#2c4fd1);
+ color:#fff;padding:24px;
+ border-radius:16px;margin-bottom:20px;
+ display:flex;justify-content:space-between;
+ align-items:center;gap:20px;flex-wrap:wrap;
+}
+.bank-progress-card h2 {margin:0}
+.bank-progress-card .bank-progress-stats {
+ display:flex;gap:22px;flex-wrap:wrap;
+}
+.bank-progress-card .bank-progress-stats div {text-align:center}
+.bank-progress-card .bank-progress-stats strong {display:block;font-size:22px}
+.bank-progress-card .bank-progress-stats small {opacity:.85;font-size:11px}
+.bank-progress-card .progress {background:#ffffff33;margin:0;max-width:260px}
+.bank-progress-card .progress span {background:#fff}
+.bank-status-pill {
+ display:inline-block;padding:3px 10px;
+ border-radius:20px;font-size:11px;
+ font-weight:700;margin-right:6px;
+}
+.bank-status-pill.correct {background:#e7f8ef;color:#0f7a4f}
+.bank-status-pill.wrong {background:#fff0f0;color:#b32e3b}
+.bank-status-pill.pending {background:#fffbf0;color:#966b17}
+
+/* ============================================================
+   FIREBASE STATUS
+   ============================================================ */
+.fb-status {
+ position:fixed; bottom:12px; left:12px;
+ bottom:max(12px, var(--safe-bottom));
+ padding:6px 12px;border-radius:20px;
+ font-size:11px;font-weight:700;
+ background:#e7f8ef;color:#16a36a;
+ z-index:100;
+ box-shadow:0 4px 14px rgba(0,0,0,.12);
+ max-width:calc(100vw - 24px);
+}
+.fb-status.offline {background:#fff0f0;color:#e34e5b}
+.fb-status.syncing {background:#fff6df;color:#966b17}
+
+/* ============================================================
+   ENGLISH MODE
+   ============================================================ */
+body.english-mode .menu button {text-align:left}
+body.english-mode .sidebar {left:0;right:auto}
+body.english-mode .main {margin-right:0;margin-left:var(--sidebar-width)}
+body.english-mode .topbar-actions {margin-right:0;margin-left:auto}
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+body.dark-mode {
+ --bg:#0c1422;
+ --surface:#142136;
+ --text:#e8eef8;
+ --muted:#9aa9bf;
+ --border:#263750;
+ --navy:#0b1525;
+ --shadow:0 8px 28px rgba(0,0,0,.3);
+ --shadow-hover:0 14px 34px rgba(0,0,0,.45);
+ background:var(--bg);color:var(--text);
+}
+body.dark-mode .profile,
+body.dark-mode .icon-action,
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode textarea {background:#142136;color:var(--text);border-color:var(--border)}
+body.dark-mode .stat,
+body.dark-mode .panel,
+body.dark-mode .card {background:var(--surface)}
+body.dark-mode .menu button.active {background:#ffffff20}
+body.dark-mode table tr:hover td {background:#1b2b43}
+body.dark-mode th {background:#0f1a2b}
+body.dark-mode .exam-question label {background:#1b2b43}
+body.dark-mode .tag,
+body.dark-mode .btn-small {background:#22385c;color:#b9ccff}
+body.dark-mode .stat .symbol {background:#22385c}
+body.dark-mode .notice {background:#3a321f;color:#f3d58b}
+body.dark-mode table,
+body.dark-mode th,
+body.dark-mode td {color:var(--text);border-color:var(--border)}
+body.dark-mode .empty {color:var(--muted)}
+body.dark-mode .settings-icon {background:#22385c}
+body.dark-mode .bank-question {background:var(--surface)}
+body.dark-mode .pdf-card .pdf-preview-icon {background:#3a1c1c;color:#ff9a9a}
+body.dark-mode .bank-q-interactive {background:var(--surface)}
+body.dark-mode .bank-q-interactive.solved-correct {background:linear-gradient(135deg,#142136,#0f2a1e)}
+body.dark-mode .bank-q-interactive.solved-wrong {background:linear-gradient(135deg,#142136,#2a1010)}
+body.dark-mode .bank-q-interactive.solved-pending {background:linear-gradient(135deg,#142136,#2a2410)}
 body.dark-mode .bank-opt-row {background:#1b2b43}
 body.dark-mode .bank-opt-row:hover {background:#22385c}
 body.dark-mode .bank-opt-row.selected {background:#22385c;border-color:var(--blue)}
 body.dark-mode .bank-opt-row.correct-answer {background:#0f2a1e;color:#5ee9a7;border-color:#16a36a}
 body.dark-mode .bank-opt-row.wrong-answer {background:#2a1010;color:#ff9a9a;border-color:#e34e5b}
-
-.bank-feedback {
- margin-top:12px;padding:12px 14px;border-radius:10px;
- font-size:13px;font-weight:700;line-height:1.8;
-}
-.bank-feedback.correct {background:#e7f8ef;color:#0f7a4f}
-.bank-feedback.wrong {background:#fff0f0;color:#b32e3b}
-.bank-feedback.pending {background:#fffbf0;color:#966b17}
 body.dark-mode .bank-feedback.correct {background:#0f2a1e;color:#5ee9a7}
 body.dark-mode .bank-feedback.wrong {background:#2a1010;color:#ff9a9a}
 body.dark-mode .bank-feedback.pending {background:#2a2410;color:#f3d58b}
-
-.bank-progress-card {
- background:linear-gradient(135deg,#4169f5,#2c4fd1);color:#fff;
- padding:24px;border-radius:16px;margin-bottom:20px;
- display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
-}
-.bank-progress-card h2 {margin:0;font-size:26px}
-.bank-progress-card .bank-progress-stats {
- display:flex;gap:22px;flex-wrap:wrap;
-}
-.bank-progress-card .bank-progress-stats div {
- text-align:center;
-}
-.bank-progress-card .bank-progress-stats strong {
- display:block;font-size:22px;
-}
-.bank-progress-card .bank-progress-stats small {
- opacity:.85;font-size:11px;
-}
-.bank-progress-card .progress {background:#ffffff33;margin:0;max-width:260px}
-.bank-progress-card .progress span {background:#fff}
-
-.bank-status-pill {
- display:inline-block;padding:3px 10px;border-radius:20px;
- font-size:11px;font-weight:700;margin-right:6px;
-}
-.bank-status-pill.correct {background:#e7f8ef;color:#0f7a4f}
-.bank-status-pill.wrong {background:#fff0f0;color:#b32e3b}
-.bank-status-pill.pending {background:#fffbf0;color:#966b17}
 body.dark-mode .bank-status-pill.correct {background:#0f2a1e;color:#5ee9a7}
 body.dark-mode .bank-status-pill.wrong {background:#2a1010;color:#ff9a9a}
 body.dark-mode .bank-status-pill.pending {background:#2a2410;color:#f3d58b}
+body.dark-mode tr {background:var(--surface)}
+body.dark-mode td::before {color:var(--muted)}
 
-/* Modal for teacher viewing bank answers */
+/* ============================================================
+   MODAL
+   ============================================================ */
 .modal-backdrop {
- position:fixed;inset:0;background:#071326aa;backdrop-filter:blur(3px);
+ position:fixed;inset:0;
+ background:#071326aa;backdrop-filter:blur(3px);
  z-index:300;display:grid;place-items:center;padding:20px;
 }
 .modal-box {
  background:#fff;border-radius:18px;padding:26px;
- max-width:720px;width:100%;max-height:88vh;overflow-y:auto;
+ max-width:720px;width:100%;max-height:88vh;
+ overflow-y:auto;
  box-shadow:0 30px 90px #0004;
 }
 body.dark-mode .modal-box {background:var(--surface);color:var(--text)}
-.mn{
-color: black;
-margin-right : 140px ;
-font-weight: bolder;
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width:1024px) {
+ :root { --page-padding:22px; --gap:14px; }
+ .grid {grid-template-columns:repeat(auto-fit, minmax(180px, 1fr))}
+ .bank-progress-card h2 {font-size:20px}
+}
+@media (max-width:900px) {
+ :root { --sidebar-width:220px; --page-padding:20px; --gap:12px; }
+ .settings-account {grid-column:auto}
+ .topbar {gap:10px}
+}
+@media (max-width:768px) {
+ :root { --page-padding:14px; --gap:10px; }
+ .sidebar {
+  position:fixed;right:0;top:0;bottom:0;
+  width:min(290px, 84vw);
+  transform:translateX(105%);
+  z-index:60;
+  border-left:1px solid #ffffff10;
+  padding-top:max(18px, var(--safe-top));
+  padding-bottom:max(18px, var(--safe-bottom));
+ }
+ .sidebar.open {transform:translateX(0)}
+ .sidebar-backdrop {
+  position:fixed;inset:0;z-index:59;
+  background:#07132680;backdrop-filter:blur(2px);
+  display:none;
+ }
+ .sidebar-backdrop.show {display:block}
+ .main {margin:0;padding:var(--page-padding)}
+ body.english-mode .main {margin:0}
+ .mobile-menu-button {display:grid;flex:0 0 44px;width:44px;height:44px}
+ .topbar {min-height:auto;gap:10px;margin-bottom:20px}
+ .topbar > div:not(.topbar-actions):not(.profile) {
+  flex:1 1 100%;order:2;min-width:0;
+ }
+ .topbar-actions {order:1;margin:0}
+ .profile {order:1;padding:7px 10px;gap:7px;font-size:12px}
+ .profile strong {font-size:12px}
+ .profile .muted {font-size:10px}
+ .avatar {width:32px;height:32px;font-size:14px}
+ .grid {grid-template-columns:repeat(2, minmax(0, 1fr))}
+ .stat {padding:13px}
+ .stat h2 {font-size:20px}
+ .stat .symbol {width:34px;height:34px;font-size:18px}
+ .cards {grid-template-columns:1fr}
+ .form-grid {grid-template-columns:1fr}
+ .option-grid {grid-template-columns:1fr}
+ .panel {padding:15px}
+ .section-title {gap:8px}
+ .section-title > * {min-width:0}
+ .section-title .primary,
+ .section-title .btn-small {font-size:12px;padding:8px 11px}
+ .bank-progress-card {padding:18px;gap:14px;flex-direction:column;align-items:flex-start}
+ .bank-progress-card .bank-progress-stats {width:100%;justify-content:space-between;gap:8px}
+ .bank-progress-card .bank-progress-stats strong {font-size:18px}
+ .bank-progress-card .bank-progress-stats small {font-size:10px}
+ .bank-progress-card .progress {max-width:100%}
+ .bank-filters {flex-direction:column}
+ .bank-filters > * {width:100%}
+ .pdf-viewer {height:65vh}
+ .primary,.btn-small {min-height:44px}
+ .btn-small {font-size:12px;padding:10px 12px}
+ .primary {font-size:13px;padding:11px 16px}
+ .icon-action {width:44px;height:44px}
+ .field {margin:12px 0}
+ input,select,textarea {padding:12px;font-size:16px}
+ .fb-status {font-size:10px;padding:5px 10px;bottom:8px;left:8px}
+ .modal-box {padding:18px;border-radius:14px;max-height:92vh}
+}
+@media (max-width:480px) {
+ :root { --page-padding:12px; --gap:8px; --radius:12px; }
+ .login-box {padding:28px 20px 22px;border-radius:20px}
+ .login-brand {width:60px;height:60px;font-size:28px}
+ .login-box h2 {font-size:20px}
+ .grid {grid-template-columns:1fr 1fr;gap:8px}
+ .stat {padding:11px}
+ .stat h2 {font-size:18px;margin:8px 0 3px}
+ .stat small {font-size:11px}
+ .stat .symbol {width:30px;height:30px;font-size:16px;border-radius:9px}
+ .panel {padding:12px;border-radius:12px}
+ .panel h3 {font-size:14px;margin-bottom:12px}
+ .cards {gap:10px}
+ .card {padding:14px}
+ .card h3 {font-size:14px}
+ .bank-q-interactive {padding:14px;border-radius:12px}
+ .bank-opt-row {padding:11px 12px;font-size:13px}
+ .profile {padding:6px 9px}
+ .profile > div:last-child > strong {font-size:11px}
+ .topbar h2 {font-size:16px}
+ .topbar p.muted {font-size:11px}
+ .sidebar {width:min(280px, 88vw)}
+ .pdf-viewer {height:60vh}
+ h1 {font-size:18px}
+ h2 {font-size:16px}
+ h3 {font-size:14px}
+}
+@media (max-height:500px) and (orientation:landscape) {
+ .login-page {padding:10px}
+ .login-box {padding:18px 22px;max-width:480px}
+ .login-brand {width:44px;height:44px;font-size:20px;margin-bottom:10px;border-radius:14px}
+ .login-box h2 {font-size:17px;margin-bottom:4px}
+ .login-subtitle {font-size:11px;margin-bottom:12px;line-height:1.4}
+ .login-box .field {margin:8px 0}
+ .login-box input {padding:10px;font-size:14px}
+ .login-submit {padding:11px;font-size:13px;margin-top:4px}
+ .login-footer {margin-top:10px;padding-top:8px;font-size:10px}
+ .pdf-viewer {height:80vh}
+}
+@media (min-width:1440px) {
+ :root { --sidebar-width:270px; --page-padding:36px; --gap:20px; }
+ .main {max-width:1500px}
+ .grid {grid-template-columns:repeat(4, 1fr)}
+}
+@media (prefers-reduced-motion:reduce) {
+ *,*::before,*::after {
+  animation-duration:.01ms!important;
+  transition-duration:.01ms!important;
+ }
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+ outline:3px solid #4169f5;
+ outline-offset:2px;
 }
 </style>
 </head>
@@ -629,8 +788,8 @@ font-weight: bolder;
 <div class="login-page" id="loginPage">
  <div class="login-box">
   <div class="login-brand" aria-hidden="true">🎓</div>
-<h1 class="mn">منصة</h1>
-  <h2> مستر/ أحمد محمود</h2>
+  <h2 class="login-brand-title">منصة</h2>
+  <p class="login-brand-subtitle">مستر / أحمد محمود</p>
   <p class="login-subtitle">مرحبًا بك من جديد<br>سجّل الدخول للوصول إلى دروسك واختباراتك</p>
 
   <div class="field">
@@ -642,10 +801,9 @@ font-weight: bolder;
    <label for="loginPass">كلمة المرور</label>
    <div class="password-wrap">
     <input id="loginPass" type="password" autocomplete="current-password" placeholder="اكتب كلمة المرور" onkeydown="if(event.key==='Enter') login()">
-    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn">☺️</button>
+    <button class="show-password" type="button" onclick="toggleLoginPassword()" id="showPasswordBtn" title="إظهار/إخفاء كلمة المرور">🙈</button>
    </div>
   </div>
-
   <button class="login-submit" type="button" onclick="login()">تسجيل الدخول</button>
   <p id="loginError" class="login-error" role="alert"></p>
   <div class="login-footer">منصة تعليمية لتنظيم الدروس والاختبارات والنتائج</div>
@@ -698,9 +856,7 @@ font-weight: bolder;
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.9.0/mammoth.browser.min.js"></script>
 
-<!-- =============================================
-     Firebase
-     ============================================= -->
+<!-- Firebase -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js";
@@ -732,21 +888,16 @@ try {
 window.dispatchEvent(new Event("firebase-ready"));
 </script>
 
-<!-- =============================================
-     السكربت الأساسي للتطبيق
-     ============================================= -->
+<!-- Main App Script -->
 <script>
 // ===================================
 // DATA
 // ===================================
-
 const getData = (key, fallback) => {
  try {
   const data = localStorage.getItem(key);
   return data ? JSON.parse(data) : fallback;
- } catch {
-  return fallback;
- }
+ } catch { return fallback; }
 };
 
 let users = getData("ah_users", [
@@ -764,13 +915,11 @@ let results = getData("ah_results", []);
 let assignments = getData("ah_assignments", []);
 let pdfNotes = getData("ah_pdf_notes", []);
 let questionBank = getData("ah_question_bank", []);
-
-// ✅ إجابات الطلاب في بنك الأسئلة
-// structure: { [username]: { [questionId]: { answer, isCorrect, status, submittedAt, manualScore, feedback } } }
 let bankAnswers = getData("ah_bank_answers", {});
 
 let currentUser = null;
 let activeExam = null;
+let pendingPdfData = null;
 
 function save() {
  localStorage.setItem("ah_users", JSON.stringify(users));
@@ -781,7 +930,6 @@ function save() {
  localStorage.setItem("ah_pdf_notes", JSON.stringify(pdfNotes));
  localStorage.setItem("ah_question_bank", JSON.stringify(questionBank));
  localStorage.setItem("ah_bank_answers", JSON.stringify(bankAnswers));
-
  syncToFirebase();
 }
 
@@ -801,6 +949,7 @@ async function syncToFirebase() {
   if (badge) { badge.textContent = "🔴 Firebase: خطأ ("+(e.code||"unknown")+")"; badge.className = "fb-status offline"; }
  }
 }
+
 async function loadFromFirebase() {
  if (!window.firebaseReady || !window.firebaseDB) {
   const badge = document.getElementById("fbStatus");
@@ -826,7 +975,6 @@ async function loadFromFirebase() {
     else merged.push(fu);
    });
    users = merged;
-
    if (Array.isArray(data.lessons) && data.lessons.length) lessons = data.lessons;
    if (Array.isArray(data.exams)) exams = data.exams;
    if (Array.isArray(data.results)) results = data.results;
@@ -846,10 +994,8 @@ async function loadFromFirebase() {
 
    console.log("✅ تم تحميل البيانات من Firebase");
    if (badge) { badge.textContent = "🟢 Firebase: متصل"; badge.className = "fb-status"; }
-
    if (merged.length > firebaseUsers.length) await syncToFirebase();
   } else {
-   console.log("ℹ️ لا توجد بيانات على Firebase، رفع البيانات الحالية...");
    await syncToFirebase();
   }
  } catch (e) {
@@ -868,35 +1014,30 @@ function esc(value) {
 // ===================================
 // LOGIN
 // ===================================
-
 function toggleLoginPassword() {
  const input = document.getElementById("loginPass");
  const button = document.getElementById("showPasswordBtn");
  const visible = input.type === "password";
  input.type = visible ? "text" : "password";
- button.textContent = visible ? "😆" : "☺️";
+ button.textContent = visible ? "👁️" : "🙈";
+ button.setAttribute("title", visible ? "إخفاء كلمة المرور" : "إظهار كلمة المرور");
 }
+
 
 function login() {
  const username = document.getElementById("loginUser").value.trim();
  const password = document.getElementById("loginPass").value;
-
  const user = users.find(u => u.username === username && u.password === password);
-
  if (!user) {
   document.getElementById("loginError").textContent = "اسم المستخدم أو كلمة المرور غير صحيحة";
   return;
  }
-
  currentUser = user;
  document.getElementById("loginPage").classList.add("hidden");
  document.getElementById("app").classList.remove("hidden");
-
  document.getElementById("profileName").textContent = user.name;
  document.getElementById("avatar").textContent = user.name[0] || "A";
- document.getElementById("profileRole").textContent =
-  user.role === "teacher" ? "مدرس" : "طالب";
-
+ document.getElementById("profileRole").textContent = user.role === "teacher" ? "مدرس" : "طالب";
  applyLanguage();
  buildMenu();
  go(user.role === "teacher" ? "home" : "studentHome");
@@ -914,7 +1055,6 @@ function logout() {
 // ===================================
 // MENU
 // ===================================
-
 function buildMenu() {
  if (!currentUser) return;
  const items = currentUser.role === "teacher" ? [
@@ -938,7 +1078,6 @@ function buildMenu() {
   ["studentResults","◷","نتائجي"],
   ["settings","⚙","الإعدادات"]
  ];
-
  const english = localStorage.getItem("ah_language") === "en";
  const labels = {
   home:"Dashboard",users:"Manage Accounts",lessons:"Lessons",teacherAssignments:"Assignments",
@@ -959,7 +1098,6 @@ function buildMenu() {
 // ===================================
 // NAVIGATION
 // ===================================
-
 const titles = {
  home:["لوحة تحكم المدرس","إدارة المنصة التعليمية"],
  users:["إدارة الحسابات","إضافة وإدارة الطلاب والمدرسين"],
@@ -983,7 +1121,6 @@ function go(page) {
  closeSidebar();
  if (!currentUser) return;
  if (!titles[page]) return;
-
  const teacherPages = ["home","users","lessons","teacherAssignments","pdfNotes","createExam","exams","results"];
  if (currentUser.role === "teacher" && !teacherPages.includes(page) && page !== "settings" && page !== "questionBank") return;
  if (currentUser.role === "student" && teacherPages.includes(page)) return;
@@ -991,10 +1128,8 @@ function go(page) {
  document.querySelectorAll("#menu button").forEach(b =>
   b.classList.toggle("active", b.dataset.page === page)
  );
-
  document.getElementById("pageTitle").textContent = titles[page][0];
  document.getElementById("pageSubtitle").textContent = titles[page][1];
-
  const c = document.getElementById("content");
 
  switch (page) {
@@ -1015,12 +1150,33 @@ function go(page) {
   case "studentResults": showResults(c, false); break;
   case "settings": settingsPage(c); break;
  }
+ setTimeout(enhanceTablesForMobile, 0);
+}
+
+// أضف data-label تلقائيًا للجداول عشان تتحول لكروت على الموبايل
+function enhanceTablesForMobile() {
+ document.querySelectorAll("table").forEach(table => {
+  const headers = [...table.querySelectorAll("th")].map(th => th.textContent.trim());
+  if (!headers.length) return;
+  table.querySelectorAll("tr").forEach(tr => {
+   const cells = tr.querySelectorAll("td");
+   if (!cells.length) return;
+   cells.forEach((td, i) => {
+    if (!td.dataset.label && headers[i]) td.dataset.label = headers[i];
+   });
+  });
+  if (table.parentElement && !table.parentElement.classList.contains("table-wrap")) {
+   const wrap = document.createElement("div");
+   wrap.className = "table-wrap";
+   table.parentElement.insertBefore(wrap, table);
+   wrap.appendChild(table);
+  }
+ });
 }
 
 // ===================================
 // SETTINGS
 // ===================================
-
 function currentLanguage() {
  return localStorage.getItem("ah_language") || "ar";
 }
@@ -1105,7 +1261,6 @@ function settingsPage(c) {
     </select>
     <p class="muted settings-note">${en?"In this version, navigation and settings are translated. Lesson and exam content remains in its original language.":"في هذه النسخة، القوائم والإعدادات مترجمة، بينما يظل محتوى الدروس والامتحانات بلغته الأصلية."}</p>
    </section>
-
    <section class="panel settings-panel">
     <div class="settings-heading"><span class="settings-icon">🎨</span><div><h3>${en?"Appearance":"المظهر"}</h3><p class="muted">${en?"Switch between light and dark mode":"اختار الوضع المناسب لك"}</p></div></div>
     <label for="settingTheme">${en?"Theme":"المظهر"}</label>
@@ -1115,7 +1270,6 @@ function settingsPage(c) {
     </select>
     <p class="muted settings-note">${en?"Your theme preference is saved on this browser.":"سيتم حفظ اختيارك على هذا المتصفح."}</p>
    </section>
-
    <section class="panel settings-panel settings-account">
     <div class="settings-heading"><span class="settings-icon">👤</span><div><h3>${en?"Account information":"معلومات الحساب"}</h3><p class="muted">${en?"View and update your account details":"عرض وتعديل بيانات حسابك"}</p></div></div>
     <div class="form-grid">
@@ -1139,13 +1293,11 @@ function settingsPage(c) {
 function saveAccountSettings() {
  const user = users.find(u => u.username === currentUser.username);
  if (!user) return alert(currentLanguage() === "en" ? "Account not found" : "لم يتم العثور على الحساب");
-
  const name = document.getElementById("settingName").value.trim();
  const currentPassword = document.getElementById("settingCurrentPassword").value;
  const newPassword = document.getElementById("settingNewPassword").value;
  const confirmPassword = document.getElementById("settingConfirmPassword").value;
  const en = currentLanguage() === "en";
-
  if (!name) return alert(en ? "Please enter your name" : "اكتب الاسم");
  if (newPassword || confirmPassword) {
   if (currentPassword !== user.password) return alert(en ? "Current password is incorrect" : "كلمة المرور الحالية غير صحيحة");
@@ -1165,7 +1317,6 @@ function saveAccountSettings() {
 // ===================================
 // STATISTICS
 // ===================================
-
 function stat(title, value, symbol) {
  return `<div class="stat">
  <div class="symbol">${symbol}</div>
@@ -1189,10 +1340,10 @@ function teacherHome(c) {
  </div>
  <div class="panel">
   <h3>آخر نتائج الطلاب</h3>
-  ${results.length ? `<table><tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th></tr>
-  ${results.slice(-5).reverse().map(r => `<tr>
+  ${results.length ? `<table><thead><tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th></tr></thead>
+  <tbody>${results.slice(-5).reverse().map(r => `<tr>
    <td>${esc(r.student)}</td><td>${esc(r.exam)}</td>
-   <td>${r.score}/${r.total}</td></tr>`).join("")}</table>` :
+   <td>${r.score}/${r.total}</td></tr>`).join("")}</tbody></table>` :
   `<div class="empty">لا توجد نتائج حتى الآن</div>`}
  </div>`;
 }
@@ -1200,7 +1351,6 @@ function teacherHome(c) {
 function studentHome(c) {
  const mine = results.filter(r => r.username === currentUser.username);
  const avg = mine.length ? Math.round(mine.reduce((a, b) => a + b.score / b.total * 100, 0) / mine.length) : 0;
-
  c.innerHTML = `
  <div class="grid">
  ${stat("الدروس المتاحة", lessons.length, "▤")}
@@ -1222,7 +1372,6 @@ function studentHome(c) {
 // ===================================
 // USERS MANAGEMENT
 // ===================================
-
 function userManagement(c) {
  c.innerHTML = `
  <div class="panel">
@@ -1242,10 +1391,10 @@ function userManagement(c) {
  </div>
  <div class="panel">
   <h3>الحسابات المسجلة (${users.length})</h3>
-  <div style="overflow-x:auto">
+  <div class="table-wrap">
   <table>
-   <tr><th>الاسم</th><th>المستخدم</th><th>النوع</th><th>كلمة المرور</th><th>الإجراء</th></tr>
-   ${users.map(u => `<tr>
+   <thead><tr><th>الاسم</th><th>المستخدم</th><th>النوع</th><th>كلمة المرور</th><th>الإجراء</th></tr></thead>
+   <tbody>${users.map(u => `<tr>
     <td>${esc(u.name)}</td>
     <td>${esc(u.username)}</td>
     <td>${u.role === "teacher" ? "مدرس" : "طالب"}</td>
@@ -1254,7 +1403,7 @@ function userManagement(c) {
      <button class="btn-small" onclick="resetUserPassword(${u.id})">تغيير كلمة المرور</button>
      <button class="btn-small btn-danger" onclick="deleteUser(${u.id})">حذف</button>
     </td>
-   </tr>`).join("")}
+   </tr>`).join("")}</tbody>
   </table>
   </div>
  </div>`;
@@ -1265,10 +1414,8 @@ function addUser() {
  const username = document.getElementById("newUsername").value.trim();
  const password = document.getElementById("newPassword").value;
  const role = document.getElementById("newRole").value;
-
  if (!name || !username || !password) return alert("أكمل جميع البيانات");
  if (users.some(u => u.username === username)) return alert("اسم المستخدم موجود بالفعل");
-
  users.push({ id: Date.now(), name, username, password, role });
  save();
  alert("تم إنشاء الحساب بنجاح");
@@ -1298,43 +1445,27 @@ function deleteUser(id) {
 // ===================================
 // LESSON MANAGEMENT
 // ===================================
-
 function lessonManagement(c) {
  c.innerHTML = `
  <div class="panel">
   <h3>إضافة درس جديد</h3>
-
-  <div class="notice">
-   يمكنك كتابة الدرس يدوياً أو استيراده مباشرة من ملف Word.
-  </div>
-
+  <div class="notice">يمكنك كتابة الدرس يدوياً أو استيراده مباشرة من ملف Word.</div>
   <div class="field">
    <label>عنوان الدرس</label>
    <input id="lessonName" placeholder="مثال: الجمل الشرطية">
   </div>
-
   <div class="field">
    <label>وصف مختصر</label>
    <input id="lessonDesc">
   </div>
-
   <div class="field">
    <label>شرح الدرس</label>
-   <textarea id="lessonText"
-    placeholder="اكتب الشرح هنا أو استورد ملف Word..."></textarea>
+   <textarea id="lessonText" placeholder="اكتب الشرح هنا أو استورد ملف Word..."></textarea>
   </div>
-
   <input type="file" id="wordFile" accept=".docx" style="display:none" onchange="importWordLesson(event)">
-
-  <button class="btn-small" onclick="document.getElementById('wordFile').click()">
-   📄 استيراد درس من Word
-  </button>
-
-  <button class="primary" onclick="addLesson()">
-   نشر الدرس
-  </button>
+  <button class="btn-small" onclick="document.getElementById('wordFile').click()">📄 استيراد درس من Word</button>
+  <button class="primary" onclick="addLesson()">نشر الدرس</button>
  </div>
-
  <div class="panel">
   <h3>الدروس المنشورة</h3>
   ${lessonCards(true)}
@@ -1344,30 +1475,24 @@ function lessonManagement(c) {
 async function importWordLesson(event) {
  const file = event.target.files[0];
  if (!file) return;
-
  if (!file.name.toLowerCase().endsWith(".docx")) {
   alert("من فضلك اختر ملف Word بصيغة DOCX");
   event.target.value = "";
   return;
  }
-
  try {
   const arrayBuffer = await file.arrayBuffer();
   const result = await mammoth.extractRawText({ arrayBuffer });
   const content = result.value.trim();
-
   if (!content) { alert("الملف لا يحتوي على نص"); return; }
-
   document.getElementById("lessonText").value = content;
   const titleInput = document.getElementById("lessonName");
   if (!titleInput.value.trim()) titleInput.value = file.name.replace(/\.docx$/i, "");
-
   alert("تم استيراد الدرس بنجاح من ملف Word");
  } catch (error) {
   alert("حدث خطأ أثناء قراءة ملف Word");
   console.error(error);
  }
-
  event.target.value = "";
 }
 
@@ -1416,13 +1541,11 @@ function readLesson(id) {
 }
 
 // ===================================
-// HOMEWORK / ASSIGNMENTS
+// HOMEWORK
 // ===================================
-
 function teacherAssignments(c) {
  const submittedCount = assignments.reduce((sum, a) => sum + (a.submissions || []).length, 0);
  const pendingCount = assignments.reduce((sum, a) => sum + (a.submissions || []).filter(s => s.grade === null || s.grade === undefined).length, 0);
-
  c.innerHTML = `
  <div class="grid">
   ${stat("الواجبات المنشورة", assignments.length, "📝")}
@@ -1431,23 +1554,11 @@ function teacherAssignments(c) {
  </div>
  <div class="panel">
   <h3>إضافة واجب جديد</h3>
-  <div class="field">
-   <label>عنوان الواجب</label>
-   <input id="homeworkTitle" placeholder="مثال: حل تدريبات الدرس الأول">
-  </div>
-  <div class="field">
-   <label>تفاصيل وتعليمات الواجب</label>
-   <textarea id="homeworkDescription" rows="5" placeholder="اكتب المطلوب من الطلاب بالتفصيل..."></textarea>
-  </div>
+  <div class="field"><label>عنوان الواجب</label><input id="homeworkTitle" placeholder="مثال: حل تدريبات الدرس الأول"></div>
+  <div class="field"><label>تفاصيل وتعليمات الواجب</label><textarea id="homeworkDescription" rows="5" placeholder="اكتب المطلوب من الطلاب بالتفصيل..."></textarea></div>
   <div class="form-grid">
-   <div class="field">
-    <label>آخر موعد للتسليم (اختياري)</label>
-    <input id="homeworkDueDate" type="date">
-   </div>
-   <div class="field">
-    <label>الدرجة النهائية</label>
-    <input id="homeworkTotal" type="number" min="1" value="10">
-   </div>
+   <div class="field"><label>آخر موعد للتسليم (اختياري)</label><input id="homeworkDueDate" type="date"></div>
+   <div class="field"><label>الدرجة النهائية</label><input id="homeworkTotal" type="number" min="1" value="10"></div>
   </div>
   <button class="primary" onclick="addHomework()">نشر الواجب</button>
  </div>
@@ -1469,16 +1580,16 @@ function teacherHomeworkCard(a) {
   <p style="white-space:pre-wrap;line-height:1.9">${esc(a.description)}</p>
   <p class="muted">الدرجة النهائية: ${a.total} | إجابات تحتاج تصحيح: ${pending}</p>
   ${submissions.length ? `
-   <div style="overflow-x:auto">
+   <div class="table-wrap">
     <table>
-     <tr><th>الطالب</th><th>تاريخ الإرسال</th><th>الحالة</th><th>الدرجة</th><th>الإجراء</th></tr>
-     ${submissions.map((s, submissionIndex) => `<tr>
+     <thead><tr><th>الطالب</th><th>تاريخ الإرسال</th><th>الحالة</th><th>الدرجة</th><th>الإجراء</th></tr></thead>
+     <tbody>${submissions.map((s, submissionIndex) => `<tr>
       <td>${esc(s.studentName)}</td>
       <td>${esc(s.submittedAt || "-")}</td>
       <td>${s.grade === null || s.grade === undefined ? "بانتظار التصحيح" : "تم التصحيح"}</td>
       <td>${s.grade === null || s.grade === undefined ? "—" : s.grade + " / " + a.total}</td>
       <td><button class="btn-small" onclick="gradeHomework(${a.id},${submissionIndex})">${s.grade === null || s.grade === undefined ? "تصحيح" : "تعديل التصحيح"}</button></td>
-     </tr>`).join("")}
+     </tr>`).join("")}</tbody>
     </table>
    </div>` : `<div class="empty">لم يرسل أي طالب إجابته بعد</div>`}
   <button class="btn-small btn-danger" onclick="deleteHomework(${a.id})">حذف الواجب</button>
@@ -1490,16 +1601,9 @@ function addHomework() {
  const description = document.getElementById("homeworkDescription").value.trim();
  const dueDate = document.getElementById("homeworkDueDate").value;
  const total = Number(document.getElementById("homeworkTotal").value);
-
  if (!title || !description) return alert("اكتب عنوان الواجب والتعليمات");
  if (!Number.isFinite(total) || total < 1) return alert("اكتب درجة نهائية صحيحة");
-
- assignments.push({
-  id: Date.now(),
-  title, description, dueDate, total,
-  createdAt: new Date().toLocaleString("ar-EG"),
-  submissions: []
- });
+ assignments.push({ id: Date.now(), title, description, dueDate, total, createdAt: new Date().toLocaleString("ar-EG"), submissions: [] });
  save();
  alert("تم نشر الواجب بنجاح");
  go("teacherAssignments");
@@ -1527,7 +1631,6 @@ function studentHomeworkCard(a, now) {
  const isLate = !!(a.dueDate && now > a.dueDate);
  let status = "لم يتم التسليم";
  if (submission) status = (submission.grade === null || submission.grade === undefined) ? "تم التسليم - بانتظار التصحيح" : "تم التصحيح";
-
  return `<div class="card" style="margin:14px 0">
   <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
    <span class="tag">${esc(status)}</span>
@@ -1568,11 +1671,9 @@ function submitHomework(id) {
  const existing = (a.submissions || []).find(s => s.username === currentUser.username);
  if (existing && existing.grade !== null && existing.grade !== undefined)
   return alert("تم تصحيح هذا الواجب بالفعل، ولا يمكن تعديل الإجابة");
-
  const field = document.getElementById("homeworkAnswer_" + id);
  const answer = field ? field.value.trim() : "";
  if (!answer) return alert("اكتب إجابتك قبل الإرسال");
-
  if (!a.submissions) a.submissions = [];
  const submission = {
   username: currentUser.username,
@@ -1585,7 +1686,6 @@ function submitHomework(id) {
  const index = a.submissions.findIndex(s => s.username === currentUser.username);
  if (index >= 0) a.submissions[index] = submission;
  else a.submissions.push(submission);
-
  save();
  alert("تم إرسال إجابتك بنجاح");
  go("studentAssignments");
@@ -1596,16 +1696,13 @@ function gradeHomework(assignmentId, submissionIndex) {
  if (!a) return;
  const submission = (a.submissions || [])[submissionIndex];
  if (!submission) return;
-
  const rawGrade = prompt("اكتب درجة الطالب من " + a.total, submission.grade ?? "");
  if (rawGrade === null) return;
  const grade = Number(rawGrade);
  if (rawGrade.trim() === "" || !Number.isFinite(grade) || grade < 0 || grade > a.total)
   return alert("اكتب درجة صحيحة من 0 إلى " + a.total);
-
  const feedback = prompt("اكتب ملاحظاتك للطالب (اختياري)", submission.feedback || "");
  if (feedback === null) return;
-
  submission.grade = grade;
  submission.feedback = feedback.trim();
  submission.gradedAt = new Date().toLocaleString("ar-EG");
@@ -1615,33 +1712,20 @@ function gradeHomework(assignmentId, submissionIndex) {
 }
 
 // ===================================
-// PDF NOTES MANAGEMENT
+// PDF NOTES
 // ===================================
-
 function pdfNotesManagement(c) {
  const en = currentLanguage() === "en";
  c.innerHTML = `
  <div class="panel">
   <h3>${en?"Upload a new PDF note":"رفع ملزمة PDF جديدة"}</h3>
-  <div class="notice">
-   ${en?"Choose a PDF file from your device. Max recommended size 5MB for smooth sync.":"اختر ملف PDF من جهازك. الحجم الموصى به أقل من 5 ميجا لسهولة المزامنة."}
-  </div>
-  <div class="field">
-   <label>${en?"Note title":"عنوان الملزمة"}</label>
-   <input id="pdfTitle" placeholder="${en?"Example: Chapter 1 - Basics":"مثال: الفصل الأول - الأساسيات"}">
-  </div>
-  <div class="field">
-   <label>${en?"Short description (optional)":"وصف مختصر (اختياري)"}</label>
-   <input id="pdfDesc">
-  </div>
-  <div class="field">
-   <label>${en?"PDF file":"ملف PDF"}</label>
-   <input type="file" id="pdfFile" accept="application/pdf" onchange="handlePdfSelect(event)">
-  </div>
+  <div class="notice">${en?"Choose a PDF file from your device. Max recommended size 5MB for smooth sync.":"اختر ملف PDF من جهازك. الحجم الموصى به أقل من 5 ميجا لسهولة المزامنة."}</div>
+  <div class="field"><label>${en?"Note title":"عنوان الملزمة"}</label><input id="pdfTitle" placeholder="${en?"Example: Chapter 1 - Basics":"مثال: الفصل الأول - الأساسيات"}"></div>
+  <div class="field"><label>${en?"Short description (optional)":"وصف مختصر (اختياري)"}</label><input id="pdfDesc"></div>
+  <div class="field"><label>${en?"PDF file":"ملف PDF"}</label><input type="file" id="pdfFile" accept="application/pdf" onchange="handlePdfSelect(event)"></div>
   <div id="pdfPreviewBox" class="muted" style="margin-bottom:12px"></div>
   <button class="primary" onclick="uploadPdfNote()">${en?"Upload note":"رفع الملزمة"}</button>
  </div>
-
  <div class="panel">
   <h3>${en?"Uploaded notes":"الملازم المرفوعة"} (${pdfNotes.length})</h3>
   ${pdfNotes.length ? `<div class="cards">${pdfNotes.map(n => `
@@ -1655,11 +1739,8 @@ function pdfNotesManagement(c) {
     <button class="btn-small btn-danger" onclick="deletePdfNote(${n.id})">${en?"Delete":"حذف"}</button>
    </div>`).join("")}</div>` : `<div class="empty">${en?"No PDF notes uploaded yet":"لم يتم رفع ملازم بعد"}</div>`}
  </div>`;
-
  pendingPdfData = null;
 }
-
-let pendingPdfData = null;
 
 function handlePdfSelect(event) {
  const file = event.target.files[0];
@@ -1670,9 +1751,7 @@ function handlePdfSelect(event) {
   pendingPdfData = null;
   return;
  }
- if (file.size > 8 * 1024 * 1024) {
-  box.textContent = "⚠️ الملف كبير (أكثر من 8 ميجا) قد لا يتزامن بسلاسة";
- }
+ if (file.size > 8 * 1024 * 1024) box.textContent = "⚠️ الملف كبير (أكثر من 8 ميجا) قد لا يتزامن بسلاسة";
  const reader = new FileReader();
  reader.onload = () => {
   pendingPdfData = { name: file.name, dataUrl: reader.result, size: file.size };
@@ -1686,10 +1765,8 @@ function uploadPdfNote() {
  const description = document.getElementById("pdfDesc").value.trim();
  if (!title) return alert("اكتب عنوان الملزمة");
  if (!pendingPdfData) return alert("اختر ملف PDF أولاً");
-
  pdfNotes.push({
-  id: Date.now(),
-  title, description,
+  id: Date.now(), title, description,
   fileName: pendingPdfData.name,
   dataUrl: pendingPdfData.dataUrl,
   size: pendingPdfData.size,
@@ -1756,26 +1833,18 @@ function studentPdfNotes(c) {
 }
 
 // ===================================
-// QUESTION BANK (تفاعلي)
+// QUESTION BANK
 // ===================================
-
 function questionBankPage(c) {
- const en = currentLanguage() === "en";
- const isTeacher = currentUser.role === "teacher";
-
- if (isTeacher) {
-  teacherQuestionBankPage(c);
- } else {
-  studentQuestionBankPage(c);
- }
+ if (currentUser.role === "teacher") teacherQuestionBankPage(c);
+ else studentQuestionBankPage(c);
 }
 
-// ---------- Teacher view ----------
+// Teacher view
 function teacherQuestionBankPage(c) {
  const en = currentLanguage() === "en";
  const filterType = window.__bankFilterType || "all";
  const searchTerm = window.__bankSearch || "";
-
  const filtered = questionBank.filter(q => {
   const matchesType = filterType === "all" || q.type === filterType;
   const matchesSearch = !searchTerm ||
@@ -1783,14 +1852,10 @@ function teacherQuestionBankPage(c) {
    (q.topic || "").toLowerCase().includes(searchTerm.toLowerCase());
   return matchesType && matchesSearch;
  });
-
  c.innerHTML = `
  <div class="panel">
   <h3>${en?"Add new question":"إضافة سؤال جديد"}</h3>
-  <div class="field">
-   <label>${en?"Question text":"نص السؤال"}</label>
-   <textarea id="bankQText" rows="2" placeholder="${en?"Write the question...":"اكتب السؤال هنا..."}"></textarea>
-  </div>
+  <div class="field"><label>${en?"Question text":"نص السؤال"}</label><textarea id="bankQText" rows="2" placeholder="${en?"Write the question...":"اكتب السؤال هنا..."}"></textarea></div>
   <div class="form-grid">
    <div class="field">
     <label>${en?"Type":"النوع"}</label>
@@ -1800,12 +1865,8 @@ function teacherQuestionBankPage(c) {
      <option value="text">${en?"Short text":"سؤال نصي"}</option>
     </select>
    </div>
-   <div class="field">
-    <label>${en?"Topic / tag (optional)":"الموضوع / التصنيف (اختياري)"}</label>
-    <input id="bankQTopic" placeholder="${en?"e.g. Variables":"مثال: المتغيرات"}">
-   </div>
+   <div class="field"><label>${en?"Topic / tag (optional)":"الموضوع / التصنيف (اختياري)"}</label><input id="bankQTopic" placeholder="${en?"e.g. Variables":"مثال: المتغيرات"}"></div>
   </div>
-
   <div id="bankMcqBox">
    <div class="option-grid">
     <input class="bank-opt" placeholder="${en?"Option 1":"الاختيار 1"}">
@@ -1815,33 +1876,20 @@ function teacherQuestionBankPage(c) {
    </div>
    <div class="field" style="margin-top:10px">
     <label>${en?"Correct option number":"رقم الاختيار الصحيح"}</label>
-    <select id="bankQCorrect">
-     <option value="0">1</option><option value="1">2</option>
-     <option value="2">3</option><option value="3">4</option>
-    </select>
+    <select id="bankQCorrect"><option value="0">1</option><option value="1">2</option><option value="2">3</option><option value="3">4</option></select>
    </div>
   </div>
-
   <div id="bankTfBox" class="hidden">
    <div class="field">
     <label>${en?"Correct answer":"الإجابة الصحيحة"}</label>
-    <select id="bankTfCorrect">
-     <option value="true">${en?"True":"صح"}</option>
-     <option value="false">${en?"False":"خطأ"}</option>
-    </select>
+    <select id="bankTfCorrect"><option value="true">${en?"True":"صح"}</option><option value="false">${en?"False":"خطأ"}</option></select>
    </div>
   </div>
-
   <div id="bankTextBox" class="hidden">
-   <div class="field">
-    <label>${en?"Model answer":"الإجابة النموذجية"}</label>
-    <textarea id="bankTextModel" rows="2"></textarea>
-   </div>
+   <div class="field"><label>${en?"Model answer":"الإجابة النموذجية"}</label><textarea id="bankTextModel" rows="2"></textarea></div>
   </div>
-
   <button class="primary" onclick="addBankQuestion()">${en?"Add to bank":"إضافة إلى بنك الأسئلة"}</button>
  </div>
-
  <div class="panel">
   <h3>${en?"Question bank":"بنك الأسئلة"} (${questionBank.length})</h3>
   <div class="bank-filters">
@@ -1851,11 +1899,9 @@ function teacherQuestionBankPage(c) {
     <option value="tf" ${filterType==="tf"?"selected":""}>${en?"True / False":"صح أو خطأ"}</option>
     <option value="text" ${filterType==="text"?"selected":""}>${en?"Short text":"سؤال نصي"}</option>
    </select>
-   <input placeholder="${en?"Search...":"بحث..."}" value="${esc(searchTerm)}"
-    oninput="window.__bankSearch=this.value" onkeydown="if(event.key==='Enter') go('questionBank')">
+   <input placeholder="${en?"Search...":"بحث..."}" value="${esc(searchTerm)}" oninput="window.__bankSearch=this.value" onkeydown="if(event.key==='Enter') go('questionBank')">
    <button class="btn-small" onclick="go('questionBank')">${en?"Apply":"تطبيق"}</button>
   </div>
-
   ${filtered.length ? filtered.slice().reverse().map(q => `
    <div class="bank-question">
     <div class="bank-q-head">
@@ -1887,9 +1933,7 @@ function addBankQuestion() {
  const type = document.getElementById("bankQType").value;
  const topic = document.getElementById("bankQTopic").value.trim();
  if (!text) return alert("اكتب نص السؤال");
-
  const q = { id: Date.now(), type, text, topic, createdAt: new Date().toLocaleString("ar-EG") };
-
  if (type === "mcq") {
   const opts = [...document.querySelectorAll(".bank-opt")].map(x => x.value.trim());
   if (opts.some(o => !o)) return alert("أكمل الاختيارات الأربعة");
@@ -1901,7 +1945,6 @@ function addBankQuestion() {
   q.model = document.getElementById("bankTextModel").value.trim();
   if (!q.model) return alert("اكتب الإجابة النموذجية");
  }
-
  questionBank.push(q);
  save();
  alert("تمت إضافة السؤال إلى البنك");
@@ -1911,21 +1954,16 @@ function addBankQuestion() {
 function deleteBankQuestion(id) {
  if (!confirm("حذف هذا السؤال من البنك؟")) return;
  questionBank = questionBank.filter(q => q.id !== id);
- // احذف إجابات الطلاب المرتبطة
  Object.keys(bankAnswers).forEach(username => {
-  if (bankAnswers[username] && bankAnswers[username][id]) {
-   delete bankAnswers[username][id];
-  }
+  if (bankAnswers[username] && bankAnswers[username][id]) delete bankAnswers[username][id];
  });
  save();
  go("questionBank");
 }
 
-// مدرس: عرض إجابات الطلاب لسؤال معين
 function viewBankQuestionStats(questionId) {
  const q = questionBank.find(x => x.id === questionId);
  if (!q) return;
-
  const rows = [];
  Object.keys(bankAnswers).forEach(username => {
   const ans = bankAnswers[username] && bankAnswers[username][questionId];
@@ -1933,7 +1971,6 @@ function viewBankQuestionStats(questionId) {
   const u = users.find(x => x.username === username);
   rows.push({ username, name: u ? u.name : username, ...ans });
  });
-
  const c = document.getElementById("content");
  c.innerHTML = `
  <div class="panel">
@@ -1941,23 +1978,21 @@ function viewBankQuestionStats(questionId) {
    <h3>إجابات الطلاب على: ${esc(q.text)}</h3>
    <button class="btn-small" onclick="go('questionBank')">رجوع</button>
   </div>
-  ${rows.length ? `<div style="overflow-x:auto">
-   <table>
-    <tr><th>الطالب</th><th>إجابته</th><th>الحالة</th><th>التاريخ</th><th>الإجراء</th></tr>
-    ${rows.map(r => `<tr>
-     <td>${esc(r.name)}</td>
-     <td>${esc(r.displayAnswer || "-")}</td>
-     <td>${
-      r.status === "correct" ? '<span class="bank-status-pill correct">صح</span>' :
-      r.status === "wrong" ? '<span class="bank-status-pill wrong">خطأ</span>' :
-      r.status === "pending" ? '<span class="bank-status-pill pending">بانتظار التصحيح</span>' :
-      '<span class="bank-status-pill pending">—</span>'
-     }</td>
-     <td>${esc(r.submittedAt || "-")}</td>
-     <td>${q.type === "text" && r.status === "pending" ? `<button class="btn-small" onclick="gradeBankTextAnswer(${q.id},'${esc(r.username)}')">تصحيح</button>` : "-"}</td>
-    </tr>`).join("")}
-   </table>
-  </div>` : `<div class="empty">لم يجب أي طالب على هذا السؤال بعد</div>`}
+  ${rows.length ? `<div class="table-wrap"><table>
+   <thead><tr><th>الطالب</th><th>إجابته</th><th>الحالة</th><th>التاريخ</th><th>الإجراء</th></tr></thead>
+   <tbody>${rows.map(r => `<tr>
+    <td>${esc(r.name)}</td>
+    <td>${esc(r.displayAnswer || "-")}</td>
+    <td>${
+     r.status === "correct" ? '<span class="bank-status-pill correct">صح</span>' :
+     r.status === "wrong" ? '<span class="bank-status-pill wrong">خطأ</span>' :
+     r.status === "pending" ? '<span class="bank-status-pill pending">بانتظار التصحيح</span>' :
+     '<span class="bank-status-pill pending">—</span>'
+    }</td>
+    <td>${esc(r.submittedAt || "-")}</td>
+    <td>${q.type === "text" && r.status === "pending" ? `<button class="btn-small" onclick="gradeBankTextAnswer(${q.id},'${esc(r.username)}')">تصحيح</button>` : "-"}</td>
+   </tr>`).join("")}</tbody>
+  </table></div>` : `<div class="empty">لم يجب أي طالب على هذا السؤال بعد</div>`}
  </div>`;
 }
 
@@ -1966,30 +2001,25 @@ function gradeBankTextAnswer(questionId, username) {
  if (!q || q.type !== "text") return;
  const ans = bankAnswers[username] && bankAnswers[username][questionId];
  if (!ans) return;
-
  const raw = prompt("اكتب درجة الطالب (من 1)", ans.manualScore ?? "1");
  if (raw === null) return;
  const score = Number(raw);
  if (raw.trim() === "" || !Number.isFinite(score) || score < 0) return alert("درجة غير صحيحة");
-
  const fb = prompt("ملاحظات (اختياري)", ans.feedback || "");
  if (fb === null) return;
-
  ans.manualScore = score;
  ans.feedback = fb.trim();
  ans.status = score >= 1 ? "correct" : "wrong";
  ans.gradedAt = new Date().toLocaleString("ar-EG");
-
  save();
  alert("تم حفظ التصحيح");
  viewBankQuestionStats(questionId);
 }
 
-// ---------- Student view (تفاعلي) ----------
+// Student view
 function studentQuestionBankPage(c) {
  const en = currentLanguage() === "en";
  const mine = bankAnswers[currentUser.username] || {};
-
  const total = questionBank.length;
  const solvedIds = Object.keys(mine).map(Number);
  const correctCount = solvedIds.filter(id => mine[id].status === "correct").length;
@@ -1997,10 +2027,8 @@ function studentQuestionBankPage(c) {
  const pendingCount = solvedIds.filter(id => mine[id].status === "pending").length;
  const unsolvedCount = total - solvedIds.length;
  const percent = total ? Math.round((correctCount / total) * 100) : 0;
-
  const filterStatus = window.__bankStudentFilter || "all";
  const filterType = window.__bankStudentType || "all";
-
  const filtered = questionBank.filter(q => {
   const ans = mine[q.id];
   const status = ans ? ans.status : "unsolved";
@@ -2013,12 +2041,11 @@ function studentQuestionBankPage(c) {
   const matchType = filterType === "all" || q.type === filterType;
   return matchStatus && matchType;
  });
-
  c.innerHTML = `
  <div class="bank-progress-card">
   <div>
    <h2>${en?"Your progress":"تقدمك في بنك الأسئلة"}</h2>
-   <p class="muted" style="color:#e0e8ff;margin:6px 0 0">${en?"Keep practicing to improve your score":"استمر في التدريب لتحسين نتيجتك"}</p>
+   <p style="color:#e0e8ff;margin:6px 0 0;font-size:12px">${en?"Keep practicing to improve your score":"استمر في التدريب لتحسين نتيجتك"}</p>
   </div>
   <div class="bank-progress-stats">
    <div><strong>${correctCount}</strong><small>${en?"Correct":"صح"}</small></div>
@@ -2027,11 +2054,8 @@ function studentQuestionBankPage(c) {
    <div><strong>${unsolvedCount}</strong><small>${en?"Unsolved":"لم يُحل"}</small></div>
    <div><strong>${percent}%</strong><small>${en?"Score":"النسبة"}</small></div>
   </div>
-  <div style="width:100%">
-   <div class="progress"><span style="width:${percent}%"></span></div>
-  </div>
+  <div style="width:100%"><div class="progress"><span style="width:${percent}%"></span></div></div>
  </div>
-
  <div class="panel">
   <div class="section-title">
    <h3>${en?"Bank questions":"أسئلة البنك"} (${total})</h3>
@@ -2053,7 +2077,6 @@ function studentQuestionBankPage(c) {
    </select>
    <button class="btn-small" onclick="window.__bankStudentFilter='all';window.__bankStudentType='all';go('questionBank')">${en?"Reset":"إعادة ضبط"}</button>
   </div>
-
   ${filtered.length ? filtered.slice().reverse().map(q => renderStudentBankQuestion(q, mine[q.id], en)).join("") : `<div class="empty">${en?"No questions match the filter":"لا توجد أسئلة مطابقة"}</div>`}
  </div>`;
 }
@@ -2064,14 +2087,11 @@ function renderStudentBankQuestion(q, ans, en) {
   status === "correct" ? "solved-correct" :
   status === "wrong" ? "solved-wrong" :
   status === "pending" ? "solved-pending" : "";
-
  let body = "";
-
  if (q.type === "mcq" || q.type === "tf") {
   const options = q.type === "mcq" ? q.options : [en?"True":"صح", en?"False":"خطأ"];
   const correctIndex = q.type === "mcq" ? q.correct : (q.correct ? 0 : 1);
-  const selectedIndex = ans && ans.selectedIndex !== undefined ? ans.selectedIndex : (ans && ans.selected !== undefined ? ans.selected : null);
-
+  const selectedIndex = ans && ans.selectedIndex !== undefined ? ans.selectedIndex : null;
   body = options.map((o, j) => {
    let cls = "bank-opt-row";
    if (selectedIndex !== null && selectedIndex === j) cls += " selected";
@@ -2079,7 +2099,7 @@ function renderStudentBankQuestion(q, ans, en) {
     if (j === correctIndex) cls += " correct-answer";
     else if (selectedIndex === j) cls += " wrong-answer";
    }
-   return `<label class="${cls}" ${status === "correct" ? 'style="cursor:default"' : ""}>
+   return `<label class="${cls}">
     <input type="radio" name="bankq_${q.id}" value="${j}"
      ${selectedIndex === j ? "checked" : ""}
      ${status === "correct" ? "disabled" : ""}
@@ -2087,31 +2107,20 @@ function renderStudentBankQuestion(q, ans, en) {
     <span>${esc(o)}</span>
    </label>`;
   }).join("");
-
-  if (status === "correct") {
-   body += `<div class="bank-feedback correct">✅ ${en?"Correct!":"إجابة صحيحة!"}</div>`;
-  } else if (status === "wrong") {
-   body += `<div class="bank-feedback wrong">❌ ${en?"Wrong. The correct answer is highlighted.":"إجابة خاطئة. الإجابة الصحيحة محددة."} 
-    <button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button></div>`;
-  }
+  if (status === "correct") body += `<div class="bank-feedback correct">✅ ${en?"Correct!":"إجابة صحيحة!"}</div>`;
+  else if (status === "wrong") body += `<div class="bank-feedback wrong">❌ ${en?"Wrong. The correct answer is highlighted.":"إجابة خاطئة. الإجابة الصحيحة محددة."}<button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button></div>`;
  }
-
  if (q.type === "text") {
   const display = ans && ans.displayAnswer ? ans.displayAnswer : "";
   const disabled = ans && (status === "correct" || status === "pending");
   body = `
-   <div class="field">
-    <label>${en?"Your answer":"إجابتك"}</label>
-    <textarea id="bankTextAns_${q.id}" rows="3" ${disabled ? "disabled" : ""} placeholder="${en?"Write your answer...":"اكتب إجابتك..."}">${esc(display)}</textarea>
-   </div>
+   <div class="field"><label>${en?"Your answer":"إجابتك"}</label><textarea id="bankTextAns_${q.id}" rows="3" ${disabled?"disabled":""} placeholder="${en?"Write your answer...":"اكتب إجابتك..."}">${esc(display)}</textarea></div>
    ${!disabled ? `<button class="primary" onclick="submitBankTextAnswer(${q.id})">${en?"Send answer":"إرسال الإجابة"}</button>` : ""}
    ${status === "pending" ? `<div class="bank-feedback pending">⏳ ${en?"Sent, waiting for teacher grading":"تم الإرسال، في انتظار تصحيح المدرس"}</div>` : ""}
    ${status === "correct" ? `<div class="bank-feedback correct">✅ ${en?"Graded correct":"تم تصحيحها كإجابة صحيحة"} ${ans.manualScore ? '('+ans.manualScore+')' : ''} ${ans.feedback ? '<br>'+esc(ans.feedback) : ''}</div>` : ""}
-   ${status === "wrong" ? `<div class="bank-feedback wrong">❌ ${en?"Graded wrong":"تم تصحيحها كإجابة خاطئة"} ${ans.feedback ? '<br>'+esc(ans.feedback) : ''}</div>
-     <button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button>` : ""}
+   ${status === "wrong" ? `<div class="bank-feedback wrong">❌ ${en?"Graded wrong":"تم تصحيحها كإجابة خاطئة"} ${ans.feedback ? '<br>'+esc(ans.feedback) : ''}</div><button class="btn-small" onclick="retryBankQuestion(${q.id})" style="margin-top:8px">${en?"Try again":"حاول مرة أخرى"}</button>` : ""}
   `;
  }
-
  return `<div class="bank-q-interactive ${solvedClass}">
   <div class="bank-q-head">
    <div>
@@ -2127,15 +2136,12 @@ function renderStudentBankQuestion(q, ans, en) {
  </div>`;
 }
 
-// الطالب: إجابة MCQ أو True/False → تصحيح فوري
 function submitBankAnswer(questionId, selectedIndex) {
  const q = questionBank.find(x => x.id === questionId);
  if (!q) return;
-
  if (!bankAnswers[currentUser.username]) bankAnswers[currentUser.username] = {};
  const existing = bankAnswers[currentUser.username][questionId];
- if (existing && existing.status === "correct") return; // لا تغيير بعد الصح
-
+ if (existing && existing.status === "correct") return;
  let isCorrect = false;
  let displayAnswer = "";
  if (q.type === "mcq") {
@@ -2146,31 +2152,24 @@ function submitBankAnswer(questionId, selectedIndex) {
   isCorrect = boolAns === q.correct;
   displayAnswer = boolAns ? "صح" : "خطأ";
  }
-
  bankAnswers[currentUser.username][questionId] = {
-  selectedIndex,
-  displayAnswer,
-  isCorrect,
+  selectedIndex, displayAnswer, isCorrect,
   status: isCorrect ? "correct" : "wrong",
   submittedAt: new Date().toLocaleString("ar-EG")
  };
-
  save();
  go("questionBank");
 }
 
-// الطالب: إجابة نصية
 function submitBankTextAnswer(questionId) {
  const q = questionBank.find(x => x.id === questionId);
  if (!q) return;
  const field = document.getElementById("bankTextAns_" + questionId);
  const text = field ? field.value.trim() : "";
  if (!text) return alert("اكتب إجابتك");
-
  if (!bankAnswers[currentUser.username]) bankAnswers[currentUser.username] = {};
  bankAnswers[currentUser.username][questionId] = {
-  displayAnswer: text,
-  status: "pending",
+  displayAnswer: text, status: "pending",
   submittedAt: new Date().toLocaleString("ar-EG")
  };
  save();
@@ -2178,7 +2177,6 @@ function submitBankTextAnswer(questionId) {
  go("questionBank");
 }
 
-// الطالب: إعادة المحاولة بعد إجابة خاطئة
 function retryBankQuestion(questionId) {
  if (!bankAnswers[currentUser.username]) return;
  delete bankAnswers[currentUser.username][questionId];
@@ -2189,7 +2187,6 @@ function retryBankQuestion(questionId) {
 // ===================================
 // EXAM BUILDER
 // ===================================
-
 let draftQuestions = [];
 let qCounter = 0;
 
@@ -2205,7 +2202,6 @@ function examBuilder(c) {
    <div class="field"><label>الدرجة النهائية</label><input id="examTotal" type="number" min="1" value="20"></div>
   </div>
  </div>
-
  <div class="panel">
   <div class="section-title">
    <h3>أسئلة الامتحان</h3>
@@ -2289,38 +2285,28 @@ function renderQuestions() {
  const box = document.getElementById("questionList");
  if (!box) return;
  document.getElementById("questionCount").textContent = draftQuestions.length + " سؤال";
-
  box.innerHTML = draftQuestions.map((q, i) => {
   const bank = q.fromBank;
   return `
  <div class="question-builder" id="q_${q.id}">
-  <h4>السؤال ${i + 1} - ${
-   q.type === "mcq" ? "اختيار من متعدد" : q.type === "tf" ? "صح أو خطأ" : "إجابة نصية"
-  } ${bank ? '<span class="tag">من البنك</span>' : ''}</h4>
+  <h4>السؤال ${i + 1} - ${q.type === "mcq" ? "اختيار من متعدد" : q.type === "tf" ? "صح أو خطأ" : "إجابة نصية"} ${bank ? '<span class="tag">من البنك</span>' : ''}</h4>
   <input class="q-title" placeholder="اكتب السؤال هنا" value="${bank ? esc(bank.text) : ""}">
   <div class="${q.type === "mcq" ? "option-grid" : ""}">
   ${q.type === "mcq" ? [0,1,2,3].map(n => `
    <input class="q-option" placeholder="الاختيار ${n + 1}" value="${bank && bank.options ? esc(bank.options[n]||"") : ""}">
   `).join("") : ""}
   </div>
-  ${q.type === "mcq" ? `
-   <label>الإجابة الصحيحة</label>
-   <select class="q-correct">
+  ${q.type === "mcq" ? `<label>الإجابة الصحيحة</label><select class="q-correct">
     <option value="0" ${bank && bank.correct===0?"selected":""}>الاختيار الأول</option>
     <option value="1" ${bank && bank.correct===1?"selected":""}>الاختيار الثاني</option>
     <option value="2" ${bank && bank.correct===2?"selected":""}>الاختيار الثالث</option>
     <option value="3" ${bank && bank.correct===3?"selected":""}>الاختيار الرابع</option>
    </select>` : ""}
-  ${q.type === "tf" ? `
-   <label>الإجابة الصحيحة</label>
-   <select class="q-correct">
+  ${q.type === "tf" ? `<label>الإجابة الصحيحة</label><select class="q-correct">
     <option value="true" ${bank && bank.correct===true?"selected":""}>صح</option>
     <option value="false" ${bank && bank.correct===false?"selected":""}>خطأ</option>
    </select>` : ""}
-  ${q.type === "text" ? `
-   <label>الإجابة النموذجية للتصحيح اليدوي</label>
-   <input class="q-model" placeholder="اكتب الإجابة النموذجية" value="${bank && bank.model ? esc(bank.model) : ""}">
-   <p class="muted">سيتم عرض إجابة الطالب للمدرس لتصحيحها يدوياً.</p>` : ""}
+  ${q.type === "text" ? `<label>الإجابة النموذجية للتصحيح اليدوي</label><input class="q-model" placeholder="اكتب الإجابة النموذجية" value="${bank && bank.model ? esc(bank.model) : ""}"><p class="muted">سيتم عرض إجابة الطالب للمدرس لتصحيحها يدوياً.</p>` : ""}
   <button class="btn-small btn-danger" onclick="removeQuestion(${q.id})">حذف السؤال</button>
  </div>`;
  }).join("");
@@ -2335,18 +2321,14 @@ function publishExam() {
  const title = document.getElementById("examName").value.trim();
  const duration = Number(document.getElementById("examDuration").value);
  const total = Number(document.getElementById("examTotal").value);
-
  if (!title || duration < 1 || total < 1 || !draftQuestions.length)
   return alert("أكمل بيانات الامتحان وأضف سؤالاً واحداً على الأقل");
-
  const questions = [];
  for (const q of draftQuestions) {
   const box = document.getElementById("q_" + q.id);
   const text = box.querySelector(".q-title").value.trim();
   if (!text) return alert("هناك سؤال بدون نص");
-
   let item = { type: q.type, text, mark: total / draftQuestions.length };
-
   if (q.type === "mcq") {
    item.options = [...box.querySelectorAll(".q-option")].map(x => x.value.trim());
    if (item.options.some(x => !x)) return alert("أكمل الاختيارات الأربعة");
@@ -2359,12 +2341,7 @@ function publishExam() {
   }
   questions.push(item);
  }
-
- exams.push({
-  id: Date.now(), title, duration, total, questions,
-  created: new Date().toLocaleDateString("ar-EG")
- });
-
+ exams.push({ id: Date.now(), title, duration, total, questions, created: new Date().toLocaleDateString("ar-EG") });
  save();
  alert("تم إنشاء الامتحان بنجاح");
  go("exams");
@@ -2373,7 +2350,6 @@ function publishExam() {
 // ===================================
 // EXAM MANAGEMENT
 // ===================================
-
 function examManagement(c) {
  c.innerHTML = `
  <div class="panel">
@@ -2381,16 +2357,16 @@ function examManagement(c) {
    <h3>الامتحانات المنشورة</h3>
    <button class="primary" onclick="go('createExam')">+ امتحان جديد</button>
   </div>
-  ${exams.length ? `<table>
-   <tr><th>الامتحان</th><th>الأسئلة</th><th>الدرجة</th><th>المدة</th><th>الإجراء</th></tr>
-   ${exams.map(e => `<tr>
+  ${exams.length ? `<div class="table-wrap"><table>
+   <thead><tr><th>الامتحان</th><th>الأسئلة</th><th>الدرجة</th><th>المدة</th><th>الإجراء</th></tr></thead>
+   <tbody>${exams.map(e => `<tr>
     <td>${esc(e.title)}</td>
     <td>${e.questions.length}</td>
     <td>${e.total}</td>
     <td>${e.duration} دقيقة</td>
     <td><button class="btn-small btn-danger" onclick="deleteExam(${e.id})">حذف</button></td>
-   </tr>`).join("")}
-  </table>` : `<div class="empty">لم يتم إنشاء امتحانات بعد</div>`}
+   </tr>`).join("")}</tbody>
+  </table></div>` : `<div class="empty">لم يتم إنشاء امتحانات بعد</div>`}
  </div>`;
 }
 
@@ -2402,17 +2378,11 @@ function deleteExam(id) {
 }
 
 // ===================================
-// STUDENT LESSONS
+// STUDENT LESSONS / EXAMS
 // ===================================
-
 function studentLessons(c) {
- c.innerHTML = `<div class="panel">
- <h3>دروس المنهج</h3>${lessonCards(false)}</div>`;
+ c.innerHTML = `<div class="panel"><h3>دروس المنهج</h3>${lessonCards(false)}</div>`;
 }
-
-// ===================================
-// STUDENT EXAMS
-// ===================================
 
 function studentExams(c) {
  c.innerHTML = `
@@ -2424,8 +2394,7 @@ function studentExams(c) {
     <span class="tag">${e.duration} دقيقة</span>
     <h3>${esc(e.title)}</h3>
     <p>${e.questions.length} أسئلة - ${e.total} درجة</p>
-    ${done ? `<span class="tag">تم الحل</span>` :
-     `<button class="primary" onclick="startExam(${e.id})">ابدأ الامتحان</button>`}
+    ${done ? `<span class="tag">تم الحل</span>` : `<button class="primary" onclick="startExam(${e.id})">ابدأ الامتحان</button>`}
    </div>`;
   }).join("")}</div>` : `<div class="empty">لا توجد امتحانات متاحة حالياً</div>`}
  </div>`;
@@ -2434,13 +2403,10 @@ function studentExams(c) {
 function startExam(id) {
  const e = exams.find(x => x.id === id);
  if (!e) return;
-
  if (results.some(r => r.examId === id && r.username === currentUser.username))
   return alert("لقد قمت بحل هذا الامتحان بالفعل");
-
  activeExam = e;
  const c = document.getElementById("content");
-
  c.innerHTML = `
  <div class="panel">
   <h2>${esc(e.title)}</h2>
@@ -2449,47 +2415,28 @@ function startExam(id) {
   <div id="takeQuestions"></div>
   <button class="primary" onclick="submitExam()">تسليم الامتحان</button>
  </div>`;
-
  document.getElementById("takeQuestions").innerHTML = e.questions.map((q, i) => `
  <div class="exam-question">
   <strong>${i + 1}. ${esc(q.text)}</strong>
-  ${q.type === "mcq" ? q.options.map((o, j) => `
-   <label><input type="radio" name="answer_${i}" value="${j}">${esc(o)}</label>
-  `).join("") : ""}
-  ${q.type === "tf" ? `
-   <label><input type="radio" name="answer_${i}" value="true">صح</label>
-   <label><input type="radio" name="answer_${i}" value="false">خطأ</label>` : ""}
+  ${q.type === "mcq" ? q.options.map((o, j) => `<label><input type="radio" name="answer_${i}" value="${j}">${esc(o)}</label>`).join("") : ""}
+  ${q.type === "tf" ? `<label><input type="radio" name="answer_${i}" value="true">صح</label><label><input type="radio" name="answer_${i}" value="false">خطأ</label>` : ""}
   ${q.type === "text" ? `<textarea id="answer_${i}" placeholder="اكتب إجابتك هنا"></textarea>` : ""}
  </div>`).join("");
-
  let seconds = e.duration * 60;
  const timer = document.getElementById("timer");
-
  if (window.examTimer) clearInterval(window.examTimer);
-
  window.examTimer = setInterval(() => {
   seconds--;
-  if (!document.getElementById("timer")) {
-   clearInterval(window.examTimer);
-   return;
-  }
+  if (!document.getElementById("timer")) { clearInterval(window.examTimer); return; }
   timer.textContent = "الوقت: " + Math.floor(seconds / 60) + ":" + String(seconds % 60).padStart(2, "0");
   if (seconds <= 0) submitExam();
  }, 1000);
 }
 
-// ===================================
-// GRADING
-// ===================================
-
 function submitExam() {
  if (!activeExam) return;
  if (window.examTimer) clearInterval(window.examTimer);
-
- let score = 0;
- let pending = 0;
- let answers = [];
-
+ let score = 0, pending = 0, answers = [];
  activeExam.questions.forEach((q, i) => {
   let answer = null;
   if (q.type === "mcq" || q.type === "tf") {
@@ -2506,29 +2453,19 @@ function submitExam() {
   }
   answers.push({ answer });
  });
-
  const finalScore = Math.round(score * 100) / 100;
  const currentExamTotal = activeExam.total;
  const currentExamTitle = activeExam.title;
  const currentExamId = activeExam.id;
-
  results.push({
-  id: Date.now(),
-  examId: currentExamId,
-  exam: currentExamTitle,
-  username: currentUser.username,
-  student: currentUser.name,
-  score: finalScore,
-  objectiveScore: finalScore,
-  total: currentExamTotal,
-  pending,
-  answers,
+  id: Date.now(), examId: currentExamId, exam: currentExamTitle,
+  username: currentUser.username, student: currentUser.name,
+  score: finalScore, objectiveScore: finalScore,
+  total: currentExamTotal, pending, answers,
   date: new Date().toLocaleDateString("ar-EG")
  });
-
  save();
  activeExam = null;
-
  document.getElementById("content").innerHTML = `
  <div class="panel" style="text-align:center;padding:40px">
   <div style="font-size:45px">🎉</div>
@@ -2543,26 +2480,21 @@ function submitExam() {
 // ===================================
 // RESULTS
 // ===================================
-
 function showResults(c, isTeacher) {
  const list = isTeacher ? results : results.filter(r => r.username === currentUser.username);
-
  c.innerHTML = `
  <div class="panel">
   <h3>${isTeacher ? "سجل نتائج الطلاب" : "نتائج امتحاناتي"}</h3>
-  ${list.length ? `<div style="overflow-x:auto">
-   <table>
-    <tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th><th>التاريخ</th>
-    ${isTeacher ? "<th>التصحيح</th>" : ""}</tr>
-    ${list.slice().reverse().map(r => `<tr>
-     <td>${esc(r.student)}</td>
-     <td>${esc(r.exam)}</td>
-     <td>${r.score}/${r.total}</td>
-     <td>${esc(r.date)}</td>
-     ${isTeacher ? `<td>${r.pending ? `<button class="btn-small" onclick="gradeResult(${r.id})">تصحيح (${r.pending})</button>` : "مكتمل"}</td>` : ""}
-    </tr>`).join("")}
-   </table>
-  </div>` : `<div class="empty">لا توجد نتائج حتى الآن</div>`}
+  ${list.length ? `<div class="table-wrap"><table>
+   <thead><tr><th>الطالب</th><th>الامتحان</th><th>الدرجة</th><th>التاريخ</th>${isTeacher ? "<th>التصحيح</th>" : ""}</tr></thead>
+   <tbody>${list.slice().reverse().map(r => `<tr>
+    <td>${esc(r.student)}</td>
+    <td>${esc(r.exam)}</td>
+    <td>${r.score}/${r.total}</td>
+    <td>${esc(r.date)}</td>
+    ${isTeacher ? `<td>${r.pending ? `<button class="btn-small" onclick="gradeResult(${r.id})">تصحيح (${r.pending})</button>` : "مكتمل"}</td>` : ""}
+   </tr>`).join("")}</tbody>
+  </table></div>` : `<div class="empty">لا توجد نتائج حتى الآن</div>`}
  </div>`;
 }
 
@@ -2571,10 +2503,8 @@ function gradeResult(id) {
  if (!r) return;
  const exam = exams.find(x => x.id === r.examId);
  if (!exam) return alert("الامتحان غير موجود");
-
  const c = document.getElementById("content");
  const textQuestions = exam.questions.map((q, i) => ({ q, i })).filter(x => x.q.type === "text");
-
  c.innerHTML = `
  <div class="panel">
   <h3>تصحيح إجابات ${esc(r.student)}</h3>
@@ -2587,8 +2517,7 @@ function gradeResult(id) {
     <p>إجابة الطالب: ${esc(ans.answer || "لم يجب")}</p>
     <p class="muted">الإجابة النموذجية: ${esc(q.model)}</p>
     <label>درجة السؤال (من ${q.mark})</label>
-    <input type="number" min="0" max="${q.mark}" step="0.01"
-     id="grade_${i}" value="${ans.manualScore ?? 0}">
+    <input type="number" min="0" max="${q.mark}" step="0.01" id="grade_${i}" value="${ans.manualScore ?? 0}">
    </div>`;
   }).join("")}
   <button class="primary" onclick="saveGrades(${id})">حفظ التصحيح</button>
@@ -2600,30 +2529,21 @@ function saveGrades(id) {
  if (!r) return;
  const exam = exams.find(x => x.id === r.examId);
  if (!exam) return alert("الامتحان غير موجود");
-
- let extra = 0;
- let hasError = false;
-
+ let extra = 0, hasError = false;
  exam.questions.forEach((q, i) => {
   if (q.type !== "text") return;
   const input = document.getElementById("grade_" + i);
   if (!input) return;
   const value = Number(input.value);
-  if (!Number.isFinite(value) || value < 0 || value > q.mark) {
-   hasError = true;
-   return;
-  }
+  if (!Number.isFinite(value) || value < 0 || value > q.mark) { hasError = true; return; }
   if (!r.answers[i]) r.answers[i] = {};
   r.answers[i].manualScore = value;
   extra += value;
  });
-
  if (hasError) return alert("راجع درجات الأسئلة النصية");
-
  const objective = (typeof r.objectiveScore === "number") ? r.objectiveScore : r.score;
  r.score = Math.round((objective + extra) * 100) / 100;
  r.pending = 0;
-
  save();
  alert("تم حفظ التصحيح");
  go("results");
@@ -2632,7 +2552,6 @@ function saveGrades(id) {
 // ===================================
 // UI HELPERS
 // ===================================
-
 function toggleSidebar() {
  const sidebar = document.querySelector(".sidebar");
  const backdrop = document.getElementById("sidebarBackdrop");
@@ -2654,7 +2573,6 @@ function toggleTheme() {
 // ===================================
 // INIT
 // ===================================
-
 (function restorePreferences() {
  setTheme(localStorage.getItem("ah_theme") === "dark" ? "dark" : "light");
  applyLanguage();
